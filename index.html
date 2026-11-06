@@ -406,6 +406,22 @@
             <p style="margin: 0; font-size: 1.2rem;">Ganancia Neta del Día: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
         </div>
 
+        <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
+            <h3 style="color: var(--warning-text);">⚠️ Alerta: Productos Próximos a Vencer (&le; 60 días)</h3>
+            <table id="tablaProximosVencer">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Lote / Vencimiento</th>
+                        <th>Días Restantes</th>
+                    </tr>
+                </thead>
+                <tbody id="listaProximosVencer">
+                    <tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
             <h3 style="color: var(--success);">💰 Ganancia Unitaria por Producto</h3>
             <table id="tablaGananciaProductos">
@@ -507,7 +523,6 @@
     let corteCajaCantidad = 0;
     let pinActualSistema = "1234";
 
-    // Cargar PIN de Administrador desde Firebase al iniciar
     async function cargarConfiguracionPin() {
         try {
             const configRef = doc(db, "configuracion", "seguridad");
@@ -515,7 +530,6 @@
             if (configSnap.exists()) {
                 pinActualSistema = configSnap.data().pin || "1234";
             } else {
-                // Crear configuración por defecto si no existe
                 await setDoc(configRef, { pin: "1234" });
                 pinActualSistema = "1234";
             }
@@ -884,6 +898,7 @@
         renderizarAgotados(lista);
         renderizarMasVendidos(lista);
         renderizarGananciaProductos(lista);
+        renderizarProximosVencer(lista);
     }
 
     function renderizarInventario(lista) {
@@ -953,6 +968,35 @@
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
                     <td>C: Q${costo.toFixed(2)} | V: Q${venta.toFixed(2)}</td>
                     <td><strong style="color:var(--success);">Q${ganancia.toFixed(2)}</strong> <small>(${margen}%)</small><br><small style="color:#666;">por ${tipoTexto}</small></td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarProximosVencer(lista) {
+        const tbody = document.getElementById('listaProximosVencer');
+        tbody.innerHTML = '';
+        const hoy = new Date();
+        
+        const proximos = lista.filter(p => {
+            const venc = new Date(p.vencimiento + "T00:00:00");
+            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            return dias >= 0 && dias <= 60;
+        });
+
+        if (proximos.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>`;
+            return;
+        }
+
+        proximos.forEach((p) => {
+            const venc = new Date(p.vencimiento + "T00:00:00");
+            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
+                    <td>Lote: ${p.lote || 'N/D'}<br><small>Vence: ${p.vencimiento}</small></td>
+                    <td><span class="badge-warning">Quedan ${dias} días</span></td>
                 </tr>
             `;
         });
