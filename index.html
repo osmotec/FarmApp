@@ -48,14 +48,14 @@
         }
         .tab-btn {
             flex: 1;
-            padding: 9px 4px;
+            padding: 9px 2px;
             text-align: center;
             background: none;
             border: none;
             font-weight: bold;
             cursor: pointer;
             color: #555;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .tab-btn.active {
             background-color: var(--primary);
@@ -209,7 +209,6 @@
             color: #666;
             margin-bottom: 10px;
         }
-        /* Bloqueo por PIN */
         #modalPin {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -232,11 +231,10 @@
 </head>
 <body>
 
-<!-- MODAL DE CONTROL DE ACCESO POR PIN -->
 <div id="modalPin">
     <div class="pin-box">
         <h3>🔐 Seguridad Admin</h3>
-        <p style="font-size: 0.8rem; color: #666;">Ingrese PIN de Administrador (PIN por defecto: 1234)</p>
+        <p style="font-size: 0.8rem; color: #666;">Ingrese PIN de Administrador (Predeterminado: 1234)</p>
         <input type="password" id="inputPinAdmin" placeholder="****" style="text-align:center; font-size: 1.2rem; margin-bottom: 10px;">
         <button class="btn" onclick="verificarPinAdmin()">Ingresar a Admin</button>
         <button class="btn" style="background-color: #757575; margin-top: 5px;" onclick="entrarComoCajero()">Modo Cajero (Solo Ventas)</button>
@@ -247,11 +245,11 @@
     <h2>💊 Farmacia - Sistema POS Pro</h2>
     <div id="syncStatus">🔄 Conectando con la nube...</div>
 
-    <!-- PESTAÑAS -->
     <div class="tabs">
         <button class="tab-btn active" id="btnTabInv" onclick="cambiarPestaña('inventario')">📦 Inventario</button>
-        <button class="tab-btn" id="btnTabVentas" onclick="cambiarPestaña('ventas')">🛒 Ventas (POS)</button>
+        <button class="tab-btn" id="btnTabVentas" onclick="cambiarPestaña('ventas')">🛒 Ventas</button>
         <button class="tab-btn" id="btnTabRep" onclick="cambiarPestaña('reportes')">📊 Reportes</button>
+        <button class="tab-btn" id="btnTabConf" onclick="cambiarPestaña('configuracion')">🔑 PIN</button>
     </div>
 
     <!-- PESTAÑA 1: INVENTARIO -->
@@ -284,14 +282,14 @@
             </div>
             <div class="row">
                 <div class="form-group col">
-                    <label for="tipoEmpaque">Se guarda por:</label>
+                    <label for="tipoEmpaque">Se vende por:</label>
                     <select id="tipoEmpaque" onchange="toggleUnidadesPorCaja()">
-                        <option value="Unidad">Unidad</option>
-                        <option value="Caja">Caja</option>
+                        <option value="Unidad">Unidad / Frasco</option>
+                        <option value="Caja">Caja Completa</option>
                     </select>
                 </div>
                 <div class="form-group col" id="grupoUnidadesCaja" style="display: none;">
-                    <label for="unidadesPorCaja">Unidades por Caja:</label>
+                    <label for="unidadesPorCaja">Unidades que trae la caja:</label>
                     <input type="number" id="unidadesPorCaja" placeholder="Ej. 100" min="1">
                 </div>
             </div>
@@ -307,7 +305,7 @@
             </div>
             <div class="row">
                 <div class="form-group col">
-                    <label for="cantidadProducto" id="labelCantidad">Cantidad en Stock (Unidades):</label>
+                    <label for="cantidadProducto" id="labelCantidad">Cantidad en Stock:</label>
                     <input type="number" id="cantidadProducto" placeholder="Ej. 25" min="0">
                 </div>
                 <div class="form-group col">
@@ -364,7 +362,6 @@
             </table>
         </div>
 
-        <!-- CARRITO DE COMPRAS ACTUAL -->
         <div class="form-section" style="background: #e8f5e9; border: 1px solid #c8e6c9;">
             <h3 style="color: var(--success); margin-top:0;">🧾 Ticket de Venta Actual</h3>
             <table id="tablaCarrito">
@@ -400,12 +397,43 @@
         </div>
     </div>
 
-    <!-- PESTAÑA 3: REPORTES Y CORTE DE CAJA -->
+    <!-- PESTAÑA 3: REPORTES Y GANANCIAS -->
     <div id="tab-reportes" class="tab-content">
         <div class="corte-caja">
             <h3 style="color: var(--primary); margin:0;">📊 Corte de Caja del Día</h3>
             <p style="margin: 5px 0; font-size: 0.9rem;">Total de transacciones: <strong id="corteTotalVentas">0</strong></p>
-            <p style="margin: 0; font-size: 1.2rem;">Dinero Recaudado: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
+            <p style="margin: 5px 0; font-size: 1.1rem;">Dinero Recaudado: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
+            <p style="margin: 0; font-size: 1.2rem;">Ganancia Neta del Día: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
+            <h3 style="color: var(--success);">💰 Ganancia Unitaria por Producto</h3>
+            <table id="tablaGananciaProductos">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Costo / Venta</th>
+                        <th>Ganancia c/u</th>
+                    </tr>
+                </thead>
+                <tbody id="listaGananciaProductos"></tbody>
+            </table>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
+            <h3 style="color: var(--primary);">📋 Resumen de Ganancias por Venta</h3>
+            <table id="tablaResumenVentas">
+                <thead>
+                    <tr>
+                        <th>N° / Hora</th>
+                        <th>Productos Vendidos</th>
+                        <th>Total Venta / Ganancia</th>
+                    </tr>
+                </thead>
+                <tbody id="listaResumenVentas">
+                    <tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--danger); margin-top: 15px;">
@@ -436,12 +464,26 @@
             </table>
         </div>
     </div>
+
+    <!-- PESTAÑA 4: CONFIGURACIÓN / CAMBIAR PIN -->
+    <div id="tab-configuracion" class="tab-content">
+        <div class="form-section" style="border-left: 4px solid var(--primary);">
+            <h3 style="color: var(--primary);">🔑 Cambiar Contraseña / PIN de Administrador</h3>
+            <p style="font-size: 0.85rem; color: #666; text-align: center;">Actualiza el código PIN necesario para acceder al panel de inventario y reportes.</p>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label for="nuevoPinAdmin">Nuevo PIN de Administrador:</label>
+                <input type="password" id="nuevoPinAdmin" placeholder="Ej. 5678" style="text-align: center; font-size: 1.2rem;">
+            </div>
+            
+            <button class="btn" style="background-color: var(--primary);" onclick="actualizarPinAdmin()">💾 Guardar Nuevo PIN en la Nube</button>
+        </div>
+    </div>
 </div>
 
-<!-- LÓGICA Y FIREBASE -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAkunkECIHFIP1D2XGyNgznLREnO47Rfz0",
@@ -458,9 +500,48 @@
 
     let inventarioGlobal = [];
     let carrito = [];
+    let historialVentasDia = [];
     let modoEscanerActual = 'inventario';
     let corteCajaIngresos = 0;
+    let corteCajaGanancia = 0;
     let corteCajaCantidad = 0;
+    let pinActualSistema = "1234";
+
+    // Cargar PIN de Administrador desde Firebase al iniciar
+    async function cargarConfiguracionPin() {
+        try {
+            const configRef = doc(db, "configuracion", "seguridad");
+            const configSnap = await getDoc(configRef);
+            if (configSnap.exists()) {
+                pinActualSistema = configSnap.data().pin || "1234";
+            } else {
+                // Crear configuración por defecto si no existe
+                await setDoc(configRef, { pin: "1234" });
+                pinActualSistema = "1234";
+            }
+        } catch (e) {
+            console.error("Error al cargar PIN:", e);
+        }
+    }
+    cargarConfiguracionPin();
+
+    window.actualizarPinAdmin = async function() {
+        const nuevoPin = document.getElementById('nuevoPinAdmin').value.trim();
+        if (!nuevoPin || nuevoPin.length < 3) {
+            alert("Por favor ingrese un PIN válido (mínimo 3 dígitos).");
+            return;
+        }
+
+        try {
+            const configRef = doc(db, "configuracion", "seguridad");
+            await setDoc(configRef, { pin: nuevoPin });
+            pinActualSistema = nuevoPin;
+            document.getElementById('nuevoPinAdmin').value = '';
+            alert("¡Contraseña / PIN de administrador actualizado con éxito en la nube!");
+        } catch (e) {
+            alert("Error al guardar el nuevo PIN en la nube.");
+        }
+    }
 
     const q = query(collection(db, "inventario_farmacia"));
     onSnapshot(q, (snapshot) => {
@@ -475,10 +556,9 @@
         document.getElementById('syncStatus').innerHTML = "⚠️ Error de conexión con la nube";
     });
 
-    // Control de PIN
     window.verificarPinAdmin = function() {
         const pin = document.getElementById('inputPinAdmin').value;
-        if (pin === "1234") {
+        if (pin === pinActualSistema) {
             document.getElementById('modalPin').style.display = 'none';
         } else {
             alert("PIN incorrecto.");
@@ -487,9 +567,9 @@
 
     window.entrarComoCajero = function() {
         document.getElementById('modalPin').style.display = 'none';
-        // Bloquear acceso a Inventario y Reportes, llevar directo a Ventas
         document.getElementById('btnTabInv').style.display = 'none';
         document.getElementById('btnTabRep').style.display = 'none';
+        document.getElementById('btnTabConf').style.display = 'none';
         cambiarPestaña('ventas');
     }
 
@@ -503,9 +583,12 @@
         } else if (pestaña === 'ventas') {
             document.querySelectorAll('.tab-btn')[1].classList.add('active');
             document.getElementById('tab-ventas').classList.add('active');
-        } else {
+        } else if (pestaña === 'reportes') {
             document.querySelectorAll('.tab-btn')[2].classList.add('active');
             document.getElementById('tab-reportes').classList.add('active');
+        } else if (pestaña === 'configuracion') {
+            document.querySelectorAll('.tab-btn')[3].classList.add('active');
+            document.getElementById('tab-configuracion').classList.add('active');
         }
     }
 
@@ -540,15 +623,13 @@
             return;
         }
 
-        let cantidadTotalUnidades = tipoEmpaque === 'Caja' ? (cantidadIngresada * unidadesPorCaja) : cantidadIngresada;
-
         try {
             if (idEdicion) {
                 const prodRef = doc(db, "inventario_farmacia", idEdicion);
                 await updateDoc(prodRef, {
                     codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
                     tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
-                    cantidad: cantidadTotalUnidades, cantidadOriginal: cantidadIngresada,
+                    cantidad: cantidadIngresada,
                     precioCosto, precioVenta, vencimiento, actualizado: new Date().toISOString()
                 });
                 alert("¡Producto modificado con éxito!");
@@ -557,7 +638,7 @@
                 await addDoc(collection(db, "inventario_farmacia"), {
                     codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
                     tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
-                    cantidad: cantidadTotalUnidades, cantidadOriginal: cantidadIngresada,
+                    cantidad: cantidadIngresada,
                     precioCosto, precioVenta, vencimiento, vendidos: 0, actualizado: new Date().toISOString()
                 });
                 limpiarFormulario();
@@ -587,9 +668,11 @@
                 id: producto.id,
                 nombre: producto.nombre,
                 precio: producto.precioVenta,
+                costo: producto.precioCosto || 0,
                 cantidadReq: 1,
                 stockMax: producto.cantidad,
-                vendidosActuales: producto.vendidos || 0
+                vendidosActuales: producto.vendidos || 0,
+                tipoEmpaque: producto.tipoEmpaque || 'Unidad'
             });
         }
         renderizarCarrito();
@@ -626,12 +709,13 @@
         carrito.forEach((item, index) => {
             const subtotal = item.precio * item.cantidadReq;
             total += subtotal;
+            const unidadTexto = item.tipoEmpaque === 'Caja' ? ' caja(s)' : ' u.';
             tbody.innerHTML += `
                 <tr>
-                    <td><strong>${item.nombre}</strong><br><small>Q${item.precio.toFixed(2)} c/u</small></td>
+                    <td><strong>${item.nombre}</strong><br><small>Q${item.precio.toFixed(2)} c/${item.tipoEmpaque === 'Caja' ? 'caja' : 'u.'}</small></td>
                     <td>
                         <button onclick="cambiarCantidadCarrito(${index}, -1)">-</button>
-                        <strong>${item.cantidadReq}</strong>
+                        <strong>${item.cantidadReq}${unidadTexto}</strong>
                         <button onclick="cambiarCantidadCarrito(${index}, 1)">+</button>
                     </td>
                     <td>Q${subtotal.toFixed(2)}</td>
@@ -677,6 +761,9 @@
 
         try {
             let textoTicket = "💊 *TICKET DE VENTA - FARMACIA* 💊\n\n";
+            let gananciaVentaActual = 0;
+            let productosVendidosResumen = [];
+
             for (const item of carrito) {
                 const nuevaCantidad = item.stockMax - item.cantidadReq;
                 const nuevosVendidos = item.vendidosActuales + item.cantidadReq;
@@ -685,7 +772,13 @@
                     cantidad: nuevaCantidad,
                     vendidos: nuevosVendidos
                 });
-                textoTicket += `- ${item.nombre} x${item.cantidadReq} (Q${(item.precio * item.cantidadReq).toFixed(2)})\n`;
+
+                const gananciaItem = (item.precio - item.costo) * item.cantidadReq;
+                gananciaVentaActual += gananciaItem;
+
+                const tipoTexto = item.tipoEmpaque === 'Caja' ? 'caja(s)' : 'u.';
+                textoTicket += `- ${item.nombre} x${item.cantidadReq} ${tipoTexto} (Q${(item.precio * item.cantidadReq).toFixed(2)})\n`;
+                productosVendidosResumen.push(`${item.nombre} x${item.cantidadReq}`);
             }
 
             textoTicket += `\n*TOTAL A PAGAR: Q${total.toFixed(2)}*`;
@@ -694,11 +787,24 @@
             textoTicket += `\n\n¡Gracias por su compra! 🙏`;
 
             corteCajaIngresos += total;
+            corteCajaGanancia += gananciaVentaActual;
             corteCajaCantidad += 1;
+
+            const horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            historialVentasDia.unshift({
+                numero: corteCajaCantidad,
+                hora: horaActual,
+                productos: productosVendidosResumen.join(', '),
+                total: total,
+                ganancia: gananciaVentaActual
+            });
+
             document.getElementById('corteIngresos').innerText = `Q${corteCajaIngresos.toFixed(2)}`;
+            document.getElementById('corteGanancia').innerText = `Q${corteCajaGanancia.toFixed(2)}`;
             document.getElementById('corteTotalVentas').innerText = corteCajaCantidad;
 
-            // Generar enlace directo para enviar ticket por WhatsApp
+            renderizarResumenVentas();
+
             const urlWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoTicket)}`;
             if (confirm("¡Venta cobrada con éxito! ¿Desea enviar el ticket digital por WhatsApp al cliente?")) {
                 window.open(urlWhatsApp, '_blank');
@@ -712,7 +818,7 @@
         }
     }
 
-    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, tipoEmpaque, unidadesPorCaja, cantidadOriginal, precioCosto, precioVenta, vencimiento) {
+    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, tipoEmpaque, unidadesPorCaja, cantidad, precioCosto, precioVenta, vencimiento) {
         document.getElementById('editandoId').value = id;
         document.getElementById('codigoBarras').value = codigo;
         document.getElementById('nombreProducto').value = nombre;
@@ -723,7 +829,7 @@
         document.getElementById('unidadesPorCaja').value = unidadesPorCaja > 1 ? unidadesPorCaja : '';
         document.getElementById('costoProducto').value = precioCosto;
         document.getElementById('ventaProducto').value = precioVenta;
-        document.getElementById('cantidadProducto').value = cantidadOriginal;
+        document.getElementById('cantidadProducto').value = cantidad;
         document.getElementById('vencimientoProducto').value = vencimiento;
 
         document.getElementById('tituloFormulario').innerText = "✏️ Modificar Producto";
@@ -777,6 +883,7 @@
         renderizarVentas(lista);
         renderizarAgotados(lista);
         renderizarMasVendidos(lista);
+        renderizarGananciaProductos(lista);
     }
 
     function renderizarInventario(lista) {
@@ -788,18 +895,17 @@
         }
         lista.forEach((p) => {
             const estado = calcularEstado(p.vencimiento, p.cantidad);
-            const infoEmpaque = p.tipoEmpaque === 'Caja' ? `📦 ${p.cantidadOriginal} Caja(s) (${p.cantidad} u.)` : `Unid: ${p.cantidad}`;
-            const cantOrig = p.cantidadOriginal !== undefined ? p.cantidadOriginal : p.cantidad;
+            const infoEmpaque = p.tipoEmpaque === 'Caja' ? `📦 ${p.cantidad} Caja(s) (c/u ${p.unidadesPorCaja} u.)` : `Unid: ${p.cantidad}`;
             const unidCaja = p.unidadesPorCaja !== undefined ? p.unidadesPorCaja : 1;
 
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
                     <td>${infoEmpaque}<br><small style="color:#0D47A1; font-weight:bold;">📍 ${p.estante}</small></td>
-                    <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong></td>
+                    <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong> <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></td>
                     <td><span class="${estado.clase}">${estado.texto}</span></td>
                     <td>
-                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${cantOrig}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button><br>
+                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button><br>
                         <button class="btn-danger" onclick="eliminarProductoNube('${p.id}')">Eliminar</button>
                     </td>
                 </tr>
@@ -815,13 +921,56 @@
             return;
         }
         lista.forEach((p) => {
+            const stockTexto = p.tipoEmpaque === 'Caja' ? `${p.cantidad} cajas` : `${p.cantidad} u.`;
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo} | 📍 ${p.estante}</small></td>
-                    <td>Stock: <strong>${p.cantidad} u.</strong><br><strong style="color:var(--success);">Q${p.precioVenta.toFixed(2)}</strong></td>
+                    <td>Stock: <strong>${stockTexto}</strong><br><strong style="color:var(--success);">Q${p.precioVenta.toFixed(2)} <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></strong></td>
                     <td>
                         <button class="btn-sell" onclick="agregarAlCarrito('${p.id}')">Agregar</button>
                     </td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarGananciaProductos(lista) {
+        const tbody = document.getElementById('listaGananciaProductos');
+        tbody.innerHTML = '';
+        if (lista.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos registrados.</td></tr>`;
+            return;
+        }
+        lista.forEach((p) => {
+            const costo = p.precioCosto || 0;
+            const venta = p.precioVenta || 0;
+            const ganancia = venta - costo;
+            const margen = costo > 0 ? ((ganancia / costo) * 100).toFixed(0) : 0;
+            const tipoTexto = p.tipoEmpaque === 'Caja' ? 'caja' : 'u.';
+
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
+                    <td>C: Q${costo.toFixed(2)} | V: Q${venta.toFixed(2)}</td>
+                    <td><strong style="color:var(--success);">Q${ganancia.toFixed(2)}</strong> <small>(${margen}%)</small><br><small style="color:#666;">por ${tipoTexto}</small></td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarResumenVentas() {
+        const tbody = document.getElementById('listaResumenVentas');
+        tbody.innerHTML = '';
+        if (historialVentasDia.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>`;
+            return;
+        }
+        historialVentasDia.forEach((v) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>#${v.numero}</strong><br><small style="color:#666;">🕒 ${v.hora}</small></td>
+                    <td><small>${v.productos}</small></td>
+                    <td>Total: <strong>Q${v.total.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${v.ganancia.toFixed(2)}</strong></td>
                 </tr>
             `;
         });
@@ -860,10 +1009,11 @@
 
         ordenados.forEach((p) => {
             if ((p.vendidos || 0) > 0) {
+                const unidadTexto = p.tipoEmpaque === 'Caja' ? ' cajas' : ' unidades';
                 tbody.innerHTML += `
                     <tr>
                         <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
-                        <td><strong style="color:var(--success); font-size: 1rem;">${p.vendidos} unidades</strong></td>
+                        <td><strong style="color:var(--success); font-size: 1rem;">${p.vendidos}${unidadTexto}</strong></td>
                         <td>📍 ${p.estante}</td>
                     </tr>
                 `;
