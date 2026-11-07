@@ -202,6 +202,14 @@
             border-radius: 8px;
             margin-top: 15px;
         }
+        .resumen-inventario {
+            background: #E8F5E9;
+            border: 1px solid #C8E6C9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
         #syncStatus {
             text-align: center;
             font-size: 0.75rem;
@@ -320,7 +328,15 @@
         </div>
 
         <div class="form-section">
-            <h3>Inventario en Tiempo Real (Alerta si stock <= 5)</h3>
+            <h3>Inventario en Tiempo Real</h3>
+            
+            <div class="resumen-inventario">
+                <div style="font-weight: bold; color: var(--success); margin-bottom: 4px;">📈 Resumen Financiero del Inventario:</div>
+                <div>• Cantidad total de productos: <strong id="resumenCantTotal">0</strong></div>
+                <div>• Costo total (Inversión): <strong id="resumenCostoTotal" style="color: #333;">Q0.00</strong></div>
+                <div>• Valor total (Precio Venta): <strong id="resumenVentaTotal" style="color: var(--success);">Q0.00</strong></div>
+            </div>
+
             <div class="search-box">
                 <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código o estante..." oninput="filtrarProductos()">
             </div>
@@ -1030,6 +1046,27 @@
         renderizarMasVendidos(lista);
         renderizarGananciaProductos(lista);
         renderizarProximosVencer(lista);
+        actualizarResumenInventario(lista);
+    }
+
+    function actualizarResumenInventario(lista) {
+        let cantidadTotalProductos = 0;
+        let costoTotalInversion = 0;
+        let valorTotalVenta = 0;
+
+        lista.forEach(p => {
+            const stock = p.cantidad || 0;
+            const costo = p.precioCosto || 0;
+            const venta = p.precioVenta || 0;
+
+            cantidadTotalProductos += stock;
+            costoTotalInversion += (costo * stock);
+            valorTotalVenta += (venta * stock);
+        });
+
+        document.getElementById('resumenCantTotal').innerText = cantidadTotalProductos;
+        document.getElementById('resumenCostoTotal').innerText = `Q${costoTotalInversion.toFixed(2)}`;
+        document.getElementById('resumenVentaTotal').innerText = `Q${valorTotalVenta.toFixed(2)}`;
     }
 
     function renderizarInventario(lista) {
@@ -1202,6 +1239,7 @@
             p.nombre.toLowerCase().includes(texto) || p.codigo.toLowerCase().includes(texto) || p.estante.toLowerCase().includes(texto)
         );
         renderizarInventario(filtrados);
+        actualizarResumenInventario(filtrados);
     }
 
     window.filtrarProductosVentas = function() {
