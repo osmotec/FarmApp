@@ -201,7 +201,6 @@
             padding: 12px;
             border-radius: 8px;
             margin-top: 15px;
-            text-align: center;
         }
         #syncStatus {
             text-align: center;
@@ -242,7 +241,10 @@
 </div>
 
 <div class="container">
-    <h2>💊 Farmacia - Sistema POS Pro</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>💊 Farmacia - Sistema POS Pro</h2>
+        <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
+    </div>
     <div id="syncStatus">🔄 Conectando con la nube...</div>
 
     <div class="tabs">
@@ -397,13 +399,32 @@
         </div>
     </div>
 
-    <!-- PESTAÑA 3: REPORTES Y GANANCIAS -->
+    <!-- PESTAÑA 3: REPORTES Y CUADRE DE CAJA -->
     <div id="tab-reportes" class="tab-content">
         <div class="corte-caja">
-            <h3 style="color: var(--primary); margin:0;">📊 Corte de Caja del Día</h3>
-            <p style="margin: 5px 0; font-size: 0.9rem;">Total de transacciones: <strong id="corteTotalVentas">0</strong></p>
-            <p style="margin: 5px 0; font-size: 1.1rem;">Dinero Recaudado: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
-            <p style="margin: 0; font-size: 1.2rem;">Ganancia Neta del Día: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
+            <h3 style="color: var(--primary); margin:0;">📊 Corte y Cuadre de Caja del Día</h3>
+            
+            <div class="form-group" style="margin-top: 10px; text-align: left;">
+                <label for="dineroApertura">Dinero con que inicia la caja (Fondo / Vuelto):</label>
+                <div class="row">
+                    <input type="number" id="dineroApertura" placeholder="0.00" step="0.01" value="0.00" style="background: white;">
+                    <button class="btn" style="margin-top:0; width: 130px;" onclick="actualizarCuadreCaja()">Definir Fondo</button>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #b0bec5; margin: 10px 0;">
+
+            <p style="margin: 5px 0; font-size: 0.9rem;">Total transacciones: <strong id="corteTotalVentas">0</strong></p>
+            <p style="margin: 5px 0; font-size: 0.9rem;">Ventas totales del día: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
+            <p style="margin: 5px 0; font-size: 1rem;">Efectivo Teórico en Gaveta (Fondo + Ventas): <strong id="corteTeorico" style="color: var(--primary);">Q0.00</strong></p>
+            
+            <div class="form-group" style="margin-top: 10px; text-align: left; background: #fff; padding: 10px; border-radius: 6px;">
+                <label for="efectivoRealCierre">Con cuánto dinero real cierras la caja (Dinero contado físicamente):</label>
+                <input type="number" id="efectivoRealCierre" placeholder="0.00" step="0.01" oninput="calcularDiferenciaCaja()">
+            </div>
+
+            <p style="margin: 5px 0; font-size: 1.1rem;">Diferencia / Cuadre: <strong id="corteDiferencia" style="color: var(--success);">Q0.00 (Exacto)</strong></p>
+            <p style="margin: 10px 0 0 0; font-size: 1.1rem;">Ganancia Neta del Día: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
@@ -481,7 +502,7 @@
         </div>
     </div>
 
-    <!-- PESTAÑA 4: CONFIGURACIÓN / CAMBIAR PIN -->
+    <!-- PESTAÑA 4: CONFIGURACIÓN / PIN Y RESPALDO -->
     <div id="tab-configuracion" class="tab-content">
         <div class="form-section" style="border-left: 4px solid var(--primary);">
             <h3 style="color: var(--primary);">🔑 Cambiar Contraseña / PIN de Administrador</h3>
@@ -493,6 +514,18 @@
             </div>
             
             <button class="btn" style="background-color: var(--primary);" onclick="actualizarPinAdmin()">💾 Guardar Nuevo PIN en la Nube</button>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
+            <h3 style="color: var(--success);">💾 Respaldo de Inventario</h3>
+            <p style="font-size: 0.85rem; color: #666; text-align: center;">Descarga o carga una copia de seguridad en formato JSON de tus productos.</p>
+            <button class="btn" style="background-color: var(--success);" onclick="descargarRespaldoInventario()">📥 Descargar Respaldo de Productos</button>
+            
+            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
+                <label for="archivoRespaldo" style="font-size: 0.85rem; color: #333;">Subir archivo de respaldo (.json):</label>
+                <input type="file" id="archivoRespaldo" accept=".json" style="margin-top: 5px; font-size: 0.8rem;">
+                <button class="btn" style="background-color: #EF6C00; margin-top: 8px;" onclick="cargarRespaldoInventario()">📤 Restaurar / Cargar Respaldo</button>
+            </div>
         </div>
     </div>
 </div>
@@ -521,6 +554,7 @@
     let corteCajaIngresos = 0;
     let corteCajaGanancia = 0;
     let corteCajaCantidad = 0;
+    let dineroFondoApertura = 0;
     let pinActualSistema = "1234";
 
     async function cargarConfiguracionPin() {
@@ -555,6 +589,102 @@
         } catch (e) {
             alert("Error al guardar el nuevo PIN en la nube.");
         }
+    }
+
+    window.actualizarCuadreCaja = function() {
+        dineroFondoApertura = parseFloat(document.getElementById('dineroApertura').value) || 0;
+        recalcularCuadreTeorico();
+        alert("¡Fondo de apertura de caja guardado con éxito!");
+    }
+
+    function recalcularCuadreTeorico() {
+        const efectivoTeorico = dineroFondoApertura + corteCajaIngresos;
+        document.getElementById('corteTeorico').innerText = `Q${efectivoTeorico.toFixed(2)}`;
+        calcularDiferenciaCaja();
+    }
+
+    window.calcularDiferenciaCaja = function() {
+        const efectivoTeorico = dineroFondoApertura + corteCajaIngresos;
+        const efectivoReal = parseFloat(document.getElementById('efectivoRealCierre').value) || 0;
+        const diferencia = efectivoReal - efectivoTeorico;
+
+        const lblDiferencia = document.getElementById('corteDiferencia');
+        if (diferencia === 0) {
+            lblDiferencia.innerText = `Q0.00 (¡Cuadre Exacto! 🎉)`;
+            lblDiferencia.style.color = "var(--success)";
+        } else if (diferencia > 0) {
+            lblDiferencia.innerText = `+Q${diferencia.toFixed(2)} (Sobrante en caja)`;
+            lblDiferencia.style.color = "var(--primary)";
+        } else {
+            lblDiferencia.innerText = `-Q${Math.abs(diferencia).toFixed(2)} (Faltante en caja ⚠️)`;
+            lblDiferencia.style.color = "var(--danger)";
+        }
+    }
+
+    window.descargarRespaldoInventario = function() {
+        if (!inventarioGlobal || inventarioGlobal.length === 0) {
+            alert("No hay productos en el inventario para respaldar.");
+            return;
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inventarioGlobal, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        const fecha = new Date().toISOString().slice(0, 10);
+        downloadAnchor.setAttribute("download", `respaldo_inventario_farmacia_${fecha}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    window.cargarRespaldoInventario = async function() {
+        const inputArchivo = document.getElementById('archivoRespaldo');
+        if (!inputArchivo.files || inputArchivo.files.length === 0) {
+            alert("Por favor seleccione un archivo de respaldo .json primero.");
+            return;
+        }
+
+        const archivo = inputArchivo.files[0];
+        const lector = new FileReader();
+
+        lector.onload = async function(e) {
+            try {
+                const productosCargados = JSON.parse(e.target.result);
+                if (!Array.isArray(productosCargados) || productosCargados.length === 0) {
+                    alert("El archivo no contiene un formato de inventario válido.");
+                    return;
+                }
+
+                if (!confirm(`Se van a agregar ${productosCargados.length} productos a la base de datos en la nube. ¿Desea continuar?`)) {
+                    return;
+                }
+
+                let contadorCargados = 0;
+                for (const p of productosCargados) {
+                    await addDoc(collection(db, "inventario_farmacia"), {
+                        codigo: p.codigo || 'S/C',
+                        nombre: p.nombre || 'Producto sin nombre',
+                        lote: p.lote || 'N/D',
+                        estante: p.estante || 'General',
+                        tipoEmpaque: p.tipoEmpaque || 'Unidad',
+                        unidadesPorCaja: p.unidadesPorCaja || 1,
+                        cantidad: parseInt(p.cantidad) || 0,
+                        precioCosto: parseFloat(p.precioCosto) || 0,
+                        precioVenta: parseFloat(p.precioVenta) || 0,
+                        vencimiento: p.vencimiento || new Date().toISOString().slice(0, 10),
+                        vendidos: p.vendidos || 0,
+                        actualizado: new Date().toISOString()
+                    });
+                    contadorCargados++;
+                }
+
+                alert(`¡Respaldo cargado con éxito! Se registraron ${contadorCargados} productos en la nube.`);
+                document.getElementById('archivoRespaldo').value = '';
+            } catch (err) {
+                alert("Error al leer el archivo JSON. Asegúrese de que sea un respaldo válido.");
+            }
+        };
+
+        lector.readAsText(archivo);
     }
 
     const q = query(collection(db, "inventario_farmacia"));
@@ -816,6 +946,7 @@
             document.getElementById('corteIngresos').innerText = `Q${corteCajaIngresos.toFixed(2)}`;
             document.getElementById('corteGanancia').innerText = `Q${corteCajaGanancia.toFixed(2)}`;
             document.getElementById('corteTotalVentas').innerText = corteCajaCantidad;
+            recalcularCuadreTeorico();
 
             renderizarResumenVentas();
 
@@ -1121,6 +1252,7 @@
         });
     }
 
+    window.detenerEscaneo = function`/* ... */`
     window.detenerEscaneo = function() {
         try { Quagga.stop(); } catch(e) {}
         document.getElementById('interactive').style.display = 'none';
@@ -1131,4 +1263,4 @@
 </script>
 
 </body>
-</html>
+                            </html>
