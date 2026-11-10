@@ -161,8 +161,9 @@
             object-fit: cover;
         }
         
+        /* Contenedor con scroll para todas las tablas */
         .tabla-scroll {
-            max-height: 280px;
+            max-height: 250px;
             overflow-y: auto;
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -230,7 +231,6 @@
             margin-bottom: 10px;
         }
         
-        /* Modal fijo y centrado rígidamente en la pantalla */
         #modalPin {
             position: fixed;
             top: 0; 
@@ -471,76 +471,86 @@
 
         <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
             <h3 style="color: var(--warning-text);">⚠️ Alerta: Productos Próximos a Vencer (&le; 90 días)</h3>
-            <table id="tablaProximosVencer">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Lote / Vencimiento</th>
-                        <th>Días Restantes</th>
-                    </tr>
-                </thead>
-                <tbody id="listaProximosVencer">
-                    <tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>
-                </tbody>
-            </table>
+            <div class="tabla-scroll">
+                <table id="tablaProximosVencer">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Lote / Vencimiento</th>
+                            <th>Días Restantes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaProximosVencer">
+                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
             <h3 style="color: var(--success);">💰 Ganancia Unitaria por Producto</h3>
-            <table id="tablaGananciaProductos">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Costo / Venta</th>
-                        <th>Ganancia c/u</th>
-                    </tr>
-                </thead>
-                <tbody id="listaGananciaProductos"></tbody>
-            </table>
+            <div class="tabla-scroll">
+                <table id="tablaGananciaProductos">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Costo / Venta</th>
+                            <th>Ganancia c/u</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaGananciaProductos"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
             <h3 style="color: var(--primary);">📋 Resumen de Ganancias por Venta</h3>
-            <table id="tablaResumenVentas">
-                <thead>
-                    <tr>
-                        <th>N° / Hora</th>
-                        <th>Productos Vendidos</th>
-                        <th>Total Venta / Ganancia</th>
-                    </tr>
-                </thead>
-                <tbody id="listaResumenVentas">
-                    <tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>
-                </tbody>
-            </table>
+            <div class="tabla-scroll">
+                <table id="tablaResumenVentas">
+                    <thead>
+                        <tr>
+                            <th>N° / Hora</th>
+                            <th>Productos Vendidos</th>
+                            <th>Total Venta / Ganancia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaResumenVentas">
+                        <tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--danger); margin-top: 15px;">
             <h3 style="color: var(--danger);">❌ Productos Agotados o Stock Bajo (&le; 5)</h3>
-            <table id="tablaAgotados">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Stock / Estante</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="listaAgotados"></tbody>
-            </table>
+            <div class="tabla-scroll">
+                <table id="tablaAgotados">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock / Estante</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaAgotados"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--success);">
             <h3 style="color: var(--success);">🔥 Productos Más Vendidos</h3>
-            <table id="tablaMasVendidos">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Total Vendidos</th>
-                        <th>Estante</th>
-                    </tr>
-                </thead>
-                <tbody id="listaMasVendidos"></tbody>
-            </table>
+            <div class="tabla-scroll">
+                <table id="tablaMasVendidos">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Total Vendidos</th>
+                            <th>Estante</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaMasVendidos"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
