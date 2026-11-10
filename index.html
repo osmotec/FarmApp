@@ -160,11 +160,21 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        .tabla-scroll {
+            max-height: 280px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-top: 10px;
+            background: white;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
             font-size: 0.8rem;
+            margin-top: 0;
         }
         th, td {
             padding: 8px;
@@ -174,6 +184,9 @@
         th {
             background-color: var(--primary);
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
         .badge-ok {
             background-color: var(--success-light);
@@ -216,22 +229,30 @@
             color: #666;
             margin-bottom: 10px;
         }
+        
+        /* Modal fijo y centrado rígidamente en la pantalla */
         #modalPin {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: rgba(0,0,0,0.85);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            z-index: 99999;
+            box-sizing: border-box;
+            padding: 20px;
         }
         .pin-box {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 300px;
+            padding: 22px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 320px;
             text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -241,10 +262,10 @@
 <div id="modalPin">
     <div class="pin-box">
         <h3>🔐 Seguridad Admin</h3>
-        <p style="font-size: 0.8rem; color: #666;">Ingrese PIN de Administrador (Predeterminado: 1234)</p>
-        <input type="password" id="inputPinAdmin" placeholder="****" style="text-align:center; font-size: 1.2rem; margin-bottom: 10px;">
+        <p style="font-size: 0.8rem; color: #666; margin-bottom: 12px;">Ingrese PIN de Administrador (Predeterminado: 1234)</p>
+        <input type="password" id="inputPinAdmin" placeholder="****" style="text-align:center; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 4px;">
         <button class="btn" onclick="verificarPinAdmin()">Ingresar a Admin</button>
-        <button class="btn" style="background-color: #757575; margin-top: 5px;" onclick="entrarComoCajero()">Modo Cajero (Solo Ventas)</button>
+        <button class="btn" style="background-color: #757575; margin-top: 8px;" onclick="entrarComoCajero()">Modo Cajero (Solo Ventas)</button>
     </div>
 </div>
 
@@ -340,18 +361,21 @@
             <div class="search-box">
                 <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código o estante..." oninput="filtrarProductos()">
             </div>
-            <table id="tablaInventario">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Stock / Ubic.</th>
-                        <th>Precios</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="listaInventario"></tbody>
-            </table>
+            
+            <div class="tabla-scroll">
+                <table id="tablaInventario">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock / Ubic.</th>
+                            <th>Precios</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaInventario"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -368,16 +392,18 @@
                 <input type="text" id="buscadorVentas" placeholder="🔍 Buscar medicamento para agregar..." oninput="filtrarProductosVentas()">
             </div>
 
-            <table id="tablaVentas">
-                <thead>
-                    <tr>
-                        <th>Producto / Ubicación</th>
-                        <th>Stock / Precio</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="listaVentas"></tbody>
-            </table>
+            <div class="tabla-scroll">
+                <table id="tablaVentas">
+                    <thead>
+                        <tr>
+                            <th>Producto / Ubicación</th>
+                            <th>Stock / Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaVentas"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-section" style="background: #e8f5e9; border: 1px solid #c8e6c9;">
@@ -444,7 +470,7 @@
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
-            <h3 style="color: var(--warning-text);">⚠️ Alerta: Productos Próximos a Vencer (&le; 60 días)</h3>
+            <h3 style="color: var(--warning-text);">⚠️ Alerta: Productos Próximos a Vencer (&le; 90 días)</h3>
             <table id="tablaProximosVencer">
                 <thead>
                     <tr>
@@ -642,14 +668,21 @@
             alert("No hay productos en el inventario para respaldar.");
             return;
         }
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inventarioGlobal, null, 2));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        const fecha = new Date().toISOString().slice(0, 10);
-        downloadAnchor.setAttribute("download", `respaldo_inventario_farmacia_${fecha}.json`);
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
+        try {
+            const datosJSON = JSON.stringify(inventarioGlobal, null, 2);
+            const blob = new Blob([datosJSON], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = url;
+            const fecha = new Date().toISOString().slice(0, 10);
+            downloadAnchor.download = `respaldo_inventario_farmacia_${fecha}.json`;
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            alert("Error al generar el archivo de respaldo.");
+        }
     }
 
     window.cargarRespaldoInventario = async function() {
@@ -1035,7 +1068,7 @@
         const diferenciaDias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
 
         if (diferenciaDias < 0) return { texto: "VENCIDO", clase: "badge-danger" };
-        if (diferenciaDias <= 60) return { texto: `Vence en ${diferenciaDias}d`, clase: "badge-warning" };
+        if (diferenciaDias <= 90) return { texto: `Vence en ${diferenciaDias}d`, clase: "badge-warning" };
         return { texto: "OK", clase: "badge-ok" };
     }
 
@@ -1149,11 +1182,11 @@
         const proximos = lista.filter(p => {
             const venc = new Date(p.vencimiento + "T00:00:00");
             const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
-            return dias >= 0 && dias <= 60;
+            return dias >= 0 && dias <= 90;
         });
 
         if (proximos.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer (&le; 90 días). 🎉</td></tr>`;
             return;
         }
 
