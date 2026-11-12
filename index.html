@@ -27,6 +27,1390 @@
             padding: 10px;
         }
         .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 5px;
+        }
+        .tabs {
+            display: flex;
+            background: #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 9px 2px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            color: #555;
+            font-size: 0.75rem;
+        }
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .form-section {
+            background: #fafafa;
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 9px;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        .col {
+            flex: 1;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        .btn-camera {
+            background-color: #2E7D32;
+            margin-bottom: 8px;
+        }
+        .btn-sell {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .btn-edit {
+            background-color: #EF6C00;
+            color: white;
+            border: none;
+            padding: 4px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-bottom: 2px;
+        }
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 4px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        #interactive.viewport, #interactiveVentas.viewport {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: none;
+            background: black;
+        }
+        #interactive.viewport canvas, #interactive.viewport video,
+        #interactiveVentas.viewport canvas, #interactiveVentas.viewport video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .tabla-scroll {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-top: 10px;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin-top: 0;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .badge-ok {
+            background-color: var(--success-light);
+            color: var(--success);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .badge-warning {
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .badge-danger {
+            background-color: var(--danger-light);
+            color: var(--danger);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .corte-caja {
+            background: var(--primary-light);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .resumen-inventario {
+            background: #E8F5E9;
+            border: 1px solid #C8E6C9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+        #syncStatus {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        #modalPin {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+        .pin-box {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+
+<div id="modalPin">
+    <div class="pin-box">
+        <h3>🔐 Seguridad Admin</h3>
+        <p style="font-size: 0.8rem; color: #666; margin-bottom: 12px;">Ingrese PIN de Administrador (Predeterminado: 1234)</p>
+        <input type="password" id="inputPinAdmin" placeholder="****" style="text-align:center; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 4px;">
+        <button class="btn" onclick="verificarPinAdmin()">Ingresar a Admin</button>
+        <button class="btn" style="background-color: #757575; margin-top: 8px;" onclick="entrarComoCajero()">Modo Cajero (Solo Ventas)</button>
+    </div>
+</div>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>💊 Farmacia - Sistema POS Pro</h2>
+        <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
+    </div>
+    <div id="syncStatus">🔄 Conectando con la nube...</div>
+
+    <div class="tabs">
+        <button class="tab-btn active" id="btnTabInv" onclick="cambiarPestaña('inventario')">📦 Inventario</button>
+        <button class="tab-btn" id="btnTabVentas" onclick="cambiarPestaña('ventas')">🛒 Ventas</button>
+        <button class="tab-btn" id="btnTabRep" onclick="cambiarPestaña('reportes')">📊 Reportes</button>
+        <button class="tab-btn" id="btnTabConf" onclick="cambiarPestaña('configuracion')">🔑 PIN</button>
+    </div>
+
+    <!-- PESTAÑA 1: INVENTARIO -->
+    <div id="tab-inventario" class="tab-content active">
+        <div class="form-section">
+            <h3 id="tituloFormulario">Registrar / Escanear Producto</h3>
+            <button class="btn btn-camera" onclick="iniciarEscanerCamera('inventario')">📷 Activar Cámara</button>
+            <div id="interactive" class="viewport"></div>
+            <button id="btnDetener" class="btn btn-danger" style="display:none; margin-bottom:10px;" onclick="detenerEscaneo()">Cerrar Cámara</button>
+
+            <input type="hidden" id="editandoId" value="">
+
+            <div class="form-group">
+                <label for="codigoBarras">Código de Barras:</label>
+                <input type="text" id="codigoBarras" placeholder="Escanee o escriba el código...">
+            </div>
+            <div class="form-group">
+                <label for="nombreProducto">Nombre del Medicamento / Producto:</label>
+                <input type="text" id="nombreProducto" placeholder="Ej. Ibuprofena 600mg">
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="loteProducto">Número de Lote:</label>
+                    <input type="text" id="loteProducto" placeholder="Ej. L-4589">
+                </div>
+                <div class="form-group col">
+                    <label for="estanteProducto">Estante / Ubicación:</label>
+                    <input type="text" id="estanteProducto" placeholder="Ej. Estante 3A">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="proveedorProducto">Proveedor / Laboratorio:</label>
+                <input type="text" id="proveedorProducto" placeholder="Ej. Distribuidora Farma / Sika">
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="tipoEmpaque">Se vende por:</label>
+                    <select id="tipoEmpaque" onchange="toggleUnidadesPorCaja()">
+                        <option value="Unidad">Unidad / Frasco</option>
+                        <option value="Caja">Caja Completa</option>
+                    </select>
+                </div>
+                <div class="form-group col" id="grupoUnidadesCaja" style="display: none;">
+                    <label for="unidadesPorCaja">Unidades que trae la caja:</label>
+                    <input type="number" id="unidadesPorCaja" placeholder="Ej. 100" min="1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="costoProducto">Precio Costo (Q):</label>
+                    <input type="number" id="costoProducto" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <div class="form-group col">
+                    <label for="ventaProducto">Precio Venta (Q):</label>
+                    <input type="number" id="ventaProducto" placeholder="0.00" step="0.01" min="0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="cantidadProducto" id="labelCantidad">Cantidad en Stock:</label>
+                    <input type="number" id="cantidadProducto" placeholder="Ej. 25" min="0">
+                </div>
+                <div class="form-group col">
+                    <label for="vencimientoProducto">Fecha de Vencimiento:</label>
+                    <input type="date" id="vencimientoProducto">
+                </div>
+            </div>
+            <button class="btn" id="btnGuardar" onclick="guardarProductoEnNube()">Guardar en la Nube</button>
+            <button class="btn" id="btnCancelarEdicion" style="background-color: #757575; display:none; margin-top:5px;" onclick="cancelarEdicion()">Cancelar Edición</button>
+        </div>
+
+        <div class="form-section">
+            <h3>Inventario en Tiempo Real</h3>
+            
+            <div class="resumen-inventario">
+                <div style="font-weight: bold; color: var(--success); margin-bottom: 4px;">📈 Resumen Financiero del Inventario:</div>
+                <div>• Cantidad total de productos: <strong id="resumenCantTotal">0</strong></div>
+                <div>• Costo total (Inversión): <strong id="resumenCostoTotal" style="color: #333;">Q0.00</strong></div>
+                <div>• Valor total (Precio Venta): <strong id="resumenVentaTotal" style="color: var(--success);">Q0.00</strong></div>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código, estante o proveedor..." oninput="filtrarProductos()">
+            </div>
+            
+            <div class="tabla-scroll">
+                <table id="tablaInventario">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock / Ubic.</th>
+                            <th>Precios</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaInventario"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 2: VENTAS / CARRITO POS -->
+    <div id="tab-ventas" class="tab-content">
+        <div class="form-section" style="border-left: 4px solid var(--success);">
+            <h3 style="color: var(--success);">🛒 Caja Rápida y Carrito de Venta</h3>
+            
+            <button class="btn btn-camera" onclick="iniciarEscanerCamera('ventas')">📷 Escanear con Cámara para Vender</button>
+            <div id="interactiveVentas" class="viewport"></div>
+            <button id="btnDetenerVentas" class="btn btn-danger" style="display:none; margin-bottom:10px;" onclick="detenerEscaneo()">Cerrar Cámara</button>
+
+            <div class="search-box">
+                <input type="text" id="buscadorVentas" placeholder="🔍 Buscar medicamento para agregar..." oninput="filtrarProductosVentas()">
+            </div>
+
+            <div class="tabla-scroll">
+                <table id="tablaVentas">
+                    <thead>
+                        <tr>
+                            <th>Producto / Ubicación</th>
+                            <th>Stock / Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaVentas"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-section" style="background: #e8f5e9; border: 1px solid #c8e6c9;">
+            <h3 style="color: var(--success); margin-top:0;">🧾 Ticket de Venta Actual</h3>
+            <table id="tablaCarrito">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Subtotal</th>
+                        <th>X</th>
+                    </tr>
+                </thead>
+                <tbody id="listaCarrito">
+                    <tr><td colspan="4" style="text-align:center; color:#777;">El carrito está vacío</td></tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 10px; font-size: 1.1rem; font-weight: bold; text-align: right;">
+                Total a Pagar: <span id="totalCarrito" style="color: var(--success);">Q0.00</span>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="form-group col">
+                    <label for="montoEfectivo">Efectivo Recibido (Q):</label>
+                    <input type="number" id="montoEfectivo" placeholder="0.00" step="0.01" oninput="calcularVuelto()">
+                </div>
+                <div class="form-group col">
+                    <label>Su Vuelto (Cambio):</label>
+                    <div id="textoVuelto" style="font-size: 1.1rem; font-weight: bold; color: var(--primary); padding-top: 8px;">Q0.00</div>
+                </div>
+            </div>
+
+            <button class="btn" style="background-color: var(--success);" onclick="cobrarCarrito()">✅ Cobrar y Enviar Ticket por WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 3: REPORTES Y CUADRE DE CAJA -->
+    <div id="tab-reportes" class="tab-content">
+        <div class="corte-caja">
+            <h3 style="color: var(--primary); margin:0;">📊 Corte y Cuadre de Caja del Día</h3>
+            
+            <div class="form-group" style="margin-top: 10px; text-align: left;">
+                <label for="dineroApertura">Dinero con que inicia la caja (Fondo / Vuelto):</label>
+                <div class="row">
+                    <input type="number" id="dineroApertura" placeholder="0.00" step="0.01" value="0.00" style="background: white;">
+                    <button class="btn" style="margin-top:0; width: 130px;" onclick="actualizarCuadreCaja()">Definir Fondo</button>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #b0bec5; margin: 10px 0;">
+
+            <p style="margin: 5px 0; font-size: 0.9rem;">Total transacciones: <strong id="corteTotalVentas">0</strong></p>
+            <p style="margin: 5px 0; font-size: 0.9rem;">Ventas totales del día: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
+            <p style="margin: 5px 0; font-size: 1rem;">Efectivo Teórico en Gaveta (Fondo + Ventas): <strong id="corteTeorico" style="color: var(--primary);">Q0.00</strong></p>
+            
+            <div class="form-group" style="margin-top: 10px; text-align: left; background: #fff; padding: 10px; border-radius: 6px;">
+                <label for="efectivoRealCierre">Con cuánto dinero real cierras la caja (Dinero contado físicamente):</label>
+                <input type="number" id="efectivoRealCierre" placeholder="0.00" step="0.01" oninput="calcularDiferenciaCaja()">
+            </div>
+
+            <p style="margin: 5px 0; font-size: 1.1rem;">Diferencia / Cuadre: <strong id="corteDiferencia" style="color: var(--success);">Q0.00 (Exacto)</strong></p>
+            <p style="margin: 10px 0 0 0; font-size: 1.1rem;">Ganancia Neta del Día: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
+            <h3 style="color: var(--warning-text);">⚠️ Alerta: Productos Próximos a Vencer (&le; 90 días)</h3>
+            <div class="tabla-scroll">
+                <table id="tablaProximosVencer">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Lote / Vencimiento</th>
+                            <th>Días Restantes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaProximosVencer">
+                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
+            <h3 style="color: var(--success);">💰 Ganancia Unitaria por Producto</h3>
+            <div class="tabla-scroll">
+                <table id="tablaGananciaProductos">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Costo / Venta</th>
+                            <th>Ganancia c/u</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaGananciaProductos"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
+            <h3 style="color: var(--primary);">📋 Resumen de Ganancias por Venta</h3>
+            <div class="tabla-scroll">
+                <table id="tablaResumenVentas">
+                    <thead>
+                        <tr>
+                            <th>N° / Hora</th>
+                            <th>Productos Vendidos</th>
+                            <th>Total Venta / Ganancia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaResumenVentas">
+                        <tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--danger); margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3 style="color: var(--danger); margin:0;">❌ Productos Agotados o Stock Bajo (&le; 2)</h3>
+                <button class="btn" style="background-color: var(--success); width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top:0;" onclick="enviarAgotadosWhatsApp()">📱 Enviar Agotados a WhatsApp</button>
+            </div>
+            <div class="tabla-scroll">
+                <table id="tablaAgotados">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock / Estante</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaAgotados"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--success);">
+            <h3 style="color: var(--success);">🔥 Productos Más Vendidos</h3>
+            <div class="tabla-scroll">
+                <table id="tablaMasVendidos">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Total Vendidos</th>
+                            <th>Estante</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaMasVendidos"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 4: CONFIGURACIÓN / PIN Y RESPALDO -->
+    <div id="tab-configuracion" class="tab-content">
+        <div class="form-section" style="border-left: 4px solid var(--primary);">
+            <h3 style="color: var(--primary);">🔑 Cambiar Contraseña / PIN de Administrador</h3>
+            <p style="font-size: 0.85rem; color: #666; text-align: center;">Actualiza el código PIN necesario para acceder al panel de inventario y reportes.</p>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label for="nuevoPinAdmin">Nuevo PIN de Administrador:</label>
+                <input type="password" id="nuevoPinAdmin" placeholder="Ej. 5678" style="text-align: center; font-size: 1.2rem;">
+            </div>
+            
+            <button class="btn" style="background-color: var(--primary);" onclick="actualizarPinAdmin()">💾 Guardar Nuevo PIN en la Nube</button>
+        </div>
+
+        <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
+            <h3 style="color: var(--success);">💾 Respaldo de Inventario</h3>
+            <p style="font-size: 0.85rem; color: #666; text-align: center;">Descarga o carga una copia de seguridad en formato JSON de tus productos.</p>
+            <button class="btn" style="background-color: var(--success);" onclick="descargarRespaldoInventario()">📥 Descargar Respaldo de Productos</button>
+            
+            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
+                <label for="archivoRespaldo" style="font-size: 0.85rem; color: #333;">Subir archivo de respaldo (.json):</label>
+                <input type="file" id="archivoRespaldo" accept=".json" style="margin-top: 5px; font-size: 0.8rem;">
+                <button class="btn" style="background-color: #EF6C00; margin-top: 8px;" onclick="cargarRespaldoInventario()">📤 Restaurar / Cargar Respaldo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAkunkECIHFIP1D2XGyNgznLREnO47Rfz0",
+      authDomain: "farm-66385.firebaseapp.com",
+      projectId: "farm-66385",
+      storageBucket: "farm-66385.firebasestorage.app",
+      messagingSenderId: "765971357634",
+      appId: "1:765971357634:web:956e2091385e42c0fe005b",
+      measurementId: "G-1YT82VY4MW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let inventarioGlobal = [];
+    let carrito = [];
+    let historialVentasDia = [];
+    let modoEscanerActual = 'inventario';
+    let corteCajaIngresos = 0;
+    let corteCajaGanancia = 0;
+    let corteCajaCantidad = 0;
+    let dineroFondoApertura = 0;
+    let pinActualSistema = "1234";
+
+    async function cargarConfiguracionPin() {
+        try {
+            const configRef = doc(db, "configuracion", "seguridad");
+            const configSnap = await getDoc(configRef);
+            if (configSnap.exists()) {
+                pinActualSistema = configSnap.data().pin || "1234";
+            } else {
+                await setDoc(configRef, { pin: "1234" });
+                pinActualSistema = "1234";
+            }
+        } catch (e) {
+            console.error("Error al cargar PIN:", e);
+        }
+    }
+    cargarConfiguracionPin();
+
+    window.actualizarPinAdmin = async function() {
+        const nuevoPin = document.getElementById('nuevoPinAdmin').value.trim();
+        if (!nuevoPin || nuevoPin.length < 3) {
+            alert("Por favor ingrese un PIN válido (mínimo 3 dígitos).");
+            return;
+        }
+
+        try {
+            const configRef = doc(db, "configuracion", "seguridad");
+            await setDoc(configRef, { pin: nuevoPin });
+            pinActualSistema = nuevoPin;
+            document.getElementById('nuevoPinAdmin').value = '';
+            alert("¡Contraseña / PIN de administrador actualizado con éxito en la nube!");
+        } catch (e) {
+            alert("Error al guardar el nuevo PIN en la nube.");
+        }
+    }
+
+    window.actualizarCuadreCaja = function() {
+        dineroFondoApertura = parseFloat(document.getElementById('dineroApertura').value) || 0;
+        recalcularCuadreTeorico();
+        alert("¡Fondo de apertura de caja guardado con éxito!");
+    }
+
+    function recalcularCuadreTeorico() {
+        const efectivoTeorico = dineroFondoApertura + corteCajaIngresos;
+        document.getElementById('corteTeorico').innerText = `Q${efectivoTeorico.toFixed(2)}`;
+        calcularDiferenciaCaja();
+    }
+
+    window.calcularDiferenciaCaja = function() {
+        const efectivoTeorico = dineroFondoApertura + corteCajaIngresos;
+        const efectivoReal = parseFloat(document.getElementById('efectivoRealCierre').value) || 0;
+        const diferencia = efectivoReal - efectivoTeorico;
+
+        const lblDiferencia = document.getElementById('corteDiferencia');
+        if (diferencia === 0) {
+            lblDiferencia.innerText = `Q0.00 (¡Cuadre Exacto! 🎉)`;
+            lblDiferencia.style.color = "var(--success)";
+        } else if (diferencia > 0) {
+            lblDiferencia.innerText = `+Q${diferencia.toFixed(2)} (Sobrante en caja)`;
+            lblDiferencia.style.color = "var(--primary)";
+        } else {
+            lblDiferencia.innerText = `-Q${Math.abs(diferencia).toFixed(2)} (Faltante en caja ⚠️)`;
+            lblDiferencia.style.color = "var(--danger)";
+        }
+    }
+
+    window.descargarRespaldoInventario = function() {
+        if (!inventarioGlobal || inventarioGlobal.length === 0) {
+            alert("No hay productos en el inventario para respaldar.");
+            return;
+        }
+        try {
+            const datosJSON = JSON.stringify(inventarioGlobal, null, 2);
+            const blob = new Blob([datosJSON], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = url;
+            const fecha = new Date().toISOString().slice(0, 10);
+            downloadAnchor.download = `respaldo_inventario_farmacia_${fecha}.json`;
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            alert("Error al generar el archivo de respaldo.");
+        }
+    }
+
+    window.cargarRespaldoInventario = async function() {
+        const inputArchivo = document.getElementById('archivoRespaldo');
+        if (!inputArchivo.files || inputArchivo.files.length === 0) {
+            alert("Por favor seleccione un archivo de respaldo .json primero.");
+            return;
+        }
+
+        const archivo = inputArchivo.files[0];
+        const lector = new FileReader();
+
+        lector.onload = async function(e) {
+            try {
+                const productosCargados = JSON.parse(e.target.result);
+                if (!Array.isArray(productosCargados) || productosCargados.length === 0) {
+                    alert("El archivo no contiene un formato de inventario válido.");
+                    return;
+                }
+
+                if (!confirm(`Se van a agregar ${productosCargados.length} productos a la base de datos en la nube. ¿Desea continuar?`)) {
+                    return;
+                }
+
+                let contadorCargados = 0;
+                for (const p of productosCargados) {
+                    await addDoc(collection(db, "inventario_farmacia"), {
+                        codigo: p.codigo || 'S/C',
+                        nombre: p.nombre || 'Producto sin nombre',
+                        lote: p.lote || 'N/D',
+                        estante: p.estante || 'General',
+                        proveedor: p.proveedor || 'General',
+                        tipoEmpaque: p.tipoEmpaque || 'Unidad',
+                        unidadesPorCaja: p.unidadesPorCaja || 1,
+                        cantidad: parseInt(p.cantidad) || 0,
+                        precioCosto: parseFloat(p.precioCosto) || 0,
+                        precioVenta: parseFloat(p.precioVenta) || 0,
+                        vencimiento: p.vencimiento || new Date().toISOString().slice(0, 10),
+                        vendidos: p.vendidos || 0,
+                        actualizado: new Date().toISOString()
+                    });
+                    contadorCargados++;
+                }
+
+                alert(`¡Respaldo cargado con éxito! Se registraron ${contadorCargados} productos en la nube.`);
+                document.getElementById('archivoRespaldo').value = '';
+            } catch (err) {
+                alert("Error al leer el archivo JSON. Asegúrese de que sea un respaldo válido.");
+            }
+        };
+
+        lector.readAsText(archivo);
+    }
+
+    const q = query(collection(db, "inventario_farmacia"));
+    onSnapshot(q, (snapshot) => {
+        inventarioGlobal = [];
+        snapshot.forEach((docSnap) => {
+            inventarioGlobal.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        document.getElementById('syncStatus').innerHTML = "✅ Sincronizado en línea con la nube";
+        actualizarTodo(inventarioGlobal);
+    }, (error) => {
+        console.error("Error al sincronizar: ", error);
+        document.getElementById('syncStatus').innerHTML = "⚠️ Error de conexión con la nube";
+    });
+
+    window.verificarPinAdmin = function() {
+        const pin = document.getElementById('inputPinAdmin').value;
+        if (pin === pinActualSistema) {
+            document.getElementById('modalPin').style.display = 'none';
+        } else {
+            alert("PIN incorrecto.");
+        }
+    }
+
+    window.entrarComoCajero = function() {
+        document.getElementById('modalPin').style.display = 'none';
+        document.getElementById('btnTabInv').style.display = 'none';
+        document.getElementById('btnTabRep').style.display = 'none';
+        document.getElementById('btnTabConf').style.display = 'none';
+        cambiarPestaña('ventas');
+    }
+
+    window.cambiarPestaña = function(pestaña) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        if (pestaña === 'inventario') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-inventario').classList.add('active');
+        } else if (pestaña === 'ventas') {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-ventas').classList.add('active');
+        } else if (pestaña === 'reportes') {
+            document.querySelectorAll('.tab-btn')[2].classList.add('active');
+            document.getElementById('tab-reportes').classList.add('active');
+        } else if (pestaña === 'configuracion') {
+            document.querySelectorAll('.tab-btn')[3].classList.add('active');
+            document.getElementById('tab-configuracion').classList.add('active');
+        }
+    }
+
+    window.toggleUnidadesPorCaja = function() {
+        const tipo = document.getElementById('tipoEmpaque').value;
+        const grupoCaja = document.getElementById('grupoUnidadesCaja');
+        const labelCant = document.getElementById('labelCantidad');
+        if (tipo === 'Caja') {
+            grupoCaja.style.display = 'block';
+            labelCant.innerText = "Cantidad en Stock (Cajas):";
+        } else {
+            grupoCaja.style.display = 'none';
+            labelCant.innerText = "Cantidad en Stock (Unidades):";
+        }
+    }
+
+    window.guardarProductoEnNube = async function() {
+        const idEdicion = document.getElementById('editandoId').value;
+        const codigo = document.getElementById('codigoBarras').value.trim();
+        const nombre = document.getElementById('nombreProducto').value.trim();
+        const lote = document.getElementById('loteProducto').value.trim();
+        const estante = document.getElementById('estanteProducto').value.trim();
+        const proveedor = document.getElementById('proveedorProducto').value.trim();
+        const tipoEmpaque = document.getElementById('tipoEmpaque').value;
+        const unidadesPorCaja = parseInt(document.getElementById('unidadesPorCaja').value) || 1;
+        const precioCosto = parseFloat(document.getElementById('costoProducto').value) || 0;
+        const precioVenta = parseFloat(document.getElementById('ventaProducto').value) || 0;
+        let cantidadIngresada = parseInt(document.getElementById('cantidadProducto').value) || 0;
+        const vencimiento = document.getElementById('vencimientoProducto').value;
+
+        if (!codigo || !nombre || isNaN(cantidadIngresada) || !vencimiento) {
+            alert("Por favor completa los campos obligatorios.");
+            return;
+        }
+
+        try {
+            if (idEdicion) {
+                const prodRef = doc(db, "inventario_farmacia", idEdicion);
+                await updateDoc(prodRef, {
+                    codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
+                    proveedor: proveedor || 'General',
+                    tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
+                    cantidad: cantidadIngresada,
+                    precioCosto, precioVenta, vencimiento, actualizado: new Date().toISOString()
+                });
+                alert("¡Producto modificado con éxito!");
+                cancelarEdicion();
+            } else {
+                await addDoc(collection(db, "inventario_farmacia"), {
+                    codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
+                    proveedor: proveedor || 'General',
+                    tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
+                    cantidad: cantidadIngresada,
+                    precioCosto, precioVenta, vencimiento, vendidos: 0, actualizado: new Date().toISOString()
+                });
+                limpiarFormulario();
+                alert("¡Producto guardado exitosamente!");
+            }
+        } catch (e) {
+            alert("Error al guardar en la nube.");
+        }
+    }
+
+    window.agregarAlCarrito = function(id) {
+        const producto = inventarioGlobal.find(p => p.id === id);
+        if (!producto || producto.cantidad <= 0) {
+            alert("El producto no tiene stock disponible.");
+            return;
+        }
+
+        const itemEnCarrito = carrito.find(item => item.id === id);
+        if (itemEnCarrito) {
+            if (itemEnCarrito.cantidadReq < producto.cantidad) {
+                itemEnCarrito.cantidadReq++;
+            } else {
+                alert("No hay más stock disponible para este producto.");
+            }
+        } else {
+            carrito.push({
+                id: producto.id,
+                nombre: producto.nombre,
+                precio: producto.precioVenta,
+                costo: producto.precioCosto || 0,
+                cantidadReq: 1,
+                stockMax: producto.cantidad,
+                vendidosActuales: producto.vendidos || 0,
+                tipoEmpaque: producto.tipoEmpaque || 'Unidad'
+            });
+        }
+        renderizarCarrito();
+    }
+
+    window.cambiarCantidadCarrito = function(index, delta) {
+        carrito[index].cantidadReq += delta;
+        if (carrito[index].cantidadReq <= 0) {
+            carrito.splice(index, 1);
+        } else if (carrito[index].cantidadReq > carrito[index].stockMax) {
+            carrito[index].cantidadReq = carrito[index].stockMax;
+            alert("Alcanzaste el límite del stock disponible.");
+        }
+        renderizarCarrito();
+    }
+
+    window.eliminarDelCarrito = function(index) {
+        carrito.splice(index, 1);
+        renderizarCarrito();
+    }
+
+    function renderizarCarrito() {
+        const tbody = document.getElementById('listaCarrito');
+        tbody.innerHTML = '';
+        let total = 0;
+
+        if (carrito.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#777;">El carrito está vacío</td></tr>`;
+            document.getElementById('totalCarrito').innerText = "Q0.00";
+            document.getElementById('textoVuelto').innerText = "Q0.00";
+            return;
+        }
+
+        carrito.forEach((item, index) => {
+            const subtotal = item.precio * item.cantidadReq;
+            total += subtotal;
+            const unidadTexto = item.tipoEmpaque === 'Caja' ? ' caja(s)' : ' u.';
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${item.nombre}</strong><br><small>Q${item.precio.toFixed(2)} c/${item.tipoEmpaque === 'Caja' ? 'caja' : 'u.'}</small></td>
+                    <td>
+                        <button onclick="cambiarCantidadCarrito(${index}, -1)">-</button>
+                        <strong>${item.cantidadReq}${unidadTexto}</strong>
+                        <button onclick="cambiarCantidadCarrito(${index}, 1)">+</button>
+                    </td>
+                    <td>Q${subtotal.toFixed(2)}</td>
+                    <td><button class="btn-danger" onclick="eliminarDelCarrito(${index})">X</button></td>
+                </tr>
+            `;
+        });
+
+        document.getElementById('totalCarrito').innerText = `Q${total.toFixed(2)}`;
+        calcularVuelto();
+    }
+
+    window.calcularVuelto = function() {
+        const totalStr = document.getElementById('totalCarrito').innerText.replace('Q', '');
+        const total = parseFloat(totalStr) || 0;
+        const efectivo = parseFloat(document.getElementById('montoEfectivo').value) || 0;
+        const vuelto = efectivo - total;
+
+        const textoVuelto = document.getElementById('textoVuelto');
+        if (efectivo >= total) {
+            textoVuelto.innerText = `Q${vuelto.toFixed(2)}`;
+            textoVuelto.style.color = "var(--success)";
+        } else {
+            textoVuelto.innerText = "Falta efectivo";
+            textoVuelto.style.color = "var(--danger)";
+        }
+    }
+
+    window.cobrarCarrito = async function() {
+        if (carrito.length === 0) {
+            alert("El carrito está vacío.");
+            return;
+        }
+
+        const totalStr = document.getElementById('totalCarrito').innerText.replace('Q', '');
+        const total = parseFloat(totalStr) || 0;
+        const efectivo = parseFloat(document.getElementById('montoEfectivo').value) || 0;
+
+        if (efectivo < total) {
+            alert("El monto en efectivo es menor al total a pagar.");
+            return;
+        }
+
+        try {
+            let textoTicket = "💊 *TICKET DE VENTA - FARMACIA* 💊\n\n";
+            let gananciaVentaActual = 0;
+            let productosVendidosResumen = [];
+
+            for (const item of carrito) {
+                const nuevaCantidad = item.stockMax - item.cantidadReq;
+                const nuevosVendidos = item.vendidosActuales + item.cantidadReq;
+                const prodRef = doc(db, "inventario_farmacia", item.id);
+                await updateDoc(prodRef, {
+                    cantidad: nuevaCantidad,
+                    vendidos: nuevosVendidos
+                });
+
+                const gananciaItem = (item.precio - item.costo) * item.cantidadReq;
+                gananciaVentaActual += gananciaItem;
+
+                const tipoTexto = item.tipoEmpaque === 'Caja' ? 'caja(s)' : 'u.';
+                textoTicket += `- ${item.nombre} x${item.cantidadReq} ${tipoTexto} (Q${(item.precio * item.cantidadReq).toFixed(2)})\n`;
+                productosVendidosResumen.push(`${item.nombre} x${item.cantidadReq}`);
+            }
+
+            textoTicket += `\n*TOTAL A PAGAR: Q${total.toFixed(2)}*`;
+            textoTicket += `\nEfectivo: Q${efectivo.toFixed(2)}`;
+            textoTicket += `\nVuelto: Q${(efectivo - total).toFixed(2)}`;
+            textoTicket += `\n\n¡Gracias por su compra! 🙏`;
+
+            corteCajaIngresos += total;
+            corteCajaGanancia += gananciaVentaActual;
+            corteCajaCantidad += 1;
+
+            const horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            historialVentasDia.unshift({
+                numero: corteCajaCantidad,
+                hora: horaActual,
+                productos: productosVendidosResumen.join(', '),
+                total: total,
+                ganancia: gananciaVentaActual
+            });
+
+            document.getElementById('corteIngresos').innerText = `Q${corteCajaIngresos.toFixed(2)}`;
+            document.getElementById('corteGanancia').innerText = `Q${corteCajaGanancia.toFixed(2)}`;
+            document.getElementById('corteTotalVentas').innerText = corteCajaCantidad;
+            recalcularCuadreTeorico();
+
+            renderizarResumenVentas();
+
+            const urlWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoTicket)}`;
+            if (confirm("¡Venta cobrada con éxito! ¿Desea enviar el ticket digital por WhatsApp al cliente?")) {
+                window.open(urlWhatsApp, '_blank');
+            }
+            
+            carrito = [];
+            document.getElementById('montoEfectivo').value = '';
+            renderizarCarrito();
+        } catch (e) {
+            alert("Error al procesar la venta en la nube.");
+        }
+    }
+
+    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, proveedor, tipoEmpaque, unidadesPorCaja, cantidad, precioCosto, precioVenta, vencimiento) {
+        document.getElementById('editandoId').value = id;
+        document.getElementById('codigoBarras').value = codigo;
+        document.getElementById('nombreProducto').value = nombre;
+        document.getElementById('loteProducto').value = lote;
+        document.getElementById('estanteProducto').value = estante;
+        document.getElementById('proveedorProducto').value = proveedor || '';
+        document.getElementById('tipoEmpaque').value = tipoEmpaque;
+        toggleUnidadesPorCaja();
+        document.getElementById('unidadesPorCaja').value = unidadesPorCaja > 1 ? unidadesPorCaja : '';
+        document.getElementById('costoProducto').value = precioCosto;
+        document.getElementById('ventaProducto').value = precioVenta;
+        document.getElementById('cantidadProducto').value = cantidad;
+        document.getElementById('vencimientoProducto').value = vencimiento;
+
+        document.getElementById('tituloFormulario').innerText = "✏️ Modificar Producto";
+        document.getElementById('btnGuardar').innerText = "Actualizar en la Nube";
+        document.getElementById('btnCancelarEdicion').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.cancelarEdicion = function() {
+        limpiarFormulario();
+        document.getElementById('editandoId').value = '';
+        document.getElementById('tituloFormulario').innerText = "Registrar / Escanear Producto";
+        document.getElementById('btnGuardar').innerText = "Guardar en la Nube";
+        document.getElementById('btnCancelarEdicion').style.display = 'none';
+    }
+
+    window.eliminarProductoNube = async function(id) {
+        if (confirm("¿Estás seguro de eliminar este producto?")) {
+            await deleteDoc(doc(db, "inventario_farmacia", id));
+        }
+    }
+
+    function limpiarFormulario() {
+        document.getElementById('codigoBarras').value = '';
+        document.getElementById('nombreProducto').value = '';
+        document.getElementById('loteProducto').value = '';
+        document.getElementById('estanteProducto').value = '';
+        document.getElementById('proveedorProducto').value = '';
+        document.getElementById('tipoEmpaque').value = 'Unidad';
+        document.getElementById('unidadesPorCaja').value = '';
+        document.getElementById('costoProducto').value = '';
+        document.getElementById('ventaProducto').value = '';
+        document.getElementById('cantidadProducto').value = '';
+        document.getElementById('vencimientoProducto').value = '';
+        toggleUnidadesPorCaja();
+    }
+
+    function calcularEstado(fechaVencimiento, cantidad) {
+        if (cantidad <= 0) return { texto: "AGOTADO", clase: "badge-danger" };
+        if (cantidad <= 2) return { texto: `STOCK BAJO (${cantidad})`, clase: "badge-warning" };
+        const hoy = new Date();
+        const venc = new Date(fechaVencimiento + "T00:00:00");
+        const diferenciaDias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+
+        if (diferenciaDias < 0) return { texto: "VENCIDO", clase: "badge-danger" };
+        if (diferenciaDias <= 90) return { texto: `Vence en ${diferenciaDias}d`, clase: "badge-warning" };
+        return { texto: "OK", clase: "badge-ok" };
+    }
+
+    function actualizarTodo(lista) {
+        renderizarInventario(lista);
+        renderizarVentas(lista);
+        renderizarAgotados(lista);
+        renderizarMasVendidos(lista);
+        renderizarGananciaProductos(lista);
+        renderizarProximosVencer(lista);
+        actualizarResumenInventario(lista);
+    }
+
+    function actualizarResumenInventario(lista) {
+        let cantidadTotalProductos = 0;
+        let costoTotalInversion = 0;
+        let valorTotalVenta = 0;
+
+        lista.forEach(p => {
+            const stock = p.cantidad || 0;
+            const costo = p.precioCosto || 0;
+            const venta = p.precioVenta || 0;
+
+            cantidadTotalProductos += stock;
+            costoTotalInversion += (costo * stock);
+            valorTotalVenta += (venta * stock);
+        });
+
+        document.getElementById('resumenCantTotal').innerText = cantidadTotalProductos;
+        document.getElementById('resumenCostoTotal').innerText = `Q${costoTotalInversion.toFixed(2)}`;
+        document.getElementById('resumenVentaTotal').innerText = `Q${valorTotalVenta.toFixed(2)}`;
+    }
+
+    function renderizarInventario(lista) {
+        const tbody = document.getElementById('listaInventario');
+        tbody.innerHTML = '';
+        if (lista.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#777;">No hay productos registrados.</td></tr>`;
+            return;
+        }
+        lista.forEach((p) => {
+            const estado = calcularEstado(p.vencimiento, p.cantidad);
+            const infoEmpaque = p.tipoEmpaque === 'Caja' ? `📦 ${p.cantidad} Caja(s) (c/u ${p.unidadesPorCaja} u.)` : `Unid: ${p.cantidad}`;
+            const provTexto = p.proveedor ? ` | 🏢 ${p.proveedor}` : '';
+            const unidCaja = p.unidadesPorCaja !== undefined ? p.unidadesPorCaja : 1;
+            const provSeguro = p.proveedor ? p.proveedor.replace(/'/g, "\\'") : '';
+
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
+                    <td>${infoEmpaque}<br><small style="color:#0D47A1; font-weight:bold;">📍 ${p.estante}${provTexto}</small></td>
+                    <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong> <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></td>
+                    <td><span class="${estado.clase}">${estado.texto}</span></td>
+                    <td>
+                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${provSeguro}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button><br>
+                        <button class="btn-danger" onclick="eliminarProductoNube('${p.id}')">Eliminar</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarVentas(lista) {
+        const tbody = document.getElementById('listaVentas');
+        tbody.innerHTML = '';
+        if (lista.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos disponibles.</td></tr>`;
+            return;
+        }
+        lista.forEach((p) => {
+            const stockTexto = p.tipoEmpaque === 'Caja' ? `${p.cantidad} cajas` : `${p.cantidad} u.`;
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo} | 📍 ${p.estante}</small></td>
+                    <td>Stock: <strong>${stockTexto}</strong><br><strong style="color:var(--success);">Q${p.precioVenta.toFixed(2)} <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></strong></td>
+                    <td>
+                        <button class="btn-sell" onclick="agregarAlCarrito('${p.id}')">Agregar</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarGananciaProductos(lista) {
+        const tbody = document.getElementById('listaGananciaProductos');
+        tbody.innerHTML = '';
+        if (lista.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos registrados.</td></tr>`;
+            return;
+        }
+        lista.forEach((p) => {
+            const costo = p.precioCosto || 0;
+            const venta = p.precioVenta || 0;
+            const ganancia = venta - costo;
+            const margen = costo > 0 ? ((ganancia / costo) * 100).toFixed(0) : 0;
+            const tipoTexto = p.tipoEmpaque === 'Caja' ? 'caja' : 'u.';
+
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
+                    <td>C: Q${costo.toFixed(2)} | V: Q${venta.toFixed(2)}</td>
+                    <td><strong style="color:var(--success);">Q${ganancia.toFixed(2)}</strong> <small>(${margen}%)</small><br><small style="color:#666;">por ${tipoTexto}</small></td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarProximosVencer(lista) {
+        const tbody = document.getElementById('listaProximosVencer');
+        tbody.innerHTML = '';
+        const hoy = new Date();
+        
+        const proximos = lista.filter(p => {
+            const venc = new Date(p.vencimiento + "T00:00:00");
+            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            return dias >= 0 && dias <= 90;
+        });
+
+        if (proximos.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer (&le; 90 días). 🎉</td></tr>`;
+            return;
+        }
+
+        proximos.forEach((p) => {
+            const venc = new Date(p.vencimiento + "T00:00:00");
+            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
+                    <td>Lote: ${p.lote || 'N/D'}<br><small>Vence: ${p.vencimiento}</small></td>
+                    <td><span class="badge-warning">Quedan ${dias} días</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarResumenVentas() {
+        const tbody = document.getElementById('listaResumenVentas');
+        tbody.innerHTML = '';
+        if (historialVentasDia.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>`;
+            return;
+        }
+        historialVentasDia.forEach((v) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>#${v.numero}</strong><br><small style="color:#666;">🕒 ${v.hora}</small></td>
+                    <td><small>${v.productos}</small></td>
+                    <td>Total: <strong>Q${v.total.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${v.ganancia.toFixed(2)}</strong></td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarAgotados(lista) {
+        const tbody = document.getElementById('listaAgotados');
+        tbody.innerHTML = '';
+        const agotadosBS = lista.filter(p => p.cantidad <= 2);
+
+        if (agotadosBS.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">Inventario óptimo, sin productos agotados o bajos. 🎉</td></tr>`;
+            return;
+        }
+
+        agotadosBS.forEach((p) => {
+            const esAgotado = p.cantidad <= 0;
+            const estiloStock = esAgotado ? 'color: var(--danger); font-weight: bold;' : 'color: var(--warning-text); font-weight: bold;';
+            const textoEstado = esAgotado ? '🔴 AGOTADO (0)' : `⚠️ Stock bajo: ${p.cantidad}`;
+
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.nombre}</strong><br><small style="${estiloStock}">${textoEstado}</small></td>
+                    <td>Cód: ${p.codigo}<br>📍 ${p.estante} ${p.proveedor ? ' | 🏢 ' + p.proveedor : ''}</td>
+                    <td><button class="btn-danger" onclick="eliminarProductoNube('${p.id}')">Eliminar</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    window.enviarAgotadosWhatsApp = function() {
+        const agotadosBS = inventarioGlobal.filter(p => p.cantidad <= 2);
+        if (agotadosBS.length === 0) {
+            alert("No hay productos agotados o con stock bajo para reportar.");
+            return;
+        }
+
+        let textoReporte = "🚨 *REPORTE DE PRODUCTOS AGOTADOS / STOCK BAJO* 🚨\n\n";
+        agotadosBS.forEach(p => {
+            const estadoStr = p.cantidad <= 0 ? "AGOTADO (0)" : `Stock bajo (${p.cantidad})`;
+            textoReporte += `- *${p.nombre}* (Cód: ${p.codigo}) -> *${estadoStr}* | Estante: ${p.estante} | Prov: ${p.proveedor || 'N/D'}\n`;
+        });
+        textoReporte += `\nFavor verificar disponibilidad para pedido. 📦`;
+
+        const urlWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoReporte)}`;
+        window.open(urlWhatsApp, '_blank');
+    }
+
+    function renderizarMasVendidos(lista) {
+        const tbody = document.getElementById('listaMasVendidos');
+        tbody.innerHTML = '';
+        const ordenados = [...lista].sort((a, b) => (b.vendidos || 0) - (a.vendidos || 0));
+
+        if (ordenados.length === 0 || ordenados[0].vendidos === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas.</td></tr>`;
+            return;
+        }
+
+        ordenados.forEach((p) => {
+            if ((p.vendidos || 0) > 0) {
+                const unidadTexto = p.tipoEmpaque === 'Caja' ? ' cajas' : ' unidades';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
+                        <td><strong style="color:var(--success); font-size: 1rem;">${p.vendidos}${unidadTexto}</strong></td>
+                        <td>📍 ${p.estante}</td>
+                    </tr>
+                `;
+            }
+        });
+    }
+
+    window.filtrarProductos = function() {
+        const texto = document.getElementById('buscador').value.toLowerCase();
+        const filtrados = inventarioGlobal.filter(p => 
+            p.nombre.toLowerCase().includes(texto) || 
+            p.codigo.toLowerCase().includes(texto) || 
+            p.estante.toLowerCase().includes(texto) || 
+            (p.proveedor && p.proveedor.toLowerCase().includes(texto))
+        );
+        renderizarInventario(filtrados);
+        actualizarResumenInventario(filtrados);
+    }
+
+    window.filtrarProductosVentas = function() {
+        const texto = document.getElementById('buscadorVentas').value.toLowerCase();
+        const filtrados = inventarioGlobal.filter(p => 
+            p.nombre.toLowerCase().includes(texto) || p.codigo.toLowerCase().includes(texto) || p.estante.toLowerCase().includes(texto)
+        );
+        renderizarVentas(filtrados);
+    }
+
+    window.iniciarEscanerCamera = function(modo) {
+        modoEscanerActual = modo;
+        const targetId = modo === 'inventario' ? '#interactive' : '#interactiveVentas';
+        const viewportId = modo === 'inventario' ? 'interactive' : 'interactiveVentas';
+        const btnDetenerId = modo === 'inventario' ? 'btnDetener' : 'btnDetenerVentas';
+
+        document.getElementById(viewportId).style.display = 'block';
+        document.getElementById(btnDetenerId).style.display = 'block';
+
+        Quagga.init({
+            inputStream : {
+                name : "Live",
+                type : "LiveStream",
+                target: document.querySelector(targetId),
+                constraints: { facingMode: "environment" },
+            },
+            decoder : { readers : ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"] }
+        }, function(err) {
+            if (err) { alert("No se pudo iniciar la cámara."); return; }
+            Quagga.start();
+        });
+
+        Quagga.onDetected(function(result) {
+            const codigoLeido = result.codeResult.code;
+            if (modoEscanerActual === 'inventario') {
+                document.getElementById('codigoBarras').value = codigoLeido;
+            } else {
+                document.getElementById('buscadorVentas').value = codigoLeido;
+                filtrarProductosVentas();
+                const encontrado = inventarioGlobal.find(p => p.codigo === codigoLeido);
+                if (encontrado) {
+                    agregarAlCarrito(encontrado.id);
+                } else {
+                    alert("Código escaneado (" + codigoLeido + ") no encontrado en el inventario.");
+                }
+            }
+            detenerEscaneo();
+        });
+    }
+
+    window.detenerEscaneo = function() {
+        try { Quagga.stop(); } catch(e) {}
+        document.getElementById('interactive').style.display = 'none';
+        document.getElementById('btnDetener').style.display = 'none';
+        document.getElementById('interactiveVentas').style.display = 'none';
+        document.getElementById('btnDetenerVentas').style.display = 'none';
+    }
+</script>
+
+</body>
+    </html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmacia - Sistema POS Pro</title>
+    <style>
+        :root {
+            --primary: #0D47A1;
+            --primary-light: #E3F2FD;
+            --accent: #1976D2;
+            --danger: #C62828;
+            --danger-light: #FFEBEE;
+            --warning-bg: #FFF3E0;
+            --warning-text: #E65100;
+            --success: #2E7D32;
+            --success-light: #E8F5E9;
+            --bg: #F4F6F4;
+            --text: #333333;
+            --border: #D3D3D3;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+        }
+        .container {
             max-width: 600px;
             margin: 0 auto;
             background: #ffffff;
