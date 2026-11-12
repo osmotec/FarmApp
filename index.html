@@ -1271,18 +1271,18 @@
     }
 
     window.enviarAgotadosWhatsApp = function() {
-        const agotadosBS = inventarioGlobal.filter(p => p.cantidad <= 2);
-        if (agotadosBS.length === 0) {
-            alert("No hay productos agotados o con stock bajo para reportar.");
+        // FILTRA UNICAMENTE LOS QUE TIENEN STOCK 0 (AGOTADOS)
+        const agotadosReales = inventarioGlobal.filter(p => p.cantidad <= 0);
+        if (agotadosReales.length === 0) {
+            alert("No hay productos con stock 0 (agotados) para reportar.");
             return;
         }
 
-        let textoReporte = "🚨 *REPORTE DE PRODUCTOS AGOTADOS / STOCK BAJO* 🚨\n\n";
-        agotadosBS.forEach(p => {
-            const estadoStr = p.cantidad <= 0 ? "AGOTADO (0)" : `Stock bajo (${p.cantidad})`;
-            textoReporte += `- *${p.nombre}* (Cód: ${p.codigo}) -> *${estadoStr}* | Estante: ${p.estante} | Prov: ${p.proveedor || 'N/D'}\n`;
+        let textoReporte = "🚨 *REPORTE DE PRODUCTOS AGOTADOS (STOCK 0)* 🚨\n\n";
+        agotadosReales.forEach(p => {
+            textoReporte += `- *${p.nombre}* (Cód: ${p.codigo}) -> *AGOTADO (0)* | Estante: ${p.estante} | Prov: ${p.proveedor || 'N/D'}\n`;
         });
-        textoReporte += `\nFavor verificar disponibilidad para pedido. 📦`;
+        textoReporte += `\nFavor verificar disponibilidad para pedido de reposición. 📦`;
 
         const urlWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoReporte)}`;
         window.open(urlWhatsApp, '_blank');
