@@ -161,7 +161,6 @@
             object-fit: cover;
         }
         
-        /* Contenedor con scroll para todas las tablas */
         .tabla-scroll {
             max-height: 250px;
             overflow-y: auto;
@@ -311,6 +310,10 @@
                     <input type="text" id="estanteProducto" placeholder="Ej. Estante 3A">
                 </div>
             </div>
+            <div class="form-group">
+                <label for="proveedorProducto">Proveedor / Laboratorio:</label>
+                <input type="text" id="proveedorProducto" placeholder="Ej. Distribuidora Farma / Sika">
+            </div>
             <div class="row">
                 <div class="form-group col">
                     <label for="tipoEmpaque">Se vende por:</label>
@@ -359,7 +362,7 @@
             </div>
 
             <div class="search-box">
-                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código o estante..." oninput="filtrarProductos()">
+                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código, estante o proveedor..." oninput="filtrarProductos()">
             </div>
             
             <div class="tabla-scroll">
@@ -724,6 +727,7 @@
                         nombre: p.nombre || 'Producto sin nombre',
                         lote: p.lote || 'N/D',
                         estante: p.estante || 'General',
+                        proveedor: p.proveedor || 'General',
                         tipoEmpaque: p.tipoEmpaque || 'Unidad',
                         unidadesPorCaja: p.unidadesPorCaja || 1,
                         cantidad: parseInt(p.cantidad) || 0,
@@ -814,6 +818,7 @@
         const nombre = document.getElementById('nombreProducto').value.trim();
         const lote = document.getElementById('loteProducto').value.trim();
         const estante = document.getElementById('estanteProducto').value.trim();
+        const proveedor = document.getElementById('proveedorProducto').value.trim();
         const tipoEmpaque = document.getElementById('tipoEmpaque').value;
         const unidadesPorCaja = parseInt(document.getElementById('unidadesPorCaja').value) || 1;
         const precioCosto = parseFloat(document.getElementById('costoProducto').value) || 0;
@@ -831,6 +836,7 @@
                 const prodRef = doc(db, "inventario_farmacia", idEdicion);
                 await updateDoc(prodRef, {
                     codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
+                    proveedor: proveedor || 'General',
                     tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
                     cantidad: cantidadIngresada,
                     precioCosto, precioVenta, vencimiento, actualizado: new Date().toISOString()
@@ -840,6 +846,7 @@
             } else {
                 await addDoc(collection(db, "inventario_farmacia"), {
                     codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
+                    proveedor: proveedor || 'General',
                     tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
                     cantidad: cantidadIngresada,
                     precioCosto, precioVenta, vencimiento, vendidos: 0, actualizado: new Date().toISOString()
@@ -1022,12 +1029,13 @@
         }
     }
 
-    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, tipoEmpaque, unidadesPorCaja, cantidad, precioCosto, precioVenta, vencimiento) {
+    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, proveedor, tipoEmpaque, unidadesPorCaja, cantidad, precioCosto, precioVenta, vencimiento) {
         document.getElementById('editandoId').value = id;
         document.getElementById('codigoBarras').value = codigo;
         document.getElementById('nombreProducto').value = nombre;
         document.getElementById('loteProducto').value = lote;
         document.getElementById('estanteProducto').value = estante;
+        document.getElementById('proveedorProducto').value = proveedor || '';
         document.getElementById('tipoEmpaque').value = tipoEmpaque;
         toggleUnidadesPorCaja();
         document.getElementById('unidadesPorCaja').value = unidadesPorCaja > 1 ? unidadesPorCaja : '';
@@ -1061,6 +1069,7 @@
         document.getElementById('nombreProducto').value = '';
         document.getElementById('loteProducto').value = '';
         document.getElementById('estanteProducto').value = '';
+        document.getElementById('proveedorProducto').value = '';
         document.getElementById('tipoEmpaque').value = 'Unidad';
         document.getElementById('unidadesPorCaja').value = '';
         document.getElementById('costoProducto').value = '';
@@ -1122,16 +1131,18 @@
         lista.forEach((p) => {
             const estado = calcularEstado(p.vencimiento, p.cantidad);
             const infoEmpaque = p.tipoEmpaque === 'Caja' ? `📦 ${p.cantidad} Caja(s) (c/u ${p.unidadesPorCaja} u.)` : `Unid: ${p.cantidad}`;
+            const provTexto = p.proveedor ? ` | 🏢 ${p.proveedor}` : '';
             const unidCaja = p.unidadesPorCaja !== undefined ? p.unidadesPorCaja : 1;
+            const provSeguro = p.proveedor ? p.proveedor.replace(/'/g, "\\'") : '';
 
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
-                    <td>${infoEmpaque}<br><small style="color:#0D47A1; font-weight:bold;">📍 ${p.estante}</small></td>
+                    <td>${infoEmpaque}<br><small style="color:#0D47A1; font-weight:bold;">📍 ${p.estante}${provTexto}</small></td>
                     <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong> <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></td>
                     <td><span class="${estado.clase}">${estado.texto}</span></td>
                     <td>
-                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button><br>
+                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${provSeguro}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button><br>
                         <button class="btn-danger" onclick="eliminarProductoNube('${p.id}')">Eliminar</button>
                     </td>
                 </tr>
@@ -1279,7 +1290,10 @@
     window.filtrarProductos = function() {
         const texto = document.getElementById('buscador').value.toLowerCase();
         const filtrados = inventarioGlobal.filter(p => 
-            p.nombre.toLowerCase().includes(texto) || p.codigo.toLowerCase().includes(texto) || p.estante.toLowerCase().includes(texto)
+            p.nombre.toLowerCase().includes(texto) || 
+            p.codigo.toLowerCase().includes(texto) || 
+            p.estante.toLowerCase().includes(texto) || 
+            (p.proveedor && p.proveedor.toLowerCase().includes(texto))
         );
         renderizarInventario(filtrados);
         actualizarResumenInventario(filtrados);
