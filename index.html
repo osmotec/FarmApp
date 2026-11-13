@@ -254,8 +254,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        /* Estilo oculto para el ticket de impresión */
-        #ticketImpresion {
+        #ticketImpresion, #reportePdfImpresion {
             display: none;
         }
 
@@ -264,6 +263,9 @@
                 visibility: hidden;
             }
             #ticketImpresion, #ticketImpresion * {
+                visibility: visible;
+            }
+            #reportePdfImpresion, #reportePdfImpresion * {
                 visibility: visible;
             }
             #ticketImpresion {
@@ -277,13 +279,25 @@
                 color: #000;
                 padding: 5px;
             }
+            #reportePdfImpresion {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                color: #000;
+                padding: 20px;
+                background: white;
+            }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
 <body>
 
-<!-- Plantilla invisible para impresión de ticket térmico / PDF -->
+<!-- Plantilla para impresión de Ticket de Venta -->
 <div id="ticketImpresion">
     <div style="text-align: center; font-weight: bold; font-size: 14px;">FARMACIA POS PRO</div>
     <div style="text-align: center; font-size: 11px;">Ticket de Venta</div>
@@ -297,6 +311,14 @@
     <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
     <div style="text-align: center; font-size: 11px; margin-top: 5px;">¡Gracias por su compra!</div>
     <div style="text-align: center; font-size: 10px;">Vuelva pronto</div>
+</div>
+
+<!-- Plantilla para exportar Reporte PDF -->
+<div id="reportePdfImpresion">
+    <h2 id="pdfTituloReporte" style="text-align: center; color: #0D47A1;">REPORTE DE VENTAS</h2>
+    <p style="text-align: center; font-size: 12px; color: #555;" id="pdfSubtituloFecha"></p>
+    <hr style="border: 0; border-top: 2px solid #0D47A1; margin: 15px 0;">
+    <div id="pdfContenidoCuerpo"></div>
 </div>
 
 <div id="modalPin">
@@ -353,7 +375,7 @@
             </div>
             <div class="form-group">
                 <label for="proveedorProducto">Proveedor / Laboratorio:</label>
-                <input type="text" id="proveedorProducto" placeholder="Ej. Distribuidora Farma / Sika">
+                <input type="text" id="proveedorProducto" placeholder="Ej. Distribuidora Farma">
             </div>
             <div class="row">
                 <div class="form-group col">
@@ -500,8 +522,8 @@
 
             <hr style="border: 0; border-top: 1px solid #b0bec5; margin: 10px 0;">
 
-            <p style="margin: 5px 0; font-size: 0.9rem;">Total transacciones: <strong id="corteTotalVentas">0</strong></p>
-            <p style="margin: 5px 0; font-size: 0.9rem;">Ventas totales del día: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
+            <p style="margin: 5px 0; font-size: 0.9rem;">Total transacciones hoy: <strong id="corteTotalVentas">0</strong></p>
+            <p style="margin: 5px 0; font-size: 0.9rem;">Ventas totales de hoy: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
             <p style="margin: 5px 0; font-size: 1rem;">Efectivo Teórico en Gaveta (Fondo + Ventas): <strong id="corteTeorico" style="color: var(--primary);">Q0.00</strong></p>
             
             <div class="form-group" style="margin-top: 10px; text-align: left; background: #fff; padding: 10px; border-radius: 6px;">
@@ -510,7 +532,51 @@
             </div>
 
             <p style="margin: 5px 0; font-size: 1.1rem;">Diferencia / Cuadre: <strong id="corteDiferencia" style="color: var(--success);">Q0.00 (Exacto)</strong></p>
-            <p style="margin: 10px 0 0 0; font-size: 1.1rem;">Ganancia Neta del Día: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
+            <p style="margin: 10px 0 0 0; font-size: 1.1rem;">Ganancia Neta de Hoy: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
+        </div>
+
+        <!-- REPORTE POR DÍA -->
+        <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3 style="color: var(--primary); margin:0;">📅 Ventas y Ganancias por Día</h3>
+                <button class="btn" style="background-color: var(--primary); width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfDias()">📄 Descargar PDF Diario</button>
+            </div>
+            <div class="tabla-scroll">
+                <table id="tablaVentasPorDia">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Productos Vendidos</th>
+                            <th>Total Venta / Ganancia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaVentasPorDia">
+                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos de días anteriores.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- REPORTE POR MES -->
+        <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3 style="color: var(--success); margin:0;">📆 Ventas y Ganancias por Mes</h3>
+                <button class="btn" style="background-color: var(--success); width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfMeses()">📄 Descargar PDF Mensual</button>
+            </div>
+            <div class="tabla-scroll">
+                <table id="tablaVentasPorMes">
+                    <thead>
+                        <tr>
+                            <th>Mes / Año</th>
+                            <th>Productos Vendidos</th>
+                            <th>Total Venta / Ganancia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaVentasPorMes">
+                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos mensuales.</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
@@ -548,7 +614,7 @@
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
-            <h3 style="color: var(--primary);">📋 Resumen de Ganancias por Venta</h3>
+            <h3 style="color: var(--primary);">📋 Resumen de Ventas de Hoy</h3>
             <div class="tabla-scroll">
                 <table id="tablaResumenVentas">
                     <thead>
@@ -631,7 +697,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAkunkECIHFIP1D2XGyNgznLREnO47Rfz0",
@@ -649,6 +715,7 @@
     let inventarioGlobal = [];
     let carrito = [];
     let historialVentasDia = [];
+    let ventasHistoricasGlobal = [];
     let modoEscanerActual = 'inventario';
     let corteCajaIngresos = 0;
     let corteCajaGanancia = 0;
@@ -787,24 +854,37 @@
                 alert(`¡Respaldo cargado con éxito! Se registraron ${contadorCargados} productos en la nube.`);
                 document.getElementById('archivoRespaldo').value = '';
             } catch (err) {
-                alert("Error al leer el archivo JSON. Asegúrese de que sea un respaldo válido.");
+                alert("Error al leer el archivo JSON.");
             }
         };
 
         lector.readAsText(archivo);
     }
 
-    const q = query(collection(db, "inventario_farmacia"));
-    onSnapshot(q, (snapshot) => {
+    // Sincronizar Inventario
+    const qInv = query(collection(db, "inventario_farmacia"));
+    onSnapshot(qInv, (snapshot) => {
         inventarioGlobal = [];
         snapshot.forEach((docSnap) => {
             inventarioGlobal.push({ id: docSnap.id, ...docSnap.data() });
         });
         document.getElementById('syncStatus').innerHTML = "✅ Sincronizado en línea con la nube";
-        actualizarTodo(inventarioGlobal);
+        actualizarTodoInventario(inventarioGlobal);
     }, (error) => {
-        console.error("Error al sincronizar: ", error);
+        console.error("Error al sincronizar inventario: ", error);
         document.getElementById('syncStatus').innerHTML = "⚠️ Error de conexión con la nube";
+    });
+
+    // Sincronizar Historial de Ventas
+    const qVentas = query(collection(db, "ventas_farmacia"), orderBy("fechaHora", "desc"));
+    onSnapshot(qVentas, (snapshot) => {
+        ventasHistoricasGlobal = [];
+        snapshot.forEach((docSnap) => {
+            ventasHistoricasGlobal.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        renderizarReportesDiariosYMensuales(ventasHistoricasGlobal);
+    }, (error) => {
+        console.error("Error al sincronizar ventas:", error);
     });
 
     window.verificarPinAdmin = function() {
@@ -1017,6 +1097,7 @@
             let htmlItemsTicket = "";
             let gananciaVentaActual = 0;
             let productosVendidosResumen = [];
+            let itemsDetalleVenta = [];
 
             for (const item of carrito) {
                 const nuevaCantidad = item.stockMax - item.cantidadReq;
@@ -1043,11 +1124,32 @@
                     </div>
                 `;
                 productosVendidosResumen.push(`${item.nombre} x${item.cantidadReq}`);
+                itemsDetalleVenta.push({
+                    nombre: item.nombre,
+                    cantidad: item.cantidadReq,
+                    tipo: item.tipoEmpaque,
+                    subtotal: subtotalItem,
+                    ganancia: gananciaItem
+                });
             }
 
-            // Actualizar datos dentro de la plantilla oculta de impresión
-            const fechaActual = new Date().toLocaleString();
-            document.getElementById('ticketFechaHora').innerText = fechaActual;
+            const ahora = new Date();
+            const fechaIso = ahora.toISOString().slice(0, 10);
+            const mesIso = ahora.toISOString().slice(0, 7);
+            const horaActual = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            await addDoc(collection(db, "ventas_farmacia"), {
+                fechaHora: ahora.toISOString(),
+                fecha: fechaIso,
+                mes: mesIso,
+                hora: horaActual,
+                productos: productosVendidosResumen.join(', '),
+                detalleItems: itemsDetalleVenta,
+                total: total,
+                ganancia: gananciaVentaActual
+            });
+
+            document.getElementById('ticketFechaHora').innerText = ahora.toLocaleString();
             document.getElementById('ticketContenidoItems').innerHTML = htmlItemsTicket;
             document.getElementById('ticketTotalTexto').innerText = `TOTAL: Q${total.toFixed(2)}`;
             document.getElementById('ticketEfectivoTexto').innerText = `Efectivo: Q${efectivo.toFixed(2)}`;
@@ -1057,7 +1159,6 @@
             corteCajaGanancia += gananciaVentaActual;
             corteCajaCantidad += 1;
 
-            const horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             historialVentasDia.unshift({
                 numero: corteCajaCantidad,
                 hora: horaActual,
@@ -1071,9 +1172,8 @@
             document.getElementById('corteTotalVentas').innerText = corteCajaCantidad;
             recalcularCuadreTeorico();
 
-            renderizarResumenVentas();
+            renderizarResumenVentasHoy();
 
-            // Lanzar la ventana de impresión / Guardar como PDF del navegador
             window.print();
             
             carrito = [];
@@ -1082,6 +1182,137 @@
         } catch (e) {
             alert("Error al procesar la venta en la nube.");
         }
+    }
+
+    // Funciones para Exportar Reportes en PDF
+    window.exportarPdfDias = function() {
+        if (!ventasHistoricasGlobal || ventasHistoricasGlobal.length === 0) {
+            alert("No hay ventas registradas para generar el reporte diario.");
+            return;
+        }
+
+        let agrupadoDias = {};
+        ventasHistoricasGlobal.forEach(v => {
+            const dia = v.fecha || 'Fecha Desconocida';
+            if (!agrupadoDias[dia]) {
+                agrupadoDias[dia] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
+            }
+            agrupadoDias[dia].totalVenta += v.total;
+            agrupadoDias[dia].totalGanancia += v.ganancia;
+
+            if (v.detalleItems && Array.isArray(v.detalleItems)) {
+                v.detalleItems.forEach(item => {
+                    if (!agrupadoDias[dia].productosMap[item.nombre]) {
+                        agrupadoDias[dia].productosMap[item.nombre] = 0;
+                    }
+                    agrupadoDias[dia].productosMap[item.nombre] += item.cantidad;
+                });
+            }
+        });
+
+        let htmlTabla = `
+            <table style="width:100%; border-collapse: collapse; font-size: 12px;">
+                <thead>
+                    <tr style="background-color: #0D47A1; color: white;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Fecha</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Productos Vendidos</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Venta Total</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Ganancia Neta</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        const diasKeys = Object.keys(agrupadoDias).sort().reverse();
+        diasKeys.forEach(dia => {
+            const data = agrupadoDias[dia];
+            let listaProdTexto = [];
+            for (let prod in data.productosMap) {
+                listaProdTexto.push(`${prod} (x${data.productosMap[prod]})`);
+            }
+
+            htmlTabla += `
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${dia}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        htmlTabla += `</tbody></table>`;
+
+        document.getElementById('pdfTituloReporte').innerText = "REPORTE DE VENTAS Y GANANCIAS POR DÍA";
+        document.getElementById('pdfSubtituloFecha').innerText = "Generado el: " + new Date().toLocaleString();
+        document.getElementById('pdfContenidoCuerpo').innerHTML = htmlTabla;
+
+        window.print();
+    }
+
+    window.exportarPdfMeses = function() {
+        if (!ventasHistoricasGlobal || ventasHistoricasGlobal.length === 0) {
+            alert("No hay ventas registradas para generar el reporte mensual.");
+            return;
+        }
+
+        let agrupadoMeses = {};
+        ventasHistoricasGlobal.forEach(v => {
+            const mes = v.mes || '2026-00';
+            if (!agrupadoMeses[mes]) {
+                agrupadoMeses[mes] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
+            }
+            agrupadoMeses[mes].totalVenta += v.total;
+            agrupadoMeses[mes].totalGanancia += v.ganancia;
+
+            if (v.detalleItems && Array.isArray(v.detalleItems)) {
+                v.detalleItems.forEach(item => {
+                    if (!agrupadoMeses[mes].productosMap[item.nombre]) {
+                        agrupadoMeses[mes].productosMap[item.nombre] = 0;
+                    }
+                    agrupadoMeses[mes].productosMap[item.nombre] += item.cantidad;
+                });
+            }
+        });
+
+        let htmlTabla = `
+            <table style="width:100%; border-collapse: collapse; font-size: 12px;">
+                <thead>
+                    <tr style="background-color: #2E7D32; color: white;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Mes / Año</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Productos Vendidos</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Venta Total</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Ganancia Neta</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        const mesesKeys = Object.keys(agrupadoMeses).sort().reverse();
+        mesesKeys.forEach(mes => {
+            const data = agrupadoMeses[mes];
+            let listaProdTexto = [];
+            for (let prod in data.productosMap) {
+                listaProdTexto.push(`${prod} (x${data.productosMap[prod]})`);
+            }
+
+            htmlTabla += `
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${mes}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        htmlTabla += `</tbody></table>`;
+
+        document.getElementById('pdfTituloReporte').innerText = "REPORTE DE VENTAS Y GANANCIAS POR MES";
+        document.getElementById('pdfSubtituloFecha').innerText = "Generado el: " + new Date().toLocaleString();
+        document.getElementById('pdfContenidoCuerpo').innerHTML = htmlTabla;
+
+        window.print();
     }
 
     window.cargarParaEditar = function(id, codigo, nombre, lote, estante, proveedor, tipoEmpaque, unidadesPorCaja, cantidad, precioCosto, precioVenta, vencimiento) {
@@ -1146,7 +1377,7 @@
         return { texto: "OK", clase: "badge-ok" };
     }
 
-    function actualizarTodo(lista) {
+    function actualizarTodoInventario(lista) {
         renderizarInventario(lista);
         renderizarVentas(lista);
         renderizarAgotados(lista);
@@ -1279,7 +1510,7 @@
         });
     }
 
-    function renderizarResumenVentas() {
+    function renderizarResumenVentasHoy() {
         const tbody = document.getElementById('listaResumenVentas');
         tbody.innerHTML = '';
         if (historialVentasDia.length === 0) {
@@ -1292,6 +1523,91 @@
                     <td><strong>#${v.numero}</strong><br><small style="color:#666;">🕒 ${v.hora}</small></td>
                     <td><small>${v.productos}</small></td>
                     <td>Total: <strong>Q${v.total.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${v.ganancia.toFixed(2)}</strong></td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderizarReportesDiariosYMensuales(ventas) {
+        const tbodyDia = document.getElementById('listaVentasPorDia');
+        const tbodyMes = document.getElementById('listaVentasPorMes');
+        tbodyDia.innerHTML = '';
+        tbodyMes.innerHTML = '';
+
+        if (!ventas || ventas.length === 0) {
+            tbodyDia.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos de días anteriores.</td></tr>`;
+            tbodyMes.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos mensuales.</td></tr>`;
+            return;
+        }
+
+        let agrupadoDias = {};
+        ventas.forEach(v => {
+            const dia = v.fecha || 'Fecha Desconocida';
+            if (!agrupadoDias[dia]) {
+                agrupadoDias[dia] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
+            }
+            agrupadoDias[dia].totalVenta += v.total;
+            agrupadoDias[dia].totalGanancia += v.ganancia;
+
+            if (v.detalleItems && Array.isArray(v.detalleItems)) {
+                v.detalleItems.forEach(item => {
+                    if (!agrupadoDias[dia].productosMap[item.nombre]) {
+                        agrupadoDias[dia].productosMap[item.nombre] = 0;
+                    }
+                    agrupadoDias[dia].productosMap[item.nombre] += item.cantidad;
+                });
+            }
+        });
+
+        const diasKeys = Object.keys(agrupadoDias).sort().reverse();
+        diasKeys.forEach(dia => {
+            const data = agrupadoDias[dia];
+            let listaProdTexto = [];
+            for (let prod in data.productosMap) {
+                listaProdTexto.push(`• ${prod} (x${data.productosMap[prod]})`);
+            }
+
+            tbodyDia.innerHTML += `
+                <tr>
+                    <td><strong>📅 ${dia}</strong></td>
+                    <td><small>${listaProdTexto.join('<br>')}</small></td>
+                    <td>Venta: <strong>Q${data.totalVenta.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${data.totalGanancia.toFixed(2)}</strong></td>
+                </tr>
+            `;
+        });
+
+        let agrupadoMeses = {};
+        ventas.forEach(v => {
+            const mes = v.mes || '2026-00';
+            if (!agrupadoMeses[mes]) {
+                agrupadoMeses[mes] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
+            }
+            agrupadoMeses[mes].totalVenta += v.total;
+            agrupadoMeses[mes].totalGanancia += v.ganancia;
+
+            if (v.detalleItems && Array.isArray(v.detalleItems)) {
+                v.detalleItems.forEach(item => {
+                    if (!agrupadoMeses[mes].productosMap[item.nombre]) {
+                        agrupadoMeses[mes].productosMap[item.nombre] = 0;
+                    }
+                    agrupadoMeses[mes].productosMap[item.nombre] += item.cantidad;
+                });
+            }
+        });
+
+        const mesesKeys = Object.keys(agrupadoMeses).sort().reverse();
+        mesesKeys.forEach(mes => {
+            const data = agrupadoMeses[mes];
+            let listaProdTexto = [];
+            for (let prod in data.productosMap) {
+                listaProdTexto.push(`• ${prod} (x${data.productosMap[prod]})`);
+            }
+
+            tbodyMes.innerHTML += `
+                <tr>
+                    <td><strong>📆 ${mes}</strong></td>
+                    <td><small>${listaProdTexto.join('<br>')}</small></td>
+                    <td>Venta: <strong>Q${data.totalVenta.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${data.totalGanancia.toFixed(2)}</strong></td>
                 </tr>
             `;
         });
