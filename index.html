@@ -258,6 +258,7 @@
             display: none;
         }
 
+        /* Configuración de impresión adaptada a 58mm (48mm área útil POS-58C) */
         @media print {
             body * {
                 visibility: hidden;
@@ -273,11 +274,12 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 80mm;
+                width: 48mm; /* Ancho imprimible exacto para POS-58C */
                 font-family: 'Courier New', Courier, monospace;
-                font-size: 12px;
+                font-size: 11px;
                 color: #000;
-                padding: 5px;
+                padding: 2px;
+                margin: 0;
             }
             #reportePdfImpresion {
                 display: block !important;
@@ -286,9 +288,9 @@
                 top: 0;
                 width: 100%;
                 font-family: Arial, sans-serif;
-                font-size: 14px;
+                font-size: 12px;
                 color: #000;
-                padding: 20px;
+                padding: 10px;
                 background: white;
             }
         }
@@ -297,27 +299,27 @@
 </head>
 <body>
 
-<!-- Plantilla para impresión de Ticket de Venta -->
+<!-- Plantilla para impresión de Ticket de Venta (48mm) -->
 <div id="ticketImpresion">
-    <div style="text-align: center; font-weight: bold; font-size: 14px;">FARMACIA POS PRO</div>
-    <div style="text-align: center; font-size: 11px;">Ticket de Venta</div>
-    <div style="text-align: center; font-size: 11px;" id="ticketFechaHora"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="text-align: center; font-weight: bold; font-size: 13px;">FARMACIA POS PRO</div>
+    <div style="text-align: center; font-size: 10px;">Ticket de Venta</div>
+    <div style="text-align: center; font-size: 10px;" id="ticketFechaHora"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
     <div id="ticketContenidoItems"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
     <div style="font-weight: bold;" id="ticketTotalTexto"></div>
     <div id="ticketEfectivoTexto"></div>
     <div id="ticketVueltoTexto"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="text-align: center; font-size: 11px; margin-top: 5px;">¡Gracias por su compra!</div>
-    <div style="text-align: center; font-size: 10px;">Vuelva pronto</div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="text-align: center; font-size: 10px; margin-top: 4px;">¡Gracias por su compra!</div>
+    <div style="text-align: center; font-size: 9px;">Vuelva pronto</div>
 </div>
 
 <!-- Plantilla para exportar Reporte PDF -->
 <div id="reportePdfImpresion">
     <h2 id="pdfTituloReporte" style="text-align: center; color: #0D47A1;">REPORTE DE VENTAS</h2>
-    <p style="text-align: center; font-size: 12px; color: #555;" id="pdfSubtituloFecha"></p>
-    <hr style="border: 0; border-top: 2px solid #0D47A1; margin: 15px 0;">
+    <p style="text-align: center; font-size: 11px; color: #555;" id="pdfSubtituloFecha"></p>
+    <hr style="border: 0; border-top: 2px solid #0D47A1; margin: 10px 0;">
     <div id="pdfContenidoCuerpo"></div>
 </div>
 
@@ -1115,7 +1117,7 @@
                 const subtotalItem = item.precio * item.cantidadReq;
 
                 htmlItemsTicket += `
-                    <div style="margin-bottom: 4px;">
+                    <div style="margin-bottom: 3px;">
                         <div><strong>${item.nombre}</strong></div>
                         <div style="display: flex; justify-content: space-between;">
                             <span>${item.cantidadReq} ${tipoTexto} x Q${item.precio.toFixed(2)}</span>
@@ -1211,13 +1213,13 @@
         });
 
         let htmlTabla = `
-            <table style="width:100%; border-collapse: collapse; font-size: 12px;">
+            <table style="width:100%; border-collapse: collapse; font-size: 11px;">
                 <thead>
                     <tr style="background-color: #0D47A1; color: white;">
-                        <th style="padding: 8px; border: 1px solid #ddd;">Fecha</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">Productos Vendidos</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">Venta Total</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">Ganancia Neta</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Fecha</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Productos Vendidos</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Venta Total</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Ganancia Neta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1233,10 +1235,10 @@
 
             htmlTabla += `
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${dia}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd; font-weight: bold;">${dia}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
                 </tr>
             `;
         });
@@ -1276,13 +1278,13 @@
         });
 
         let htmlTabla = `
-            <table style="width:100%; border-collapse: collapse; font-size: 12px;">
+            <table style="width:100%; border-collapse: collapse; font-size: 11px;">
                 <thead>
                     <tr style="background-color: #2E7D32; color: white;">
-                        <th style="padding: 8px; border: 1px solid #ddd;">Mes / Año</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">Productos Vendidos</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">Venta Total</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">Ganancia Neta</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Mes / Año</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Productos Vendidos</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Venta Total</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Ganancia Neta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1298,10 +1300,10 @@
 
             htmlTabla += `
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${mes}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd; font-weight: bold;">${mes}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
                 </tr>
             `;
         });
