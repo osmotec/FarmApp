@@ -253,10 +253,51 @@
             text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
+
+        /* Estilo oculto para el ticket de impresión */
+        #ticketImpresion {
+            display: none;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #ticketImpresion, #ticketImpresion * {
+                visibility: visible;
+            }
+            #ticketImpresion {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80mm;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 12px;
+                color: #000;
+                padding: 5px;
+            }
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
 <body>
+
+<!-- Plantilla invisible para impresión de ticket térmico / PDF -->
+<div id="ticketImpresion">
+    <div style="text-align: center; font-weight: bold; font-size: 14px;">FARMACIA POS PRO</div>
+    <div style="text-align: center; font-size: 11px;">Ticket de Venta</div>
+    <div style="text-align: center; font-size: 11px;" id="ticketFechaHora"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div id="ticketContenidoItems"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="font-weight: bold;" id="ticketTotalTexto"></div>
+    <div id="ticketEfectivoTexto"></div>
+    <div id="ticketVueltoTexto"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="text-align: center; font-size: 11px; margin-top: 5px;">¡Gracias por su compra!</div>
+    <div style="text-align: center; font-size: 10px;">Vuelva pronto</div>
+</div>
 
 <div id="modalPin">
     <div class="pin-box">
@@ -440,7 +481,7 @@
                 </div>
             </div>
 
-            <button class="btn" style="background-color: var(--success);" onclick="cobrarCarrito()">✅ Cobrar y Enviar Ticket por WhatsApp</button>
+            <button class="btn" style="background-color: var(--success);" onclick="cobrarEImprimirTicket()">✅ Cobrar y Imprimir / Guardar PDF</button>
         </div>
     </div>
 
@@ -957,7 +998,7 @@
         }
     }
 
-    window.cobrarCarrito = async function() {
+    window.cobrarEImprimirTicket = async function() {
         if (carrito.length === 0) {
             alert("El carrito está vacío.");
             return;
@@ -973,7 +1014,7 @@
         }
 
         try {
-            let textoTicket = "💊 *TICKET DE VENTA - FARMACIA* 💊\n\n";
+            let htmlItemsTicket = "";
             let gananciaVentaActual = 0;
             let productosVendidosResumen = [];
 
@@ -990,14 +1031,27 @@
                 gananciaVentaActual += gananciaItem;
 
                 const tipoTexto = item.tipoEmpaque === 'Caja' ? 'caja(s)' : 'u.';
-                textoTicket += `- ${item.nombre} x${item.cantidadReq} ${tipoTexto} (Q${(item.precio * item.cantidadReq).toFixed(2)})\n`;
+                const subtotalItem = item.precio * item.cantidadReq;
+
+                htmlItemsTicket += `
+                    <div style="margin-bottom: 4px;">
+                        <div><strong>${item.nombre}</strong></div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>${item.cantidadReq} ${tipoTexto} x Q${item.precio.toFixed(2)}</span>
+                            <span>Q${subtotalItem.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
                 productosVendidosResumen.push(`${item.nombre} x${item.cantidadReq}`);
             }
 
-            textoTicket += `\n*TOTAL A PAGAR: Q${total.toFixed(2)}*`;
-            textoTicket += `\nEfectivo: Q${efectivo.toFixed(2)}`;
-            textoTicket += `\nVuelto: Q${(efectivo - total).toFixed(2)}`;
-            textoTicket += `\n\n¡Gracias por su compra! 🙏`;
+            // Actualizar datos dentro de la plantilla oculta de impresión
+            const fechaActual = new Date().toLocaleString();
+            document.getElementById('ticketFechaHora').innerText = fechaActual;
+            document.getElementById('ticketContenidoItems').innerHTML = htmlItemsTicket;
+            document.getElementById('ticketTotalTexto').innerText = `TOTAL: Q${total.toFixed(2)}`;
+            document.getElementById('ticketEfectivoTexto').innerText = `Efectivo: Q${efectivo.toFixed(2)}`;
+            document.getElementById('ticketVueltoTexto').innerText = `Vuelto: Q${(efectivo - total).toFixed(2)}`;
 
             corteCajaIngresos += total;
             corteCajaGanancia += gananciaVentaActual;
@@ -1019,10 +1073,8 @@
 
             renderizarResumenVentas();
 
-            const urlWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoTicket)}`;
-            if (confirm("¡Venta cobrada con éxito! ¿Desea enviar el ticket digital por WhatsApp al cliente?")) {
-                window.open(urlWhatsApp, '_blank');
-            }
+            // Lanzar la ventana de impresión / Guardar como PDF del navegador
+            window.print();
             
             carrito = [];
             document.getElementById('montoEfectivo').value = '';
@@ -1271,7 +1323,6 @@
     }
 
     window.enviarAgotadosWhatsApp = function() {
-        // FILTRA UNICAMENTE LOS QUE TIENEN STOCK 0 (AGOTADOS)
         const agotadosReales = inventarioGlobal.filter(p => p.cantidad <= 0);
         if (agotadosReales.length === 0) {
             alert("No hay productos con stock 0 (agotados) para reportar.");
