@@ -258,7 +258,6 @@
             display: none;
         }
 
-        /* Configuración de impresión adaptada a 58mm (48mm área útil POS-58C) */
         @media print {
             body * {
                 visibility: hidden;
@@ -274,7 +273,7 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 48mm; /* Ancho imprimible exacto para POS-58C */
+                width: 48mm;
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 11px;
                 color: #000;
@@ -299,7 +298,6 @@
 </head>
 <body>
 
-<!-- Plantilla para impresión de Ticket de Venta (48mm) -->
 <div id="ticketImpresion">
     <div style="text-align: center; font-weight: bold; font-size: 13px;">FARMACIA POS PRO</div>
     <div style="text-align: center; font-size: 10px;">Ticket de Venta</div>
@@ -315,7 +313,6 @@
     <div style="text-align: center; font-size: 9px;">Vuelva pronto</div>
 </div>
 
-<!-- Plantilla para exportar Reporte PDF -->
 <div id="reportePdfImpresion">
     <h2 id="pdfTituloReporte" style="text-align: center; color: #0D47A1;">REPORTE DE VENTAS</h2>
     <p style="text-align: center; font-size: 11px; color: #555;" id="pdfSubtituloFecha"></p>
@@ -535,6 +532,30 @@
 
             <p style="margin: 5px 0; font-size: 1.1rem;">Diferencia / Cuadre: <strong id="corteDiferencia" style="color: var(--success);">Q0.00 (Exacto)</strong></p>
             <p style="margin: 10px 0 0 0; font-size: 1.1rem;">Ganancia Neta de Hoy: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
+        </div>
+
+        <!-- NUEVA SECCIÓN: FILTRAR REPORTES POR RANGO DE FECHAS -->
+        <div class="form-section" style="border-left: 4px solid var(--accent); margin-top: 15px; background: #E3F2FD;">
+            <h3 style="color: var(--primary); margin-top:0;">🔍 Filtrar Reporte por Rango de Fechas</h3>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="filtroFechaDesde">Desde:</label>
+                    <input type="date" id="filtroFechaDesde">
+                </div>
+                <div class="form-group col">
+                    <label for="filtroFechaHasta">Hasta:</label>
+                    <input type="date" id="filtroFechaHasta">
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5px;">
+                <button class="btn" style="background-color: var(--primary);" onclick="aplicarFiltroFechas()">🔍 Aplicar Filtro</button>
+                <button class="btn" style="background-color: #757575;" onclick="limpiarFiltroFechas()">🔄 Ver Todo</button>
+            </div>
+            <div id="resultadoFiltroContainer" style="margin-top: 12px; background: white; padding: 10px; border-radius: 6px; display: none;">
+                <strong>Resultado del Rango Seleccionado:</strong>
+                <div>• Total Ventas: <strong id="filtroTotalVenta" style="color: var(--success);">Q0.00</strong></div>
+                <div>• Ganancia Neta: <strong id="filtroTotalGanancia" style="color: var(--primary);">Q0.00</strong></div>
+            </div>
         </div>
 
         <!-- REPORTE POR DÍA -->
@@ -1186,7 +1207,46 @@
         }
     }
 
-    // Funciones para Exportar Reportes en PDF
+    // Funciones para Filtrar Reportes por Rango de Fechas
+    window.aplicarFiltroFechas = function() {
+        const fechaDesde = document.getElementById('filtroFechaDesde').value;
+        const fechaHasta = document.getElementById('filtroFechaHasta').value;
+
+        if (!fechaDesde || !fechaHasta) {
+            alert("Por favor seleccione ambas fechas (Desde y Hasta).");
+            return;
+        }
+
+        if (fechaDesde > fechaHasta) {
+            alert("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
+            return;
+        }
+
+        const ventasFiltradas = ventasHistoricasGlobal.filter(v => {
+            return v.fecha >= fechaDesde && v.fecha <= fechaHasta;
+        });
+
+        let totalVentaFiltro = 0;
+        let totalGananciaFiltro = 0;
+        ventasFiltradas.forEach(v => {
+            totalVentaFiltro += v.total;
+            totalGananciaFiltro += v.ganancia;
+        });
+
+        document.getElementById('filtroTotalVenta').innerText = `Q${totalVentaFiltro.toFixed(2)}`;
+        document.getElementById('filtroTotalGanancia').innerText = `Q${totalGananciaFiltro.toFixed(2)}`;
+        document.getElementById('resultadoFiltroContainer').style.display = 'block';
+
+        renderizarReportesDiariosYMensuales(ventasFiltradas);
+    }
+
+    window.limpiarFiltroFechas = function() {
+        document.getElementById('filtroFechaDesde').value = '';
+        document.getElementById('filtroFechaHasta').value = '';
+        document.getElementById('resultadoFiltroContainer').style.display = 'none';
+        renderizarReportesDiariosYMensuales(ventasHistoricasGlobal);
+    }
+
     window.exportarPdfDias = function() {
         if (!ventasHistoricasGlobal || ventasHistoricasGlobal.length === 0) {
             alert("No hay ventas registradas para generar el reporte diario.");
@@ -1537,8 +1597,8 @@
         tbodyMes.innerHTML = '';
 
         if (!ventas || ventas.length === 0) {
-            tbodyDia.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos de días anteriores.</td></tr>`;
-            tbodyMes.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos mensuales.</td></tr>`;
+            tbodyDia.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros para este período.</td></tr>`;
+            tbodyMes.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros para este período.</td></tr>`;
             return;
         }
 
