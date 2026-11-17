@@ -294,14 +294,17 @@
                 visibility: visible !important;
             }
 
+            /* CONFIGURACIÓN EXACTA TÉRMICA 58mm (ANCHO 48mm PARA MARGEN SEGURO) */
             body.modo-impresion-termica #ticketImpresion {
                 display: block !important;
                 position: absolute !important;
                 left: 0 !important;
                 top: 0 !important;
-                width: 76mm !important;
+                width: 48mm !important;
                 font-family: 'Courier New', Courier, monospace !important;
                 font-size: 11px !important;
+                font-weight: bold !important;
+                line-height: 1.2 !important;
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
@@ -338,25 +341,25 @@
 </head>
 <body>
 
-<!-- TICKET TÉRMICO (80mm) -->
+<!-- TICKET TÉRMICO (58mm) -->
 <div id="ticketImpresion">
-    <div style="text-align: center; font-weight: bold; font-size: 14px;">FARMACIA SAN ESTEBAN</div>
+    <div style="text-align: center; font-weight: bold; font-size: 13px;">FARMACIA SAN ESTEBAN</div>
     <div style="text-align: center; font-size: 10px;">NIT: 53050290</div>
     <div style="text-align: center; font-size: 10px;">Calle 15 de Septiembre, frente al triángulo</div>
     <div style="text-align: center; font-size: 10px;">Los Amates, Izabal</div>
     <div style="text-align: center; font-size: 10px;">WhatsApp: 3565 0881</div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="font-size: 11px;">Ticket de Venta</div>
-    <div style="font-size: 11px;" id="ticketFechaHora"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="font-size: 10px;">Ticket de Venta</div>
+    <div style="font-size: 10px;" id="ticketFechaHora"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
     <div id="ticketContenidoItems"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="font-weight: bold; font-size: 12px;" id="ticketTotalTexto"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="font-weight: bold; font-size: 11px;" id="ticketTotalTexto"></div>
     <div id="ticketEfectivoTexto"></div>
     <div id="ticketVueltoTexto"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="text-align: center; font-size: 11px; margin-top: 5px;">¡Gracias por su preferencia!</div>
-    <div style="text-align: center; font-size: 10px;">¡Su salud en buenas manos! 💊</div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="text-align: center; font-size: 10px; margin-top: 4px;">¡Gracias por su preferencia!</div>
+    <div style="text-align: center; font-size: 9px;">¡Su salud en buenas manos! 💊</div>
 </div>
 
 <!-- COMPROBANTE TAMAÑO CARTA -->
@@ -602,7 +605,7 @@
 
             <div class="row" style="margin-top: 10px;">
                 <div class="col">
-                    <button class="btn" id="btnCobrarTermica" style="background-color: var(--success); height: 100%;" onclick="cobrarEImprimir('termica')">🖨️ Cobrar (Térmica 80mm)</button>
+                    <button class="btn" id="btnCobrarTermica" style="background-color: var(--success); height: 100%;" onclick="cobrarEImprimir('termica')">🖨️ Cobrar (Térmica 58mm)</button>
                 </div>
                 <div class="col">
                     <button class="btn" id="btnCobrarCarta" style="background-color: var(--primary); height: 100%;" onclick="cobrarEImprimir('carta')">📄 Cobrar (Carta)</button>
@@ -1273,7 +1276,7 @@
         }
     }
 
-    // COBRO CON OPCIÓN DE IMPRESIÓN (TÉRMICA 80mm O CARTA)
+    // COBRO CON OPCIÓN DE IMPRESIÓN (TÉRMICA 58mm O CARTA)
     window.cobrarEImprimir = async function(tipoImpresion) {
         if (carrito.length === 0) {
             alert("El carrito está vacío.");
@@ -1314,9 +1317,9 @@
                 const tipoTexto = item.tipoEmpaque === 'Caja' ? 'caja(s)' : 'u.';
                 const subtotalItem = item.precio * item.cantidadReq;
 
-                // Para ticket térmico 80mm
+                // Para ticket térmico 58mm
                 htmlItemsTicket += `
-                    <div style="margin-bottom: 4px;">
+                    <div style="margin-bottom: 3px;">
                         <div><strong>${item.nombre}</strong></div>
                         <div style="display: flex; justify-content: space-between;">
                             <span>${item.cantidadReq} ${tipoTexto} x Q${item.precio.toFixed(2)}</span>
