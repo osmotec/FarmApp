@@ -103,13 +103,22 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px 10px;
             width: 100%;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             margin-top: 5px;
+            box-sizing: border-box;
+            text-align: center;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .btn:disabled {
+            background-color: #9e9e9e !important;
+            cursor: not-allowed;
         }
         .btn-camera {
             background-color: #2E7D32;
@@ -129,20 +138,24 @@
             background-color: #EF6C00;
             color: white;
             border: none;
-            padding: 4px 6px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.75rem;
-            margin-bottom: 2px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: 100%;
+            margin-bottom: 4px;
         }
         .btn-danger {
             background-color: var(--danger);
             color: white;
             border: none;
-            padding: 4px 6px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: 100%;
         }
         #interactive.viewport, #interactiveVentas.viewport {
             position: relative;
@@ -254,43 +267,70 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        #ticketImpresion, #reportePdfImpresion {
+        #ticketImpresion, #facturaCartaImpresion, #reportePdfImpresion {
             display: none;
         }
 
         @media print {
             body * {
-                visibility: hidden;
+                visibility: hidden !important;
             }
-            #ticketImpresion, #ticketImpresion * {
-                visibility: visible;
+            
+            body.modo-impresion-termica, 
+            body.modo-impresion-termica #ticketImpresion, 
+            body.modo-impresion-termica #ticketImpresion * {
+                visibility: visible !important;
             }
-            #reportePdfImpresion, #reportePdfImpresion * {
-                visibility: visible;
+
+            body.modo-impresion-carta, 
+            body.modo-impresion-carta #facturaCartaImpresion, 
+            body.modo-impresion-carta #facturaCartaImpresion * {
+                visibility: visible !important;
             }
-            #ticketImpresion {
+
+            body.modo-impresion-pdf,
+            body.modo-impresion-pdf #reportePdfImpresion,
+            body.modo-impresion-pdf #reportePdfImpresion * {
+                visibility: visible !important;
+            }
+
+            body.modo-impresion-termica #ticketImpresion {
                 display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 48mm;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 11px;
-                color: #000;
-                padding: 2px;
-                margin: 0;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 76mm !important;
+                font-family: 'Courier New', Courier, monospace !important;
+                font-size: 11px !important;
+                color: #000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
             }
-            #reportePdfImpresion {
+
+            body.modo-impresion-carta #facturaCartaImpresion {
                 display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-                color: #000;
-                padding: 10px;
-                background: white;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                font-family: Arial, sans-serif !important;
+                font-size: 12px !important;
+                color: #000 !important;
+                padding: 15px !important;
+                background: white !important;
+            }
+
+            body.modo-impresion-pdf #reportePdfImpresion {
+                display: block !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                font-family: Arial, sans-serif !important;
+                font-size: 12px !important;
+                color: #000 !important;
+                padding: 10px !important;
+                background: white !important;
             }
         }
     </style>
@@ -298,19 +338,77 @@
 </head>
 <body>
 
+<!-- TICKET TÉRMICO (80mm) -->
 <div id="ticketImpresion">
-    <div style="text-align: center; font-weight: bold; font-size: 13px;">FARMACIA POS PRO</div>
-    <div style="text-align: center; font-size: 10px;">Ticket de Venta</div>
-    <div style="text-align: center; font-size: 10px;" id="ticketFechaHora"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="text-align: center; font-weight: bold; font-size: 14px;">FARMACIA SAN ESTEBAN</div>
+    <div style="text-align: center; font-size: 10px;">NIT: 53050290</div>
+    <div style="text-align: center; font-size: 10px;">Calle 15 de Septiembre, frente al triángulo</div>
+    <div style="text-align: center; font-size: 10px;">Los Amates, Izabal</div>
+    <div style="text-align: center; font-size: 10px;">WhatsApp: 3565 0881</div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="font-size: 11px;">Ticket de Venta</div>
+    <div style="font-size: 11px;" id="ticketFechaHora"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
     <div id="ticketContenidoItems"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
-    <div style="font-weight: bold;" id="ticketTotalTexto"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="font-weight: bold; font-size: 12px;" id="ticketTotalTexto"></div>
     <div id="ticketEfectivoTexto"></div>
     <div id="ticketVueltoTexto"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
-    <div style="text-align: center; font-size: 10px; margin-top: 4px;">¡Gracias por su compra!</div>
-    <div style="text-align: center; font-size: 9px;">Vuelva pronto</div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="text-align: center; font-size: 11px; margin-top: 5px;">¡Gracias por su preferencia!</div>
+    <div style="text-align: center; font-size: 10px;">¡Su salud en buenas manos! 💊</div>
+</div>
+
+<!-- COMPROBANTE TAMAÑO CARTA -->
+<div id="facturaCartaImpresion">
+    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #0D47A1; padding-bottom: 10px; margin-bottom: 15px;">
+        <div>
+            <h2 style="color: #0D47A1; margin: 0;">FARMACIA SAN ESTEBAN</h2>
+            <p style="margin: 3px 0; font-size: 11px;">Calle 15 de Septiembre, frente al triángulo, Los Amates, Izabal</p>
+            <p style="margin: 3px 0; font-size: 11px;">WhatsApp: 3565 0881 | NIT: 53050290</p>
+        </div>
+        <div style="text-align: right;">
+            <h3 style="color: #0D47A1; margin: 0;">COMPROBANTE DE VENTA</h3>
+            <p style="margin: 3px 0; font-size: 11px;" id="cartaFechaHora"></p>
+        </div>
+    </div>
+    
+    <div style="margin-bottom: 15px; font-size: 12px;">
+        <strong>Cliente:</strong> _________________________________________ &nbsp;&nbsp;&nbsp;&nbsp; <strong>NIT:</strong> _______________
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 11px;">
+        <thead>
+            <tr style="background-color: #0D47A1; color: white;">
+                <th style="padding: 8px; border: 1px solid #ddd;">Descripción del Producto</th>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">Cantidad</th>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Precio Unitario</th>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody id="cartaContenidoItems"></tbody>
+    </table>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 25px;">
+        <div style="width: 250px; font-size: 12px;">
+            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #ddd;">
+                <span>Total a Pagar:</span>
+                <strong id="cartaTotalTexto">Q0.00</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #ddd;">
+                <span>Efectivo Recibido:</span>
+                <span id="cartaEfectivoTexto">Q0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 4px 0; font-weight: bold; color: #0D47A1;">
+                <span>Su Vuelto:</span>
+                <span id="cartaVueltoTexto">Q0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; font-size: 11px; color: #555;">
+        <p>¡Gracias por su compra en Farmacia San Esteban Los Amates! Conserve este comprobante para cualquier cambio o garantía.</p>
+    </div>
 </div>
 
 <div id="reportePdfImpresion">
@@ -332,8 +430,8 @@
 
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>💊 Farmacia - Sistema POS Pro</h2>
-        <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
+        <h2>💊 Farmacia San Esteban</h2>
+        <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
     </div>
     <div id="syncStatus">🔄 Conectando con la nube...</div>
 
@@ -424,7 +522,7 @@
             </div>
 
             <div class="search-box">
-                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código, estante o proveedor..." oninput="filtrarProductos()">
+                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código, estante o proveedor..." oninput="filtrarProductosConDebounce()">
             </div>
             
             <div class="tabla-scroll">
@@ -454,7 +552,7 @@
             <button id="btnDetenerVentas" class="btn btn-danger" style="display:none; margin-bottom:10px;" onclick="detenerEscaneo()">Cerrar Cámara</button>
 
             <div class="search-box">
-                <input type="text" id="buscadorVentas" placeholder="🔍 Buscar medicamento para agregar..." oninput="filtrarProductosVentas()">
+                <input type="text" id="buscadorVentas" placeholder="🔍 Buscar medicamento para agregar..." oninput="filtrarProductosVentasConDebounce()">
             </div>
 
             <div class="tabla-scroll">
@@ -502,7 +600,14 @@
                 </div>
             </div>
 
-            <button class="btn" style="background-color: var(--success);" onclick="cobrarEImprimirTicket()">✅ Cobrar y Imprimir / Guardar PDF</button>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                    <button class="btn" id="btnCobrarTermica" style="background-color: var(--success); height: 100%;" onclick="cobrarEImprimir('termica')">🖨️ Cobrar (Térmica 80mm)</button>
+                </div>
+                <div class="col">
+                    <button class="btn" id="btnCobrarCarta" style="background-color: var(--primary); height: 100%;" onclick="cobrarEImprimir('carta')">📄 Cobrar (Carta)</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -534,7 +639,24 @@
             <p style="margin: 10px 0 0 0; font-size: 1.1rem;">Ganancia Neta de Hoy: <strong id="corteGanancia" style="color: var(--success);">Q0.00</strong></p>
         </div>
 
-        <!-- NUEVA SECCIÓN: FILTRAR REPORTES POR RANGO DE FECHAS -->
+        <!-- GENERADOR DE OFERTAS DE RECUPERACIÓN (RETRÁCTIL / PLEGABLE) -->
+        <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px; background: #FFF3E0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleSeccionOfertas()">
+                <h3 style="color: var(--warning-text); margin:0;">🏷️ Generador de Ofertas (Próximos a Vencer) <span id="iconoFlechaOfertas" style="font-size: 0.9rem;">▼</span></h3>
+                <button class="btn" style="background-color: var(--warning-text); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="event.stopPropagation(); generarOfertasRecuperacion()">🔥 Crear Ofertas Flash</button>
+            </div>
+            
+            <div id="cuerpoOfertasRetractil" style="display: none; margin-top: 12px; border-top: 1px dashed #d08800; padding-top: 10px;">
+                <p style="font-size: 0.85rem; color: #555; margin-top: 0;">Crea automáticamente precios especiales de recuperación para productos próximos a vencer y armar campañas de WhatsApp.</p>
+                
+                <div id="resultadoOfertasContainer" style="margin-top: 10px; background: white; padding: 12px; border-radius: 6px; display: none; border: 1px solid var(--border);">
+                    <div id="contenidoOfertasTexto"></div>
+                    <button class="btn" style="background-color: #25D366; margin-top: 10px;" onclick="enviarOfertasWhatsApp()">📱 Compartir Ofertas por WhatsApp</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTRAR REPORTES POR RANGO DE FECHAS -->
         <div class="form-section" style="border-left: 4px solid var(--accent); margin-top: 15px; background: #E3F2FD;">
             <h3 style="color: var(--primary); margin-top:0;">🔍 Filtrar Reporte por Rango de Fechas</h3>
             <div class="row">
@@ -562,7 +684,7 @@
         <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <h3 style="color: var(--primary); margin:0;">📅 Ventas y Ganancias por Día</h3>
-                <button class="btn" style="background-color: var(--primary); width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfDias()">📄 Descargar PDF Diario</button>
+                <button class="btn" style="background-color: var(--primary); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfDias()">📄 Descargar PDF Diario</button>
             </div>
             <div class="tabla-scroll">
                 <table id="tablaVentasPorDia">
@@ -584,7 +706,7 @@
         <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <h3 style="color: var(--success); margin:0;">📆 Ventas y Ganancias por Mes</h3>
-                <button class="btn" style="background-color: var(--success); width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfMeses()">📄 Descargar PDF Mensual</button>
+                <button class="btn" style="background-color: var(--success); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfMeses()">📄 Descargar PDF Mensual</button>
             </div>
             <div class="tabla-scroll">
                 <table id="tablaVentasPorMes">
@@ -657,7 +779,7 @@
         <div class="form-section" style="border-left: 4px solid var(--danger); margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <h3 style="color: var(--danger); margin:0;">❌ Productos Agotados o Stock Bajo (&le; 2)</h3>
-                <button class="btn" style="background-color: var(--success); width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top:0;" onclick="enviarAgotadosWhatsApp()">📱 Enviar Agotados a WhatsApp</button>
+                <button class="btn" style="background-color: var(--success); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="enviarAgotadosWhatsApp()">📱 Enviar Agotados a WhatsApp</button>
             </div>
             <div class="tabla-scroll">
                 <table id="tablaAgotados">
@@ -720,7 +842,23 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { 
+        getFirestore, 
+        initializeFirestore, 
+        persistentLocalCache, 
+        persistentMultipleTabManager, 
+        collection, 
+        addDoc, 
+        updateDoc, 
+        deleteDoc, 
+        doc, 
+        getDoc, 
+        setDoc, 
+        onSnapshot, 
+        query, 
+        orderBy,
+        writeBatch 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAkunkECIHFIP1D2XGyNgznLREnO47Rfz0",
@@ -733,7 +871,11 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    
+    // HABILITAR CACHÉ PERSISTENTE DE FIRESTORE (Lectura ultrarrápida desde disco local)
+    const db = initializeFirestore(app, {
+        localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+    });
 
     let inventarioGlobal = [];
     let carrito = [];
@@ -745,6 +887,13 @@
     let corteCajaCantidad = 0;
     let dineroFondoApertura = 0;
     let pinActualSistema = "1234";
+
+    // Variables para el Debounce (Anti-rebote en buscadores)
+    let timeoutBusquedaInv = null;
+    let timeoutBusquedaVentas = null;
+
+    // Variables para ofertas
+    let textoUltimasOfertasGeneradas = "";
 
     async function cargarConfiguracionPin() {
         try {
@@ -891,7 +1040,7 @@
         snapshot.forEach((docSnap) => {
             inventarioGlobal.push({ id: docSnap.id, ...docSnap.data() });
         });
-        document.getElementById('syncStatus').innerHTML = "✅ Sincronizado en línea con la nube";
+        document.getElementById('syncStatus').innerHTML = "✅ Sincronizado en línea con la nube (Caché local activa)";
         actualizarTodoInventario(inventarioGlobal);
     }, (error) => {
         console.error("Error al sincronizar inventario: ", error);
@@ -952,10 +1101,22 @@
         const labelCant = document.getElementById('labelCantidad');
         if (tipo === 'Caja') {
             grupoCaja.style.display = 'block';
-            labelCant.innerText = "Cantidad en Stock (Cajas):";
+            labelCant.innerText = "Cantidad in Stock (Cajas):";
         } else {
             grupoCaja.style.display = 'none';
-            labelCant.innerText = "Cantidad en Stock (Unidades):";
+            labelCant.innerText = "Cantidad in Stock (Unidades):";
+        }
+    }
+
+    window.toggleSeccionOfertas = function() {
+        const cuerpo = document.getElementById('cuerpoOfertasRetractil');
+        const flecha = document.getElementById('iconoFlechaOfertas');
+        if (cuerpo.style.display === 'none') {
+            cuerpo.style.display = 'block';
+            flecha.innerText = '▲';
+        } else {
+            cuerpo.style.display = 'none';
+            flecha.innerText = '▼';
         }
     }
 
@@ -1008,7 +1169,18 @@
 
     window.agregarAlCarrito = function(id) {
         const producto = inventarioGlobal.find(p => p.id === id);
-        if (!producto || producto.cantidad <= 0) {
+        if (!producto) return;
+
+        const hoy = new Date();
+        const venc = new Date(producto.vencimiento + "T00:00:00");
+        const diferenciaDias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+
+        if (diferenciaDias < 0) {
+            alert(`⛔ VENTA BLOQUEADA: El producto "${producto.nombre}" está VENCIDO (Fecha: ${producto.vencimiento}). No se puede vender por seguridad.`);
+            return;
+        }
+
+        if (producto.cantidad <= 0) {
             alert("El producto no tiene stock disponible.");
             return;
         }
@@ -1101,7 +1273,8 @@
         }
     }
 
-    window.cobrarEImprimirTicket = async function() {
+    // COBRO CON OPCIÓN DE IMPRESIÓN (TÉRMICA 80mm O CARTA)
+    window.cobrarEImprimir = async function(tipoImpresion) {
         if (carrito.length === 0) {
             alert("El carrito está vacío.");
             return;
@@ -1117,7 +1290,10 @@
         }
 
         try {
+            const batch = writeBatch(db);
+
             let htmlItemsTicket = "";
+            let htmlItemsCarta = "";
             let gananciaVentaActual = 0;
             let productosVendidosResumen = [];
             let itemsDetalleVenta = [];
@@ -1126,7 +1302,8 @@
                 const nuevaCantidad = item.stockMax - item.cantidadReq;
                 const nuevosVendidos = item.vendidosActuales + item.cantidadReq;
                 const prodRef = doc(db, "inventario_farmacia", item.id);
-                await updateDoc(prodRef, {
+                
+                batch.update(prodRef, {
                     cantidad: nuevaCantidad,
                     vendidos: nuevosVendidos
                 });
@@ -1137,8 +1314,9 @@
                 const tipoTexto = item.tipoEmpaque === 'Caja' ? 'caja(s)' : 'u.';
                 const subtotalItem = item.precio * item.cantidadReq;
 
+                // Para ticket térmico 80mm
                 htmlItemsTicket += `
-                    <div style="margin-bottom: 3px;">
+                    <div style="margin-bottom: 4px;">
                         <div><strong>${item.nombre}</strong></div>
                         <div style="display: flex; justify-content: space-between;">
                             <span>${item.cantidadReq} ${tipoTexto} x Q${item.precio.toFixed(2)}</span>
@@ -1146,6 +1324,17 @@
                         </div>
                     </div>
                 `;
+
+                // Para factura carta
+                htmlItemsCarta += `
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #ddd;"><strong>${item.nombre}</strong></td>
+                        <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">${item.cantidadReq} ${tipoTexto}</td>
+                        <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">Q${item.precio.toFixed(2)}</td>
+                        <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">Q${subtotalItem.toFixed(2)}</td>
+                    </tr>
+                `;
+
                 productosVendidosResumen.push(`${item.nombre} x${item.cantidadReq}`);
                 itemsDetalleVenta.push({
                     nombre: item.nombre,
@@ -1161,7 +1350,8 @@
             const mesIso = ahora.toISOString().slice(0, 7);
             const horaActual = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            await addDoc(collection(db, "ventas_farmacia"), {
+            const nuevaVentaRef = doc(collection(db, "ventas_farmacia"));
+            batch.set(nuevaVentaRef, {
                 fechaHora: ahora.toISOString(),
                 fecha: fechaIso,
                 mes: mesIso,
@@ -1172,11 +1362,21 @@
                 ganancia: gananciaVentaActual
             });
 
+            await batch.commit();
+
+            // Rellenar datos térmicos
             document.getElementById('ticketFechaHora').innerText = ahora.toLocaleString();
             document.getElementById('ticketContenidoItems').innerHTML = htmlItemsTicket;
             document.getElementById('ticketTotalTexto').innerText = `TOTAL: Q${total.toFixed(2)}`;
             document.getElementById('ticketEfectivoTexto').innerText = `Efectivo: Q${efectivo.toFixed(2)}`;
             document.getElementById('ticketVueltoTexto').innerText = `Vuelto: Q${(efectivo - total).toFixed(2)}`;
+
+            // Rellenar datos carta
+            document.getElementById('cartaFechaHora').innerText = "Fecha: " + ahora.toLocaleString();
+            document.getElementById('cartaContenidoItems').innerHTML = htmlItemsCarta;
+            document.getElementById('cartaTotalTexto').innerText = `Q${total.toFixed(2)}`;
+            document.getElementById('cartaEfectivoTexto').innerText = `Q${efectivo.toFixed(2)}`;
+            document.getElementById('cartaVueltoTexto').innerText = `Q${(efectivo - total).toFixed(2)}`;
 
             corteCajaIngresos += total;
             corteCajaGanancia += gananciaVentaActual;
@@ -1194,8 +1394,15 @@
             document.getElementById('corteGanancia').innerText = `Q${corteCajaGanancia.toFixed(2)}`;
             document.getElementById('corteTotalVentas').innerText = corteCajaCantidad;
             recalcularCuadreTeorico();
-
             renderizarResumenVentasHoy();
+
+            // Activar clase CSS según el tipo de impresión elegido
+            document.body.classList.remove('modo-impresion-termica', 'modo-impresion-carta', 'modo-impresion-pdf');
+            if (tipoImpresion === 'termica') {
+                document.body.classList.add('modo-impresion-termica');
+            } else {
+                document.body.classList.add('modo-impresion-carta');
+            }
 
             window.print();
             
@@ -1203,11 +1410,61 @@
             document.getElementById('montoEfectivo').value = '';
             renderizarCarrito();
         } catch (e) {
+            console.error("Error al procesar venta:", e);
             alert("Error al procesar la venta en la nube.");
         }
     }
 
-    // Funciones para Filtrar Reportes por Rango de Fechas
+    window.generarOfertasRecuperacion = function() {
+        const hoy = new Date();
+        const productosOferta = inventarioGlobal.filter(p => {
+            const venc = new Date(p.vencimiento + "T00:00:00");
+            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            return dias >= 0 && dias <= 60 && (p.cantidad || 0) > 0;
+        });
+
+        if (productosOferta.length === 0) {
+            alert("¡Excelente! No hay productos próximos a vencer (&le; 60 días) para crear ofertas de recuperación en este momento.");
+            document.getElementById('resultadoOfertasContainer').style.display = 'none';
+            return;
+        }
+
+        let htmlSalida = "<strong>🔥 CAMPAÑA DE OFERTAS FLASH (RECUPERACIÓN DE INVERSIÓN):</strong><br><br>";
+        let textoWhatsApp = "🔥 *OFERTAS FLASH DE LA SEMANA - ¡APROVECHA!* 🔥\nMedicamentos con precio especial por renovación de lote:\n\n";
+
+        productosOferta.forEach(p => {
+            const venc = new Date(p.vencimiento + "T00:00:00");
+            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            
+            const precioOriginal = p.precioVenta || 0;
+            const precioCosto = p.precioCosto || 0;
+            const precioSugeridoOferta = Math.max(precioCosto, precioOriginal * 0.70).toFixed(2);
+
+            htmlSalida += `<div style="margin-bottom: 8px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;">`;
+            htmlSalida += `<strong>${p.nombre}</strong> (Stock: ${p.cantidad})<br>`;
+            htmlSalida += `<small>Vence: ${p.vencimiento} (${dias} días) | Precio normal: Q${precioOriginal.toFixed(2)}</small><br>`;
+            htmlSalida += `<span style="color: var(--success); font-weight: bold;">👉 Precio de Oferta Sugerido: Q${precioSugeridoOferta}</span>`;
+            htmlSalida += `</div>`;
+
+            textoWhatsApp += `💊 *${p.nombre}*\n• Stock disponible: ${p.cantidad}\n• Vence el: ${p.vencimiento}\n• 💥 *¡Precio de Oferta: Q${precioSugeridoOferta}!* (Antes Q${precioOriginal.toFixed(2)})\n\n`;
+        });
+
+        textoWhatsApp += `¡Visítanos o haz tu pedido antes de que se agoten! 🛒`;
+        textoUltimasOfertasGeneradas = textoWhatsApp;
+
+        document.getElementById('contenidoOfertasTexto').innerHTML = htmlSalida;
+        document.getElementById('resultadoOfertasContainer').style.display = 'block';
+    }
+
+    window.enviarOfertasWhatsApp = function() {
+        if (!textoUltimasOfertasGeneradas) {
+            alert("Primero genera las ofertas antes de compartirlas.");
+            return;
+        }
+        const urlWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoUltimasOfertasGeneradas)}`;
+        window.open(urlWhatsApp, '_blank');
+    }
+
     window.aplicarFiltroFechas = function() {
         const fechaDesde = document.getElementById('filtroFechaDesde').value;
         const fechaHasta = document.getElementById('filtroFechaHasta').value;
@@ -1309,6 +1566,9 @@
         document.getElementById('pdfSubtituloFecha').innerText = "Generado el: " + new Date().toLocaleString();
         document.getElementById('pdfContenidoCuerpo').innerHTML = htmlTabla;
 
+        document.body.classList.remove('modo-impresion-termica', 'modo-impresion-carta');
+        document.body.classList.add('modo-impresion-pdf');
+
         window.print();
     }
 
@@ -1373,6 +1633,9 @@
         document.getElementById('pdfTituloReporte').innerText = "REPORTE DE VENTAS Y GANANCIAS POR MES";
         document.getElementById('pdfSubtituloFecha').innerText = "Generado el: " + new Date().toLocaleString();
         document.getElementById('pdfContenidoCuerpo').innerHTML = htmlTabla;
+
+        document.body.classList.remove('modo-impresion-termica', 'modo-impresion-carta');
+        document.body.classList.add('modo-impresion-pdf');
 
         window.print();
     }
@@ -1490,7 +1753,7 @@
                     <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong> <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></td>
                     <td><span class="${estado.clase}">${estado.texto}</span></td>
                     <td>
-                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${provSeguro}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button><br>
+                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${provSeguro}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button>
                         <button class="btn-danger" onclick="eliminarProductoNube('${p.id}')">Eliminar</button>
                     </td>
                 </tr>
@@ -1741,24 +2004,30 @@
         });
     }
 
-    window.filtrarProductos = function() {
-        const texto = document.getElementById('buscador').value.toLowerCase();
-        const filtrados = inventarioGlobal.filter(p => 
-            p.nombre.toLowerCase().includes(texto) || 
-            p.codigo.toLowerCase().includes(texto) || 
-            p.estante.toLowerCase().includes(texto) || 
-            (p.proveedor && p.proveedor.toLowerCase().includes(texto))
-        );
-        renderizarInventario(filtrados);
-        actualizarResumenInventario(filtrados);
+    window.filtrarProductosConDebounce = function() {
+        clearTimeout(timeoutBusquedaInv);
+        timeoutBusquedaInv = setTimeout(() => {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filtrados = inventarioGlobal.filter(p => 
+                p.nombre.toLowerCase().includes(texto) || 
+                p.codigo.toLowerCase().includes(texto) || 
+                p.estante.toLowerCase().includes(texto) || 
+                (p.proveedor && p.proveedor.toLowerCase().includes(texto))
+            );
+            renderizarInventario(filtrados);
+            actualizarResumenInventario(filtrados);
+        }, 300);
     }
 
-    window.filtrarProductosVentas = function() {
-        const texto = document.getElementById('buscadorVentas').value.toLowerCase();
-        const filtrados = inventarioGlobal.filter(p => 
-            p.nombre.toLowerCase().includes(texto) || p.codigo.toLowerCase().includes(texto) || p.estante.toLowerCase().includes(texto)
-        );
-        renderizarVentas(filtrados);
+    window.filtrarProductosVentasConDebounce = function() {
+        clearTimeout(timeoutBusquedaVentas);
+        timeoutBusquedaVentas = setTimeout(() => {
+            const texto = document.getElementById('buscadorVentas').value.toLowerCase();
+            const filtrados = inventarioGlobal.filter(p => 
+                p.nombre.toLowerCase().includes(texto) || p.codigo.toLowerCase().includes(texto) || p.estante.toLowerCase().includes(texto)
+            );
+            renderizarVentas(filtrados);
+        }, 300);
     }
 
     window.iniciarEscanerCamera = function(modo) {
@@ -1789,7 +2058,7 @@
                 document.getElementById('codigoBarras').value = codigoLeido;
             } else {
                 document.getElementById('buscadorVentas').value = codigoLeido;
-                filtrarProductosVentas();
+                filtrarProductosVentasConDebounce();
                 const encontrado = inventarioGlobal.find(p => p.codigo === codigoLeido);
                 if (encontrado) {
                     agregarAlCarrito(encontrado.id);
