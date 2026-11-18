@@ -238,9 +238,13 @@
         }
         #syncStatus {
             text-align: center;
-            font-size: 0.75rem;
-            color: #666;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 6px;
+            border-radius: 6px;
             margin-bottom: 10px;
+            background: #FFF3E0;
+            color: #E65100;
         }
         
         #modalPin {
@@ -446,7 +450,7 @@
         <h2>💊 Farmacia San Esteban</h2>
         <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
     </div>
-    <div id="syncStatus">🔄 Conectando con la nube...</div>
+    <div id="syncStatus">🔄 Conectando con los servidores de Firebase...</div>
 
     <div class="tabs">
         <button class="tab-btn active" id="btnTabInv" onclick="cambiarPestaña('inventario')">📦 Inventario</button>
@@ -880,10 +884,18 @@
       measurementId: "G-1YT82VY4MW"
     };
 
-    const app = initializeApp(firebaseConfig);
-    
-    // CONEXIÓN DIRECTA ULTRARRÁPIDA (Sin bloqueos de caché persistente de IndexedDB)
-    const db = getFirestore(app);
+    let app;
+    let db;
+
+    try {
+        app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+    } catch (err) {
+        console.error("Error al inicializar Firebase:", err);
+        document.getElementById('syncStatus').innerHTML = "❌ Error crítico al inicializar Firebase";
+        document.getElementById('syncStatus').style.background = "#FFEBEE";
+        document.getElementById('syncStatus').style.color = "#C62828";
+    }
 
     let inventarioGlobal = [];
     let carrito = [];
@@ -1038,30 +1050,40 @@
         lector.readAsText(archivo);
     }
 
-    // Sincronización en tiempo real ultrarrápida
-    const qInv = query(collection(db, "inventario_farmacia"));
-    onSnapshot(qInv, (snapshot) => {
-        inventarioGlobal = [];
-        snapshot.forEach((docSnap) => {
-            inventarioGlobal.push({ id: docSnap.id, ...docSnap.data() });
+    // Sincronización en tiempo real ultrarrápida con validación de estado
+    try {
+        const qInv = query(collection(db, "inventario_farmacia"));
+        onSnapshot(qInv, (snapshot) => {
+            inventarioGlobal = [];
+            snapshot.forEach((docSnap) => {
+                inventarioGlobal.push({ id: docSnap.id, ...docSnap.data() });
+            });
+            const statusDiv = document.getElementById('syncStatus');
+            statusDiv.innerHTML = "✅ Conectado a la nube y sincronizado en tiempo real";
+            statusDiv.style.background = "#E8F5E9";
+            statusDiv.style.color = "#2E7D32";
+            actualizarTodoInventario(inventarioGlobal);
+        }, (error) => {
+            console.error("Error al sincronizar inventario: ", error);
+            const statusDiv = document.getElementById('syncStatus');
+            statusDiv.innerHTML = "⚠️ Error de conexión con la nube. Verifique internet.";
+            statusDiv.style.background = "#FFEBEE";
+            statusDiv.style.color = "#C62828";
         });
-        document.getElementById('syncStatus').innerHTML = "✅ Sincronizado en línea con la nube";
-        actualizarTodoInventario(inventarioGlobal);
-    }, (error) => {
-        console.error("Error al sincronizar inventario: ", error);
-        document.getElementById('syncStatus').innerHTML = "⚠️ Error de conexión con la nube";
-    });
 
-    const qVentas = query(collection(db, "ventas_farmacia"), orderBy("fechaHora", "desc"));
-    onSnapshot(qVentas, (snapshot) => {
-        ventasHistoricasGlobal = [];
-        snapshot.forEach((docSnap) => {
-            ventasHistoricasGlobal.push({ id: docSnap.id, ...docSnap.data() });
+        const qVentas = query(collection(db, "ventas_farmacia"), orderBy("fechaHora", "desc"));
+        onSnapshot(qVentas, (snapshot) => {
+            ventasHistoricasGlobal = [];
+            snapshot.forEach((docSnap) => {
+                ventasHistoricasGlobal.push({ id: docSnap.id, ...docSnap.data() });
+            });
+            renderizarReportesDiariosYMensuales(ventasHistoricasGlobal);
+        }, (error) => {
+            console.error("Error al sincronizar ventas:", error);
         });
-        renderizarReportesDiariosYMensuales(ventasHistoricasGlobal);
-    }, (error) => {
-        console.error("Error al sincronizar ventas:", error);
-    });
+    } catch (e) {
+        console.error("Error al configurar listeners de Firestore:", e);
+    }
 
     window.verificarPinAdmin = function() {
         const pin = document.getElementById('inputPinAdmin').value;
