@@ -296,33 +296,24 @@ important;
                 visibility: visible !important;
             }
 
-            /* CONFIGURACIÓN TÉRMICA 80mm */
+            /* CONFIGURACIÓN EXACTA TÉRMICA 58mm (ANCHO 48mm PARA MARGEN SEGURO) */
             body.modo-impresion-termica #ticketImpresion {
                 display: block !important;
                 position: absolute !important;
                 left: 0 !important;
                 top: 0 !important;
-                width: 76mm !important;
-                box-sizing: border-box !important;
+                width: 48mm !important;
                 font-family: 'Courier New', Courier, monospace !important;
-                font-size: 13px !important;
-                font-weight: 900 !important;
+                font-size: 11px !important;
+                font-weight: bold !important;
                 line-height: 1.2 !important;
-                color: #000000 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                padding: 2mm !important;
+                color: #000 !important;
+                padding: 0 !important;
                 margin: 0 !important;
             }
 
-            body.modo-impresion-termica #ticketImpresion span,
-            body.modo-impresion-termica #ticketImpresion div,
-            body.modo-impresion-termica #ticketImpresion small {
-                font-weight: 900 !important;
-                color: #000000 !important;
-            }
-
-            body.modo-impresion-carta #facturaCartaImpresion {
+            body.modo-impresion-carta 
+#facturaCartaImpresion {
                 display: block !important;
                 position: absolute !important;
                 left: 0 !important;
@@ -335,8 +326,7 @@ important;
                 background: white !important;
             }
 
-            body.modo-impresion-pdf 
-#reportePdfImpresion {
+            body.modo-impresion-pdf #reportePdfImpresion {
                 display: block !important;
                 position: absolute !important;
                 left: 0 !important;
@@ -350,40 +340,42 @@ important;
             }
         }
     </style>
-    <script src="https://cdnjs
-.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0
+.12.1/quagga.min.js"></script>
 </head>
 <body>
 
-<!-- TICKET TÉRMICO (80mm) -->
+<!-- TICKET TÉRMICO (58mm) -->
 <div id="ticketImpresion">
-    <div style="text-align: center; font-weight: bold; font-size: 15px;">FARMACIA SAN ESTEBAN</div>
-    <div style="text-align: center; font-size: 11px;">NIT: 53050290</div>
-    <div style="text-align: center; font-size: 11px;">Calle 15 de Septiembre, frente al triángulo</div>
-    <div style="text-align: center; font-size: 11px;">Los Amates, Izabal</div>
-    <div style="text-align: center; font-size: 11px;">WhatsApp: 3565 0881</div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="font-size: 11px;">Ticket de Venta</div>
-    <div style="font-size: 11px;" id="ticketFechaHora"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
+    <div style="text-align: center; font-weight: bold; font-size: 13px;">FARMACIA SAN ESTEBAN</div>
+    <div style="text-align: center; font-size: 10px;">NIT: 53050290</div>
+    <div style="text-align: center; font-size: 10px;">Calle 15 de Septiembre, frente al triángulo</div>
+    <div style="text-align: center; 
+font-size: 10px;">Los Amates, Izabal</div>
+    <div style="text-align: center; font-size: 10px;">WhatsApp: 3565 0881</div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="font-size: 10px;">Ticket de Venta</div>
+    <div style="font-size: 10px;" id="ticketFechaHora"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
     <div id="ticketContenidoItems"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="font-weight: bold; font-size: 13px;" id="ticketTotalTexto"></div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="font-weight: 
+bold; font-size: 11px;" id="ticketTotalTexto"></div>
     <div id="ticketEfectivoTexto"></div>
     <div id="ticketVueltoTexto"></div>
-    <hr style="border: 0; border-top: 1px dashed #000; margin: 5px 0;">
-    <div style="text-align: center; font-size: 11px; margin-top: 5px;">¡Gracias por su preferencia!</div>
-    <div style="text-align: center; font-size: 10px;">¡Su salud en buenas manos! 💊</div>
+    <hr style="border: 0; border-top: 1px dashed #000; margin: 4px 0;">
+    <div style="text-align: center; font-size: 10px; margin-top: 4px;">¡Gracias por su preferencia!</div>
+    <div style="text-align: center; font-size: 9px;">¡Su salud en buenas manos! 💊</div>
 </div>
 
-<!-- COMPROBANTE TAMAÑO CARTA -->
+<!-- COMPROBANTE TAMAÑO 
+CARTA -->
 <div id="facturaCartaImpresion">
     <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #0D47A1; padding-bottom: 10px; margin-bottom: 15px;">
         <div>
             <h2 style="color: #0D47A1; margin: 0;">FARMACIA SAN ESTEBAN</h2>
             <p style="margin: 3px 0; font-size: 11px;">Calle 15 de Septiembre, frente al triángulo, Los Amates, Izabal</p>
-            <p style="margin: 3px 0; font-size: 11px;">WhatsApp: 3565 
-0881 | NIT: 53050290</p>
+            <p style="margin: 3px 0; font-size: 11px;">WhatsApp: 3565 0881 | NIT: 53050290</p>
         </div>
         <div style="text-align: right;">
             <h3 style="color: #0D47A1; margin: 0;">COMPROBANTE DE VENTA</h3>
@@ -392,8 +384,7 @@ important;
     </div>
     
     <div style="margin-bottom: 15px; font-size: 12px;">
-        <strong>Cliente:</strong> _________________________________________ &nbsp;&nbsp;&nbsp;&nbsp; <strong>NIT:</strong> 
-_______________
+        <strong>Cliente:</strong> _________________________________________ &nbsp;&nbsp;&nbsp;&nbsp; <strong>NIT:</strong> _______________
     </div>
 
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 11px;">
@@ -401,8 +392,8 @@ _______________
             <tr style="background-color: #0D47A1; color: white;">
                 <th style="padding: 8px; border: 1px solid #ddd;">Descripción del Producto</th>
                 <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">Cantidad</th>
-                <th style="padding: 8px; 
-border: 1px solid #ddd; text-align: right;">Precio Unitario</th>
+                <th style="padding: 8px; border: 1px solid #ddd; text-align: 
+right;">Precio Unitario</th>
                 <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Subtotal</th>
             </tr>
         </thead>
@@ -411,8 +402,8 @@ border: 1px solid #ddd; text-align: right;">Precio Unitario</th>
 
     <div style="display: flex; justify-content: flex-end; margin-bottom: 25px;">
         <div style="width: 250px; font-size: 12px;">
-            <div style="display: flex; justify-content: space-between; 
-padding: 4px 0; border-bottom: 1px solid #ddd;">
+            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px 
+solid #ddd;">
                 <span>Total a Pagar:</span>
                 <strong id="cartaTotalTexto">Q0.00</strong>
             </div>
@@ -420,7 +411,8 @@ padding: 4px 0; border-bottom: 1px solid #ddd;">
                 <span>Efectivo Recibido:</span>
                 <span id="cartaEfectivoTexto">Q0.00</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 4px 0; font-weight: bold; color: #0D47A1;">
+            <div style="display: flex; 
+justify-content: space-between; padding: 4px 0; font-weight: bold; color: #0D47A1;">
                 <span>Su Vuelto:</span>
                 <span id="cartaVueltoTexto">Q0.00</span>
             </div>
@@ -428,8 +420,7 @@ padding: 4px 0; border-bottom: 1px solid #ddd;">
     </div>
 
     <div style="text-align: center; margin-top: 40px; font-size: 11px; color: #555;">
-        <p>¡Gracias por su compra en Farmacia San Esteban Los Amates! Conserve este comprobante para 
-cualquier cambio o garantía.</p>
+        <p>¡Gracias por su compra en Farmacia San Esteban Los Amates! Conserve este comprobante para cualquier cambio o garantía.</p>
     </div>
 </div>
 
@@ -446,23 +437,24 @@ cualquier cambio o garantía.</p>
         <p style="font-size: 0.8rem; color: #666; margin-bottom: 12px;">Ingrese PIN de Administrador (Predeterminado: 1234)</p>
         <input type="password" id="inputPinAdmin" placeholder="****" style="text-align:center; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 4px;">
         <button class="btn" onclick="verificarPinAdmin()">Ingresar a Admin</button>
-        <button class="btn" style="background-color: #757575; margin-top: 8px;" onclick="entrarComoCajero()">Modo Cajero (Solo Ventas)</button>
+        <button class="btn" 
+style="background-color: #757575; margin-top: 8px;" onclick="entrarComoCajero()">Modo Cajero (Solo Ventas)</button>
     </div>
 </div>
 
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2>💊 Farmacia San Esteban</h2>
-        <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 8px 
-12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
+        <button onclick="window.location.reload(true);" style="background: #d9534f; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 
+0.75rem; font-weight: bold; cursor: pointer;">🔄 Recargar</button>
     </div>
     <div id="syncStatus">🔄 Conectando con la nube...</div>
 
     <div class="tabs">
         <button class="tab-btn active" id="btnTabInv" onclick="cambiarPestaña('inventario')">📦 Inventario</button>
         <button class="tab-btn" id="btnTabVentas" onclick="cambiarPestaña('ventas')">🛒 Ventas</button>
-        <button class="tab-btn" id="btnTabRep" onclick="cambiar
-Pestaña('reportes')">📊 Reportes</button>
+        <button class="tab-btn" id="btnTabRep" onclick="cambiarPestaña('reportes')">📊 Reportes</
+button>
         <button class="tab-btn" id="btnTabConf" onclick="cambiarPestaña('configuracion')">🔑 PIN</button>
     </div>
 
@@ -470,8 +462,7 @@ Pestaña('reportes')">📊 Reportes</button>
     <div id="tab-inventario" class="tab-content active">
         <div class="form-section">
             <h3 id="tituloFormulario">Registrar / Escanear Producto</h3>
-            <button class="btn btn-camera" onclick="iniciarEscanerCamera('inventario')">📷 Activar 
-Cámara</button>
+            <button class="btn btn-camera" onclick="iniciarEscanerCamera('inventario')">📷 Activar Cámara</button>
             <div id="interactive" class="viewport"></div>
             <button id="btnDetener" class="btn btn-danger" style="display:none; margin-bottom:10px;" onclick="detenerEscaneo()">Cerrar Cámara</button>
 
@@ -479,8 +470,8 @@ Cámara</button>
 
             <div class="form-group">
                 <label for="codigoBarras">Código de Barras:</label>
-                <input type="text" 
-id="codigoBarras" placeholder="Escanee o escriba el código...">
+                <input type="text" id="codigoBarras" 
+placeholder="Escanee o escriba el código...">
             </div>
             <div class="form-group">
                 <label for="nombreProducto">Nombre del Medicamento / Producto:</label>
@@ -488,8 +479,7 @@ id="codigoBarras" placeholder="Escanee o escriba el código...">
             </div>
             <div class="row">
                 <div class="form-group col">
-                    <label for="loteProducto">Número de 
-Lote:</label>
+                    <label for="loteProducto">Número de Lote:</label>
                     <input type="text" id="loteProducto" placeholder="Ej. L-4589">
                 </div>
                 <div class="form-group col">
@@ -498,8 +488,7 @@ Lote:</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="proveedorProducto">Proveedor / Laboratorio:</
-label>
+                <label for="proveedorProducto">Proveedor / Laboratorio:</label>
                 <input type="text" id="proveedorProducto" placeholder="Ej. Distribuidora Farma">
             </div>
             <div class="row">
@@ -507,7 +496,8 @@ label>
                     <label for="tipoEmpaque">Se vende por:</label>
                     <select id="tipoEmpaque" onchange="toggleUnidadesPorCaja()">
                         <option value="Unidad">Unidad / Frasco</option>
-                        <option value="Caja">Caja Completa</option>
+                        <option 
+value="Caja">Caja Completa</option>
                     </select>
                 </div>
                 <div class="form-group col" id="grupoUnidadesCaja" style="display: none;">
@@ -516,8 +506,7 @@ label>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group 
-col">
+                <div class="form-group col">
                     <label for="costoProducto">Precio Costo (Q):</label>
                     <input type="number" id="costoProducto" placeholder="0.00" step="0.01" min="0">
                 </div>
@@ -533,7 +522,8 @@ col">
                 </div>
                 <div class="form-group col">
                     <label for="vencimientoProducto">Fecha de Vencimiento:</label>
-                    <input type="date" id="vencimientoProducto">
+                    <input type="date" 
+id="vencimientoProducto">
                 </div>
             </div>
             <button class="btn" id="btnGuardar" onclick="guardarProductoEnNube()">Guardar en la Nube</button>
@@ -541,19 +531,18 @@ col">
         </div>
 
         <div class="form-section">
-            <h3>Inventario en Tiempo 
-Real</h3>
+            <h3>Inventario en Tiempo Real</h3>
             
             <div class="resumen-inventario">
                 <div style="font-weight: bold; color: var(--success); margin-bottom: 4px;">📈 Resumen Financiero del Inventario:</div>
                 <div>• Cantidad total de productos: <strong id="resumenCantTotal">0</strong></div>
                 <div>• Costo total (Inversión): <strong id="resumenCostoTotal" style="color: #333;">Q0.00</strong></div>
-                <div>• Valor total 
-(Precio Venta): <strong id="resumenVentaTotal" style="color: var(--success);">Q0.00</strong></div>
+                <div>• Valor total (Precio Venta): <strong 
+id="resumenVentaTotal" style="color: var(--success);">Q0.00</strong></div>
             </div>
 
             <div class="search-box">
-                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código, estante o proveedor... (Presione Enter para limpiar)" oninput="filtrarProductosConDebounce()" onkeydown="chequearEnterBuscadorInventario(event)">
+                <input type="text" id="buscador" placeholder="🔍 Buscar por nombre, código, estante o proveedor..." oninput="filtrarProductosConDebounce()">
             </div>
             
             <div class="tabla-scroll">
@@ -579,19 +568,20 @@ Real</h3>
             <h3 style="color: var(--success);">🛒 Caja Rápida y Carrito de Venta</h3>
             
             <button class="btn btn-camera" onclick="iniciarEscanerCamera('ventas')">📷 Escanear con Cámara para Vender</button>
-            <div id="interactiveVentas" 
-class="viewport"></div>
-            <button id="btnDetenerVentas" class="btn btn-danger" style="display:none; margin-bottom:10px;" onclick="detenerEscaneo()">Cerrar Cámara</button>
+            <div id="interactiveVentas" class="viewport"></div>
+            <button id="btnDetenerVentas" class="btn btn-danger" style="display:none; 
+margin-bottom:10px;" onclick="detenerEscaneo()">Cerrar Cámara</button>
 
             <div class="search-box">
-                <input type="text" id="buscadorVentas" placeholder="🔍 Buscar medicamento para agregar... (Presione Enter para limpiar)" oninput="filtrarProductosVentasConDebounce()" onkeydown="chequearEnterBuscadorVentas(event)">
+                <input type="text" id="buscadorVentas" placeholder="🔍 Buscar medicamento para agregar..." oninput="filtrarProductosVentasConDebounce()">
             </div>
 
             <div class="tabla-scroll">
                 <table id="tablaVentas">
                     <thead>
                         <tr>
-                            <th>Producto / Ubicación</th>
+                            <th>Producto / 
+Ubicación</th>
                             <th>Stock / Precio</th>
                             <th>Acción</th>
                         </tr>
@@ -613,19 +603,20 @@ class="viewport"></div>
                     </tr>
                 </thead>
                 <tbody id="listaCarrito">
-                    <tr><td colspan="4" style="text-align:center; 
-color:#777;">El carrito está vacío</td></tr>
+                    <tr><td colspan="4" style="text-align:center; color:#777;">El carrito está vacío</td></tr>
                 </tbody>
             </table>
             
-            <div style="margin-top: 10px; font-size: 1.1rem; font-weight: bold; text-align: right;">
+            <div style="margin-top: 
+10px; font-size: 1.1rem; font-weight: bold; text-align: right;">
                 Total a Pagar: <span id="totalCarrito" style="color: var(--success);">Q0.00</span>
             </div>
 
             <div class="row" style="margin-top: 10px;">
                 <div class="form-group col">
                     <label for="montoEfectivo">Efectivo Recibido (Q):</label>
-                    <input type="number" id="montoEfectivo" placeholder="0.00" step="0.01" oninput="calcularVuelto()">
+                    <input type="number" id="montoEfectivo" placeholder="0.00" step="0.01" 
+oninput="calcularVuelto()">
                 </div>
                 <div class="form-group col">
                     <label>Su Vuelto (Cambio):</label>
@@ -635,11 +626,11 @@ color:#777;">El carrito está vacío</td></tr>
 
             <div class="row" style="margin-top: 10px;">
                 <div class="col">
-                    <button class="btn" id="btnCobrarTermica" style="background-color: var(--success); height: 100%;" onclick="cobrarEImprimir('termica')">🖨️ Cobrar (Térmica 80mm)</button>
+                    <button class="btn" 
+id="btnCobrarTermica" style="background-color: var(--success); height: 100%;" onclick="cobrarEImprimir('termica')">🖨️ Cobrar (Térmica 58mm)</button>
                 </div>
                 <div class="col">
-                    <button class="btn" id="btnCobrarCarta" style="background-color: var(--primary); height: 100%;" onclick="cobrarEImprimir('carta')">
-📄 Cobrar (Carta)</button>
+                    <button class="btn" id="btnCobrarCarta" style="background-color: var(--primary); height: 100%;" onclick="cobrarEImprimir('carta')">📄 Cobrar (Carta)</button>
                 </div>
             </div>
         </div>
@@ -653,19 +644,21 @@ color:#777;">El carrito está vacío</td></tr>
             <div class="form-group" style="margin-top: 10px; text-align: left;">
                 <label for="dineroApertura">Dinero con que inicia la caja (Fondo / Vuelto):</label>
                 <div class="row">
-                    <input type="number" id="dineroApertura" placeholder="0.00" step="0.01" value="0.00" style="background: white;">
+                    <input type="number" 
+id="dineroApertura" placeholder="0.00" step="0.01" value="0.00" style="background: white;">
                     <button class="btn" style="margin-top:0; width: 130px;" onclick="actualizarCuadreCaja()">Definir Fondo</button>
                 </div>
             </div>
 
             <hr style="border: 0; border-top: 1px solid #b0bec5; margin: 10px 0;">
 
-            <p style="margin: 5px 0; font-size: 0.9rem;">Total transacciones hoy: <strong id="corteTotalVentas">0</strong></p>
+            <p style="margin: 5px 0; font-size: 0.9rem;">Total 
+transacciones hoy: <strong id="corteTotalVentas">0</strong></p>
             <p style="margin: 5px 0; font-size: 0.9rem;">Ventas totales de hoy: <strong id="corteIngresos" style="color: var(--success);">Q0.00</strong></p>
-            <p style="margin: 5px 0; font-size: 1rem;">Efectivo Teórico en Gaveta (Fondo + Ventas): <strong id="corteTeorico" style="color: 
-var(--primary);">Q0.00</strong></p>
+            <p style="margin: 5px 0; font-size: 1rem;">Efectivo Teórico en Gaveta (Fondo + Ventas): <strong id="corteTeorico" style="color: var(--primary);">Q0.00</strong></p>
             
-            <div class="form-group" style="margin-top: 10px; text-align: left; background: #fff; padding: 10px; border-radius: 6px;">
+            <div class="form-group" style="margin-top: 10px; text-align: left; background: #fff; padding: 
+10px; border-radius: 6px;">
                 <label for="efectivoRealCierre">Con cuánto dinero real cierras la caja (Dinero contado físicamente):</label>
                 <input type="number" id="efectivoRealCierre" placeholder="0.00" step="0.01" oninput="calcularDiferenciaCaja()">
             </div>
@@ -675,12 +668,11 @@ var(--primary);">Q0.00</strong></p>
         </div>
 
         <!-- GENERADOR DE OFERTAS DE RECUPERACIÓN (RETRÁCTIL / PLEGABLE) -->
-        <div class="form-section" style="border-left: 4px solid 
-var(--warning-text); margin-top: 15px; background: #FFF3E0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleSeccionOfertas()">
+        <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px; background: #FFF3E0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" 
+onclick="toggleSeccionOfertas()">
                 <h3 style="color: var(--warning-text); margin:0;">🏷️ Generador de Ofertas (Próximos a Vencer) <span id="iconoFlechaOfertas" style="font-size: 0.9rem;">▼</span></h3>
-                <button class="btn" style="background-color: var(--warning-text); width: auto; padding: 8px 12px; 
-font-size: 0.8rem; margin-top:0;" onclick="event.stopPropagation(); generarOfertasRecuperacion()">🔥 Crear Ofertas Flash</button>
+                <button class="btn" style="background-color: var(--warning-text); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="event.stopPropagation(); generarOfertasRecuperacion()">🔥 Crear Ofertas Flash</button>
             </div>
             
             <div id="cuerpoOfertasRetractil" style="display: none; margin-top: 12px; border-top: 1px dashed #d08800; padding-top: 10px;">
@@ -693,10 +685,10 @@ font-size: 0.8rem; margin-top:0;" onclick="event.stopPropagation(); generarOfert
             </div>
         </div>
 
-        <!-- FILTRAR REPORTES POR 
-RANGO DE FECHAS -->
+        <!-- FILTRAR REPORTES POR RANGO DE FECHAS -->
         <div class="form-section" style="border-left: 4px solid var(--accent); margin-top: 15px; background: #E3F2FD;">
-            <h3 style="color: var(--primary); margin-top:0;">🔍 Filtrar Reporte por Rango de Fechas</h3>
+            <h3 style="color: 
+var(--primary); margin-top:0;">🔍 Filtrar Reporte por Rango de Fechas</h3>
             <div class="row">
                 <div class="form-group col">
                     <label for="filtroFechaDesde">Desde:</label>
@@ -704,19 +696,19 @@ RANGO DE FECHAS -->
                 </div>
                 <div class="form-group col">
                     <label for="filtroFechaHasta">Hasta:</label>
-                    <input type="date" id="filtroFechaHasta">
+                    <input type="date" 
+id="filtroFechaHasta">
                 </div>
             </div>
             <div class="row" style="margin-top: 5px;">
                 <button class="btn" style="background-color: var(--primary);" onclick="aplicarFiltroFechas()">🔍 Aplicar Filtro</button>
-                <button class="btn" style="background-color: #757575;" 
-onclick="limpiarFiltroFechas()">🔄 Ver Todo</button>
+                <button class="btn" style="background-color: #757575;" onclick="limpiarFiltroFechas()">🔄 Ver Todo</button>
             </div>
-            <div id="resultadoFiltroContainer" style="margin-top: 12px; background: white; padding: 10px; border-radius: 6px; display: none;">
+            <div id="resultadoFiltroContainer" style="margin-top: 12px; 
+background: white; padding: 10px; border-radius: 6px; display: none;">
                 <strong>Resultado del Rango Seleccionado:</strong>
                 <div>• Total Ventas: <strong id="filtroTotalVenta" style="color: var(--success);">Q0.00</strong></div>
-                <div>• Ganancia Neta: <strong id="filtroTotalGanancia" style="color: 
-var(--primary);">Q0.00</strong></div>
+                <div>• Ganancia Neta: <strong id="filtroTotalGanancia" style="color: var(--primary);">Q0.00</strong></div>
             </div>
         </div>
 
@@ -724,8 +716,7 @@ var(--primary);">Q0.00</strong></div>
         <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <h3 style="color: var(--primary); margin:0;">📅 Ventas y Ganancias por Día</h3>
-                <button class="btn" style="background-color: 
-var(--primary); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfDias()">📄 Descargar PDF Diario</button>
+                <button class="btn" style="background-color: var(--primary); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfDias()">📄 Descargar PDF Diario</button>
             </div>
             <div class="tabla-scroll">
                 <table id="tablaVentasPorDia">
@@ -737,7 +728,8 @@ var(--primary); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;
                         </tr>
                     </thead>
                     <tbody id="listaVentasPorDia">
-                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos de días anteriores.</td></tr>
+                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay registros históricos de días anteriores.</td></
+tr>
                     </tbody>
                 </table>
             </div>
@@ -745,10 +737,10 @@ var(--primary); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;
 
         <!-- REPORTE POR MES -->
         <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
-            <div style="display: flex; justify-content: space-between; 
-align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <h3 style="color: var(--success); margin:0;">📆 Ventas y Ganancias por Mes</h3>
-                <button class="btn" style="background-color: var(--success); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfMeses()">📄 Descargar PDF Mensual</button>
+                <button class="btn" 
+style="background-color: var(--success); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="exportarPdfMeses()">📄 Descargar PDF Mensual</button>
             </div>
             <div class="tabla-scroll">
                 <table id="tablaVentasPorMes">
@@ -767,7 +759,8 @@ align-items: center; margin-bottom: 8px;">
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--warning-text); margin-top: 15px;">
-            <h3 style="color: var(--warning-text);">⚠️ Alerta: Productos Próximos a Vencer (&le; 90 días)</h3>
+            <h3 style="color: var(--warning-text);">⚠️ Alerta: 
+Productos Próximos a Vencer (&le; 90 días)</h3>
             <div class="tabla-scroll">
                 <table id="tablaProximosVencer">
                     <thead>
@@ -778,15 +771,15 @@ align-items: center; margin-bottom: 8px;">
                         </tr>
                     </thead>
                     <tbody id="listaProximosVencer">
-                        <tr><td colspan="3" style="text-align:center; color:#777;">No hay productos próximos a vencer. 🎉</td></tr>
+                        <tr><td colspan="3" style="text-align:center; 
+color:#777;">No hay productos próximos a vencer. 🎉</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
-            <h3 style="color: var(--success);">💰 Ganancia 
-Unitaria por Producto</h3>
+            <h3 style="color: var(--success);">💰 Ganancia Unitaria por Producto</h3>
             <div class="tabla-scroll">
                 <table id="tablaGananciaProductos">
                     <thead>
@@ -802,7 +795,8 @@ Unitaria por Producto</h3>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--primary); margin-top: 15px;">
-            <h3 style="color: var(--primary);">📋 Resumen de Ventas de Hoy</h3>
+            <h3 style="color: 
+var(--primary);">📋 Resumen de Ventas de Hoy</h3>
             <div class="tabla-scroll">
                 <table id="tablaResumenVentas">
                     <thead>
@@ -813,15 +807,15 @@ Unitaria por Producto</h3>
                         </tr>
                     </thead>
                     <tbody id="listaResumenVentas">
-                        <tr><td colspan="3" style="text-align:center; color:#777;">Aún no hay ventas registradas hoy.</td></tr>
+                        <tr><td colspan="3" style="text-align:center; 
+color:#777;">Aún no hay ventas registradas hoy.</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--danger); margin-top: 15px;">
-            <div style="display: flex; justify-content: space-between; 
-align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <h3 style="color: var(--danger); margin:0;">❌ Productos Agotados o Stock Bajo (&le; 2)</h3>
                 <button class="btn" style="background-color: var(--success); width: auto; padding: 8px 12px; font-size: 0.8rem; margin-top:0;" onclick="enviarAgotadosWhatsApp()">📱 Enviar Agotados a WhatsApp</button>
             </div>
@@ -858,25 +852,29 @@ align-items: center; margin-bottom: 8px;">
 
     <!-- PESTAÑA 4: CONFIGURACIÓN / PIN Y RESPALDO -->
     <div id="tab-configuracion" class="tab-content">
-        <div class="form-section" style="border-left: 4px solid var(--primary);">
+        <div class="form-section" 
+style="border-left: 4px solid var(--primary);">
             <h3 style="color: var(--primary);">🔑 Cambiar Contraseña / PIN de Administrador</h3>
             <p style="font-size: 0.85rem; color: #666; text-align: center;">Actualiza el código PIN necesario para acceder al panel de inventario y reportes.</p>
             
             <div class="form-group" style="margin-top: 15px;">
                 <label for="nuevoPinAdmin">Nuevo PIN de Administrador:</label>
-                <input type="password" id="nuevoPinAdmin" placeholder="Ej. 5678" style="text-align: center; font-size: 1.2rem;">
+                <input type="password" 
+id="nuevoPinAdmin" placeholder="Ej. 5678" style="text-align: center; font-size: 1.2rem;">
             </div>
             
             <button class="btn" style="background-color: var(--primary);" onclick="actualizarPinAdmin()">💾 Guardar Nuevo PIN en la Nube</button>
         </div>
 
         <div class="form-section" style="border-left: 4px solid var(--success); margin-top: 15px;">
-            <h3 style="color: var(--success);">💾 Respaldo de Inventario</h3>
+            <h3 style="color: 
+var(--success);">💾 Respaldo de Inventario</h3>
             <p style="font-size: 0.85rem; color: #666; text-align: center;">Descarga o carga una copia de seguridad en formato JSON de tus productos.</p>
             <button class="btn" style="background-color: var(--success);" onclick="descargarRespaldoInventario()">📥 Descargar Respaldo de Productos</button>
             
             <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
-                <label for="archivoRespaldo" style="font-size: 0.85rem; color: #333;">Subir archivo de respaldo (.json):</label>
+                <label for="archivoRespaldo" 
+style="font-size: 0.85rem; color: #333;">Subir archivo de respaldo (.json):</label>
                 <input type="file" id="archivoRespaldo" accept=".json" style="margin-top: 5px; font-size: 0.8rem;">
                 <button class="btn" style="background-color: #EF6C00; margin-top: 8px;" onclick="cargarRespaldoInventario()">📤 Restaurar / Cargar Respaldo</button>
             </div>
@@ -908,15 +906,16 @@ align-items: center; margin-bottom: 8px;">
       apiKey: "AIzaSyAkunkECIHFIP1D2XGyNgznLREnO47Rfz0",
       authDomain: "farm-66385.firebaseapp.com",
       projectId: "farm-66385",
-      storageBucket: 
-"farm-66385.firebasestorage.app",
+      storageBucket: "farm-66385.firebasestorage.app",
       messagingSenderId: "765971357634",
       appId: "1:765971357634:web:956e2091385e42c0fe005b",
-      measurementId: "G-1YT82VY4MW"
+      measurementId: 
+"G-1YT82VY4MW"
     };
 
     const app = initializeApp(firebaseConfig);
     
+    // HABILITAR CACHÉ PERSISTENTE DE FIRESTORE (Lectura ultrarrápida desde disco local)
     const db = initializeFirestore(app, {
         localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
     });
@@ -932,8 +931,11 @@ align-items: center; margin-bottom: 8px;">
     let dineroFondoApertura = 0;
     let pinActualSistema = "1234";
 
+    // Variables para el Debounce (Anti-rebote en buscadores)
     let timeoutBusquedaInv = null;
     let timeoutBusquedaVentas = null;
+
+    // Variables para ofertas
     let textoUltimasOfertasGeneradas = "";
 
     async function cargarConfiguracionPin() {
@@ -947,8 +949,7 @@ align-items: center; margin-bottom: 8px;">
                 pinActualSistema = "1234";
             }
         } catch (e) {
-            console.error("Error al 
-cargar PIN:", e);
+            console.error("Error al cargar PIN:", e);
         }
     }
     cargarConfiguracionPin();
@@ -979,8 +980,7 @@ cargar PIN:", e);
 
     function recalcularCuadreTeorico() {
         const efectivoTeorico = dineroFondoApertura + corteCajaIngresos;
-        document.getElementById('corteTeorico').innerText = `Q$
-{efectivoTeorico.toFixed(2)}`;
+        document.getElementById('corteTeorico').innerText = `Q${efectivoTeorico.toFixed(2)}`;
         calcularDiferenciaCaja();
     }
 
@@ -1009,8 +1009,7 @@ cargar PIN:", e);
         }
         try {
             const datosJSON = JSON.stringify(inventarioGlobal, null, 2);
-            const blob = new Blob([datosJSON], { type: 
-"application/json" });
+            const blob = new Blob([datosJSON], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const downloadAnchor = document.createElement('a');
             downloadAnchor.href = url;
@@ -1018,9 +1017,9 @@ cargar PIN:", e);
             downloadAnchor.download = `respaldo_inventario_farmacia_${fecha}.json`;
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
-            document.body.removeChild(downloadAnchor);
             
-URL.revokeObjectURL(url);
+document.body.removeChild(downloadAnchor);
+            URL.revokeObjectURL(url);
         } catch (err) {
             alert("Error al generar el archivo de respaldo.");
         }
@@ -1040,7 +1039,8 @@ URL.revokeObjectURL(url);
             try {
                 const productosCargados = JSON.parse(e.target.result);
                 if (!Array.isArray(productosCargados) || productosCargados.length === 0) {
-                    alert("El archivo no contiene un formato de inventario válido.");
+                    alert("El archivo no 
+contiene un formato de inventario válido.");
                     return;
                 }
 
@@ -1050,9 +1050,9 @@ URL.revokeObjectURL(url);
 
                 let contadorCargados = 0;
                 for (const p of productosCargados) {
-                    await addDoc(collection(db, "inventario_farmacia"), {
-                        codigo: p.codigo || 'S/
-C',
+                    await addDoc(collection(db, 
+"inventario_farmacia"), {
+                        codigo: p.codigo || 'S/C',
                         nombre: p.nombre || 'Producto sin nombre',
                         lote: p.lote || 'N/D',
                         estante: p.estante || 'General',
@@ -1070,7 +1070,8 @@ C',
                 }
 
                 alert(`¡Respaldo cargado con éxito! Se registraron ${contadorCargados} productos en la nube.`);
-                document.getElementById('archivoRespaldo').value = '';
+                document.getElementB
+yId('archivoRespaldo').value = '';
             } catch (err) {
                 alert("Error al leer el archivo JSON.");
             }
@@ -1079,6 +1080,7 @@ C',
         lector.readAsText(archivo);
     }
 
+    // Sincronizar Inventario
     const qInv = query(collection(db, "inventario_farmacia"));
     onSnapshot(qInv, (snapshot) => {
         inventarioGlobal = [];
@@ -1092,8 +1094,8 @@ C',
         document.getElementById('syncStatus').innerHTML = "⚠️ Error de conexión con la nube";
     });
 
-    const qVentas = query(collection(db, "ventas_farmacia"), 
-orderBy("fechaHora", "desc"));
+    // Sincronizar Historial de Ventas
+    const qVentas = query(collection(db, "ventas_farmacia"), orderBy("fechaHora", "desc"));
     onSnapshot(qVentas, (snapshot) => {
         ventasHistoricasGlobal = [];
         snapshot.forEach((docSnap) => {
@@ -1101,7 +1103,8 @@ orderBy("fechaHora", "desc"));
         });
         renderizarReportesDiariosYMensuales(ventasHistoricasGlobal);
     }, (error) => {
-        console.error("Error al sincronizar ventas:", error);
+        console.error("Error al 
+sincronizar ventas:", error);
     });
 
     window.verificarPinAdmin = function() {
@@ -1114,16 +1117,17 @@ orderBy("fechaHora", "desc"));
     }
 
     window.entrarComoCajero = function() {
-        document.getElementById('modalPin').style.display = 'none';
-        document.getElementById('btnTabInv').style.display = 
-'none';
+        document.getElementByI
+d('modalPin').style.display = 'none';
+        document.getElementById('btnTabInv').style.display = 'none';
         document.getElementById('btnTabRep').style.display = 'none';
         document.getElementById('btnTabConf').style.display = 'none';
         cambiarPestaña('ventas');
     }
 
     window.cambiarPestaña = function(pestaña) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => 
+btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
         if (pestaña === 'inventario') {
@@ -1133,8 +1137,7 @@ orderBy("fechaHora", "desc"));
             document.querySelectorAll('.tab-btn')[1].classList.add('active');
             document.getElementById('tab-ventas').classList.add('active');
         } else if (pestaña === 'reportes') {
-            document.querySelectorAll('.tab-btn')
-[2].classList.add('active');
+            document.querySelectorAll('.tab-btn')[2].classList.add('active');
             document.getElementById('tab-reportes').classList.add('active');
         } else if (pestaña === 'configuracion') {
             document.querySelectorAll('.tab-btn')[3].classList.add('active');
@@ -1143,8 +1146,7 @@ orderBy("fechaHora", "desc"));
     }
 
     window.toggleUnidadesPorCaja = function() {
-        const tipo = 
-document.getElementById('tipoEmpaque').value;
+        const tipo = document.getElementById('tipoEmpaque').value;
         const grupoCaja = document.getElementById('grupoUnidadesCaja');
         const labelCant = document.getElementById('labelCantidad');
         if (tipo === 'Caja') {
@@ -1152,10 +1154,10 @@ document.getElementById('tipoEmpaque').value;
             labelCant.innerText = "Cantidad in Stock (Cajas):";
         } else {
             grupoCaja.style.display = 'none';
-            labelCant.innerText = "Cantidad in Stock (Unidades):";
+            labelCant.innerText = 
+"Cantidad in Stock (Unidades):";
         }
-    
-}
+    }
 
     window.toggleSeccionOfertas = function() {
         const cuerpo = document.getElementById('cuerpoOfertasRetractil');
@@ -1169,19 +1171,19 @@ document.getElementById('tipoEmpaque').value;
         }
     }
 
-    // GUARDAR O ACTUALIZAR PRODUCTO CON ESTADO DINÁMICO
     window.guardarProductoEnNube = async function() {
         const idEdicion = document.getElementById('editandoId').value;
         const codigo = document.getElementById('codigoBarras').value.trim();
         const nombre = document.getElementById('nombreProducto').value.trim();
         const lote = document.getElementById('loteProducto').value.trim();
-        const estante = 
-document.getElementById('estanteProducto').value.trim();
+        const estante = document.getElementById('estante
+Producto').value.trim();
         const proveedor = document.getElementById('proveedorProducto').value.trim();
         const tipoEmpaque = document.getElementById('tipoEmpaque').value;
         const unidadesPorCaja = parseInt(document.getElementById('unidadesPorCaja').value) || 1;
         const precioCosto = parseFloat(document.getElementById('costoProducto').value) || 0;
-        const precioVenta = parseFloat(document.getElementById('ventaProducto').value) || 0;
+        const precioVenta = parseFloat(document.getElementById('ventaProducto').value) || 
+0;
         let cantidadIngresada = parseInt(document.getElementById('cantidadProducto').value) || 0;
         const vencimiento = document.getElementById('vencimientoProducto').value;
 
@@ -1190,56 +1192,37 @@ document.getElementById('estanteProducto').value.trim();
             return;
         }
 
-        const btnGuardar = document.getElementById('btnGuardar');
-        btnGuardar.disabled = true;
-        btnGuardar.innerText = "Guardando...";
-
-        const datosProducto = {
-            codigo, 
-            nombre, 
-            lote: lote || 'N/D', 
-            estante: estante || 'General',
-            proveedor: proveedor || 'General',
-            tipoEmpaque, 
-            unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
-            cantidad: cantidadIngresada,
-            precioCosto, 
-            precioVenta, 
-            vencimiento, 
-            actualizado: new Date().toISOString()
-        };
-
         try {
             if (idEdicion) {
                 const prodRef = doc(db, "inventario_farmacia", idEdicion);
-                await updateDoc(prodRef, datosProducto);
+                await updateDoc(prodRef, {
+                    codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
+                    proveedor: proveedor || 'General',
+                    tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
+                    cantidad: cantidadIngresada,
+                    precioCosto, precioVenta, vencimiento, actualizado: new 
+Date().toISOString()
+                });
+                alert("¡Producto modificado con éxito!");
                 cancelarEdicion();
             } else {
-                datosProducto.vendidos = 0;
-                await addDoc(collection(db, "inventario_farmacia"), 
-datosProducto);
+                await addDoc(collection(db, "inventario_farmacia"), {
+                    codigo, nombre, lote: lote || 'N/D', estante: estante || 'General',
+                    proveedor: proveedor || 'General',
+                    tipoEmpaque, unidadesPorCaja: tipoEmpaque === 'Caja' ? unidadesPorCaja : 1,
+                    cantidad: 
+cantidadIngresada,
+                    precioCosto, precioVenta, vencimiento, vendidos: 0, actualizado: new Date().toISOString()
+                });
                 limpiarFormulario();
-            }
-
-            // LIMPIAR CAJA DE BÚSQUEDA EN INVENTARIO AL GUARDAR/REGISTRAR EXITOSAMENTE
-            const inputBuscadorInv = document.getElementById('buscador');
-            if (inputBuscadorInv) {
-                inputBuscadorInv.value = '';
-                renderizarInventario(inventarioGlobal);
-                actualizarResumenInventario(inventarioGlobal);
+                alert("¡Producto guardado exitosamente!");
             }
         } catch (e) {
-            console.error("Error al guardar:", e);
-            alert("Error al procesar el producto.");
-        } finally {
-            btnGuardar.disabled = false;
-            const editandoActual = document.getElementById('editandoId').value;
-            btnGuardar.innerText = editandoActual ? "Actualizar en la Nube" : "Guardar en la Nube";
+            alert("Error al guardar en la nube.");
         }
     }
 
-    window.agregarAlCarrito = 
-function(id) {
+    window.agregarAlCarrito = function(id) {
         const producto = inventarioGlobal.find(p => p.id === id);
         if (!producto) return;
 
@@ -1248,8 +1231,8 @@ function(id) {
         const diferenciaDias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
 
         if (diferenciaDias < 0) {
-            alert(`⛔ VENTA BLOQUEADA: El producto "${producto.nombre}" está VENCIDO 
-(Fecha: ${producto.vencimiento}). No se puede vender por seguridad.`);
+            alert(`⛔ VENTA BLOQUEADA: El producto "${producto.nombre}" está VENCIDO (Fecha: ${producto.vencimiento}). 
+No se puede vender por seguridad.`);
             return;
         }
 
@@ -1261,7 +1244,8 @@ function(id) {
         const itemEnCarrito = carrito.find(item => item.id === id);
         if (itemEnCarrito) {
             if (itemEnCarrito.cantidadReq < producto.cantidad) {
-                itemEnCarrito.cantidadReq++;
+                
+itemEnCarrito.cantidadReq++;
             } else {
                 alert("No hay más stock disponible para este producto.");
             }
@@ -1273,17 +1257,12 @@ function(id) {
                 costo: producto.precioCosto || 0,
                 cantidadReq: 1,
                 stockMax: producto.cantidad,
-                vendidosActuales: producto.vendidos || 0,
+                vendidosActuales: 
+producto.vendidos || 0,
                 tipoEmpaque: producto.tipoEmpaque || 'Unidad'
             });
         }
         renderizarCarrito();
-
-        const inputBuscadorVentas = document.getElementById('buscadorVentas');
-        if (inputBuscadorVentas) {
-            inputBuscadorVentas.value = '';
-            renderizarVentas(inventarioGlobal);
-        }
     }
 
     window.cambiarCantidadCarrito = function(index, delta) {
@@ -1332,7 +1311,8 @@ function(id) {
             `;
         });
 
-        document.getElementById('totalCarrito').innerText = `Q${total.toFixed(2)}`;
+        document.getElementById
+('totalCarrito').innerText = `Q${total.toFixed(2)}`;
         calcularVuelto();
     }
 
@@ -1345,22 +1325,22 @@ function(id) {
         const textoVuelto = document.getElementById('textoVuelto');
         if (efectivo >= total) {
             textoVuelto.innerText = `Q${vuelto.toFixed(2)}`;
-            textoVuelto.style.color = 
-"var(--success)";
+            textoVuelto.style.color = "var(--success)";
         } else {
             textoVuelto.innerText = "Falta efectivo";
             textoVuelto.style.color = "var(--danger)";
         }
     }
 
+    // COBRO CON OPCIÓN DE IMPRESIÓN (TÉRMICA 58mm O 
+CARTA)
     window.cobrarEImprimir = async function(tipoImpresion) {
         if (carrito.length === 0) {
             alert("El carrito está vacío.");
             return;
         }
 
-        const totalStr = document.getElementById('total
-Carrito').innerText.replace('Q', '');
+        const totalStr = document.getElementById('totalCarrito').innerText.replace('Q', '');
         const total = parseFloat(totalStr) || 0;
         const efectivo = parseFloat(document.getElementById('montoEfectivo').value) || 0;
 
@@ -1388,33 +1368,37 @@ Carrito').innerText.replace('Q', '');
                     vendidos: nuevosVendidos
                 });
 
-                const gananciaItem = (item.precio - item.costo) * item.cantidadReq;
+                const gananciaItem = (item.precio - item.costo) * 
+item.cantidadReq;
                 gananciaVentaActual += gananciaItem;
 
                 const tipoTexto = item.tipoEmpaque === 'Caja' ? 'caja(s)' : 'u.';
                 const subtotalItem = item.precio * item.cantidadReq;
 
+                // Para ticket térmico 58mm
                 htmlItemsTicket += `
-                    <div style="margin-bottom: 4px;">
+                    <div style="margin-bottom: 3px;">
                         <div><strong>${item.nombre}</strong></div>
-                        <div style="display: flex; justify-content: space-between;">
+                        <div style="display: 
+flex; justify-content: space-between;">
                             <span>${item.cantidadReq} ${tipoTexto} x Q${item.precio.toFixed(2)}</span>
                             <span>Q${subtotalItem.toFixed(2)}</span>
                         </div>
                     </div>
                 `;
 
+                // Para factura carta
                 htmlItemsCarta += `
                     <tr>
                         <td style="padding: 6px; border: 1px solid #ddd;"><strong>${item.nombre}</strong></td>
                         <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">${item.cantidadReq} ${tipoTexto}</td>
                         <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">Q${item.precio.toFixed(2)}</td>
-                        <td style="padding: 6px; border: 1px solid #ddd; text-align: 
-right;">Q${subtotalItem.toFixed(2)}</td>
+                        <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">Q${subtotalItem.toFixed(2)}</td>
                     </tr>
                 `;
 
-                productosVendidosResumen.push(`${item.nombre} x${item.cantidadReq}`);
+                productosVendidosResumen.push(`${item.nombre} x$
+{item.cantidadReq}`);
                 itemsDetalleVenta.push({
                     nombre: item.nombre,
                     cantidad: item.cantidadReq,
@@ -1424,11 +1408,11 @@ right;">Q${subtotalItem.toFixed(2)}</td>
                 });
             }
 
-            const ahora = new 
-Date();
+            const ahora = new Date();
             const fechaIso = ahora.toISOString().slice(0, 10);
             const mesIso = ahora.toISOString().slice(0, 7);
-            const horaActual = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const horaActual = ahora.toLocaleTimeString([], 
+{ hour: '2-digit', minute: '2-digit' });
 
             const nuevaVentaRef = doc(collection(db, "ventas_farmacia"));
             batch.set(nuevaVentaRef, {
@@ -1436,26 +1420,28 @@ Date();
                 fecha: fechaIso,
                 mes: mesIso,
                 hora: horaActual,
-                productos: productosVendidosResumen.join(', 
-'),
+                productos: productosVendidosResumen.join(', '),
                 detalleItems: itemsDetalleVenta,
                 total: total,
-                ganancia: gananciaVentaActual
+                ganancia: 
+gananciaVentaActual
             });
 
             await batch.commit();
 
+            // Rellenar datos térmicos
             document.getElementById('ticketFechaHora').innerText = ahora.toLocaleString();
             document.getElementById('ticketContenidoItems').innerHTML = htmlItemsTicket;
+            document.getElementById('ticketTotalTexto').innerText = `TOTAL: Q${total.toFixed(2)}`;
             
-document.getElementById('ticketTotalTexto').innerText = `TOTAL: Q${total.toFixed(2)}`;
-            document.getElementById('ticketEfectivoTexto').innerText = `Efectivo: Q${efectivo.toFixed(2)}`;
+document.getElementById('ticketEfectivoTexto').innerText = `Efectivo: Q${efectivo.toFixed(2)}`;
             document.getElementById('ticketVueltoTexto').innerText = `Vuelto: Q${(efectivo - total).toFixed(2)}`;
 
+            // Rellenar datos carta
             document.getElementById('cartaFechaHora').innerText = "Fecha: " + ahora.toLocaleString();
-            document.getElementById('cartaContenidoItems').innerHTML = 
-htmlItemsCarta;
-            document.getElementById('cartaTotalTexto').innerText = `Q${total.toFixed(2)}`;
+            document.getElementById('cartaContenidoItems').innerHTML = htmlItemsCarta;
+            document.getElementById('cartaTotalTexto').innerText = 
+`Q${total.toFixed(2)}`;
             document.getElementById('cartaEfectivoTexto').innerText = `Q${efectivo.toFixed(2)}`;
             document.getElementById('cartaVueltoTexto').innerText = `Q${(efectivo - total).toFixed(2)}`;
 
@@ -1463,28 +1449,29 @@ htmlItemsCarta;
             corteCajaGanancia += gananciaVentaActual;
             corteCajaCantidad += 1;
 
-            
-historialVentasDia.unshift({
+            historialVentasDia.unshift({
                 numero: corteCajaCantidad,
                 hora: horaActual,
-                productos: productosVendidosResumen.join(', '),
+                productos: 
+productosVendidosResumen.join(', '),
                 total: total,
                 ganancia: gananciaVentaActual
             });
 
             document.getElementById('corteIngresos').innerText = `Q${corteCajaIngresos.toFixed(2)}`;
-            document.getElementById('corteGanancia').innerText = 
-`Q${corteCajaGanancia.toFixed(2)}`;
-            document.getElementById('corteTotalVentas').innerText = corteCajaCantidad;
+            document.getElementById('corteGanancia').innerText = `Q${corteCajaGanancia.toFixed(2)}`;
+            document.getElementById('corteTotalVentas').innerText = 
+corteCajaCantidad;
             recalcularCuadreTeorico();
             renderizarResumenVentasHoy();
 
+            // Activar clase CSS según el tipo de impresión elegido
             document.body.classList.remove('modo-impresion-termica', 'modo-impresion-carta', 'modo-impresion-pdf');
             if (tipoImpresion === 'termica') {
-                
-document.body.classList.add('modo-impresion-termica');
+                document.body.classList.add('modo-impresion-termica');
             } else {
-                document.body.classList.add('modo-impresion-carta');
+                
+document.body.classList.add('modo-impresion-carta');
             }
 
             window.print();
@@ -1494,12 +1481,12 @@ document.body.classList.add('modo-impresion-termica');
             renderizarCarrito();
         } catch (e) {
             console.error("Error al procesar venta:", e);
-            alert("Error al procesar la venta en la 
-nube.");
+            alert("Error al procesar la venta en la nube.");
         }
     }
 
-    window.generarOfertasRecuperacion = function() {
+    
+window.generarOfertasRecuperacion = function() {
         const hoy = new Date();
         const productosOferta = inventarioGlobal.filter(p => {
             const venc = new Date(p.vencimiento + "T00:00:00");
@@ -1507,42 +1494,41 @@ nube.");
             return dias >= 0 && dias <= 60 && (p.cantidad || 0) > 0;
         });
 
-        if (productosOferta.length === 0) 
-{
+        if (productosOferta.length === 0) {
             alert("¡Excelente! No hay productos próximos a vencer (&le; 60 días) para crear ofertas de recuperación en este momento.");
-            document.getElementById('resultadoOfertasContainer').style.display = 'none';
+            
+document.getElementById('resultadoOfertasContainer').style.display = 'none';
             return;
         }
 
         let htmlSalida = "<strong>🔥 CAMPAÑA DE OFERTAS FLASH (RECUPERACIÓN DE INVERSIÓN):</strong><br><br>";
-        let textoWhatsApp = "🔥 *OFERTAS FLASH DE LA SEMANA - ¡APROVECHA!* 🔥\nMedicamentos con precio especial por 
-renovación de lote:\n\n";
+        let textoWhatsApp = "🔥 *OFERTAS FLASH DE LA SEMANA - ¡APROVECHA!* 🔥\nMedicamentos con precio especial por renovación de lote:\n\n";
 
         productosOferta.forEach(p => {
             const venc = new Date(p.vencimiento + "T00:00:00");
-            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            const dias = Math.ceil((venc 
+- hoy) / (1000 * 60 * 60 * 24));
             
             const precioOriginal = p.precioVenta || 0;
             const precioCosto = p.precioCosto || 0;
             const precioSugeridoOferta = Math.max(precioCosto, precioOriginal * 0.70).toFixed(2);
 
-            htmlSalida += `<div style="margin-bottom: 8px; border-bottom: 1px dashed #ccc; padding-bottom: 
-5px;">`;
+            htmlSalida += `<div style="margin-bottom: 8px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;">`;
             htmlSalida += `<strong>${p.nombre}</strong> (Stock: ${p.cantidad})<br>`;
-            htmlSalida += `<small>Vence: ${p.vencimiento} (${dias} días) | Precio normal: Q${precioOriginal.toFixed(2)}</small><br>`;
+            htmlSalida += `<small>Vence: ${p.vencimiento} (${dias} días) | Precio normal: 
+Q${precioOriginal.toFixed(2)}</small><br>`;
             htmlSalida += `<span style="color: var(--success); font-weight: bold;">👉 Precio de Oferta Sugerido: Q${precioSugeridoOferta}</span>`;
             htmlSalida += `</div>`;
 
-            textoWhatsApp += `💊 *${p.nombre}*\n• Stock disponible: ${p.cantidad}\n• Vence el: ${p.vencimiento}\n• 💥 *¡Precio 
-de Oferta: Q${precioSugeridoOferta}!* (Antes Q${precioOriginal.toFixed(2)})\n\n`;
+            textoWhatsApp += `💊 *${p.nombre}*\n• Stock disponible: ${p.cantidad}\n• Vence el: ${p.vencimiento}\n• 💥 *¡Precio de Oferta: Q${precioSugeridoOferta}!* (Antes Q${precioOriginal.toFixed(2)})\n\n`;
         });
 
-        textoWhatsApp += `¡Visítanos o haz tu pedido antes de que se agoten! 🛒`;
+        textoWhatsApp += `¡Visítanos 
+o haz tu pedido antes de que se agoten! 🛒`;
         textoUltimasOfertasGeneradas = textoWhatsApp;
 
         document.getElementById('contenidoOfertasTexto').innerHTML = htmlSalida;
-        document.getElementById('resultadoOfertasContainer').style.display = 
-'block';
+        document.getElementById('resultadoOfertasContainer').style.display = 'block';
     }
 
     window.enviarOfertasWhatsApp = function() {
@@ -1554,8 +1540,7 @@ de Oferta: Q${precioSugeridoOferta}!* (Antes Q${precioOriginal.toFixed(2)})\n\n`
         window.open(urlWhatsApp, '_blank');
     }
 
-    window.aplicarFiltroFechas = 
-function() {
+    window.aplicarFiltroFechas = function() {
         const fechaDesde = document.getElementById('filtroFechaDesde').value;
         const fechaHasta = document.getElementById('filtroFechaHasta').value;
 
@@ -1566,8 +1551,7 @@ function() {
 
         if (fechaDesde > fechaHasta) {
             alert("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
-            
-return;
+            return;
         }
 
         const ventasFiltradas = ventasHistoricasGlobal.filter(v => {
@@ -1581,27 +1565,27 @@ return;
             totalGananciaFiltro += v.ganancia;
         });
 
-        document.getElementById('filtroTotalVenta').innerText = 
-`Q${totalVentaFiltro.toFixed(2)}`;
-        document.getElementById('filtroTotalGanancia').innerText = `Q${totalGananciaFiltro.toFixed(2)}`;
+        document.getElementById('filtroTotalVenta').innerText = `Q${totalVentaFiltro.toFixed(2)}`;
+        document.getElementById('filt
+roTotalGanancia').innerText = `Q${totalGananciaFiltro.toFixed(2)}`;
         document.getElementById('resultadoFiltroContainer').style.display = 'block';
 
         renderizarReportesDiariosYMensuales(ventasFiltradas);
     }
 
     window.limpiarFiltroFechas = function() {
+        document.getElementById('filtroFechaDesde').value = '';
         
-document.getElementById('filtroFechaDesde').value = '';
-        document.getElementById('filtroFechaHasta').value = '';
+document.getElementById('filtroFechaHasta').value = '';
         document.getElementById('resultadoFiltroContainer').style.display = 'none';
         renderizarReportesDiariosYMensuales(ventasHistoricasGlobal);
     }
 
     window.exportarPdfDias = function() {
         if (!ventasHistoricasGlobal || ventasHistoricasGlobal.length === 0) {
-            alert("No hay ventas 
-registradas para generar el reporte diario.");
-            return;
+            alert("No hay ventas registradas para generar el reporte diario.");
+            
+return;
         }
 
         let agrupadoDias = {};
@@ -1611,8 +1595,7 @@ registradas para generar el reporte diario.");
                 agrupadoDias[dia] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
             }
             agrupadoDias[dia].totalVenta += v.total;
-            agrupadoDias[dia].totalGanancia 
-+= v.ganancia;
+            agrupadoDias[dia].totalGanancia += v.ganancia;
 
             if (v.detalleItems && Array.isArray(v.detalleItems)) {
                 v.detalleItems.forEach(item => {
@@ -1631,8 +1614,8 @@ registradas para generar el reporte diario.");
                         <th style="padding: 6px; border: 1px solid #ddd;">Fecha</th>
                         <th style="padding: 6px; border: 1px solid #ddd;">Productos Vendidos</th>
                         <th style="padding: 6px; border: 1px solid #ddd;">Venta Total</th>
-                        <th style="padding: 
-6px; border: 1px solid #ddd;">Ganancia Neta</th>
+                        <th style="padding: 6px; border: 1px solid 
+#ddd;">Ganancia Neta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1681,8 +1664,8 @@ registradas para generar el reporte diario.");
                 agrupadoMeses[mes] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
             }
             agrupadoMeses[mes].totalVenta += v.total;
-            
-agrupadoMeses[mes].totalGanancia += v.ganancia;
+            agrupadoMeses[mes].totalGanancia 
++= v.ganancia;
 
             if (v.detalleItems && Array.isArray(v.detalleItems)) {
                 v.detalleItems.forEach(item => {
@@ -1700,8 +1683,8 @@ agrupadoMeses[mes].totalGanancia += v.ganancia;
                     <tr style="background-color: #2E7D32; color: white;">
                         <th style="padding: 6px; border: 1px solid #ddd;">Mes / Año</th>
                         <th style="padding: 6px; border: 1px solid #ddd;">Productos Vendidos</th>
-                        <th style="padding: 
-6px; border: 1px solid #ddd;">Venta Total</th>
+                        <th style="padding: 6px; border: 1px solid #ddd;">Venta 
+Total</th>
                         <th style="padding: 6px; border: 1px solid #ddd;">Ganancia Neta</th>
                     </tr>
                 </thead>
@@ -1713,7 +1696,8 @@ agrupadoMeses[mes].totalGanancia += v.ganancia;
             const data = agrupadoMeses[mes];
             let listaProdTexto = [];
             for (let prod in data.productosMap) {
-                listaProdTexto.push(`${prod} (x${data.productosMap[prod]})`);
+                listaProdTexto.push(`$
+{prod} (x${data.productosMap[prod]})`);
             }
 
             htmlTabla += `
@@ -1721,8 +1705,8 @@ agrupadoMeses[mes].totalGanancia += v.ganancia;
                     <td style="padding: 6px; border: 1px solid #ddd; font-weight: bold;">${mes}</td>
                     <td style="padding: 6px; border: 1px solid #ddd;">${listaProdTexto.join('<br>')}</td>
                     <td style="padding: 6px; border: 1px solid #ddd;">Q${data.totalVenta.toFixed(2)}</td>
-                    <td style="padding: 6px; border: 1px solid #ddd; color: 
-#2E7D32; font-weight: bold;">Q${data.totalGanancia.toFixed(2)}</td>
+                    <td style="padding: 6px; border: 1px solid #ddd; color: #2E7D32; font-weight: bold;">Q$
+{data.totalGanancia.toFixed(2)}</td>
                 </tr>
             `;
         });
@@ -1731,7 +1715,8 @@ agrupadoMeses[mes].totalGanancia += v.ganancia;
 
         document.getElementById('pdfTituloReporte').innerText = "REPORTE DE VENTAS Y GANANCIAS POR MES";
         document.getElementById('pdfSubtituloFecha').innerText = "Generado el: " + new Date().toLocaleString();
-        document.getElementById('pdfContenidoCuerpo').innerHTML = htmlTabla;
+        document.getElementById('pd
+fContenidoCuerpo').innerHTML = htmlTabla;
 
         document.body.classList.remove('modo-impresion-termica', 'modo-impresion-carta');
         document.body.classList.add('modo-impresion-pdf');
@@ -1739,22 +1724,21 @@ agrupadoMeses[mes].totalGanancia += v.ganancia;
         window.print();
     }
 
-    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, proveedor, tipoEmpaque, unidadesPorCaja, cantidad, 
-precioCosto, precioVenta, vencimiento) {
+    window.cargarParaEditar = function(id, codigo, nombre, lote, estante, proveedor, tipoEmpaque, unidadesPorCaja, cantidad, precioCosto, precioVenta, vencimiento) {
         document.getElementById('editandoId').value = id;
         document.getElementById('codigoBarras').value = codigo;
         document.getElementById('nombreProducto').value = nombre;
         document.getElementById('loteProducto').value = lote;
         document.getElementById('estanteProducto').value = estante;
-        document.getElementById('proveedorProducto').value = 
-proveedor || '';
+        document.getElementById('proveedorProducto').value = proveedor || '';
         document.getElementById('tipoEmpaque').value = tipoEmpaque;
         toggleUnidadesPorCaja();
         document.getElementById('unidadesPorCaja').value = unidadesPorCaja > 1 ? unidadesPorCaja : '';
         document.getElementById('costoProducto').value = precioCosto;
         document.getElementById('ventaProducto').value = precioVenta;
         document.getElementById('cantidadProducto').value = cantidad;
-        document.getElementById('vencimientoProducto').value = vencimiento;
+        document.getElementById('
+vencimientoProducto').value = vencimiento;
 
         document.getElementById('tituloFormulario').innerText = "✏️ Modificar Producto";
         document.getElementById('btnGuardar').innerText = "Actualizar en la Nube";
@@ -1771,7 +1755,8 @@ proveedor || '';
     }
 
     window.eliminarProductoNube = async function(id) {
-        if (confirm("¿Estás seguro de eliminar este producto?")) {
+        if (confirm("¿Estás seguro de 
+eliminar este producto?")) {
             await deleteDoc(doc(db, "inventario_farmacia", id));
         }
     }
@@ -1779,16 +1764,16 @@ proveedor || '';
     function limpiarFormulario() {
         document.getElementById('codigoBarras').value = '';
         document.getElementById('nombreProducto').value = '';
-        document.getElementById('loteProducto').value = 
+        document.getElementById('loteProducto').value = '';
+        document.getElementById('estanteProducto').value = 
 '';
-        document.getElementById('estanteProducto').value = '';
         document.getElementById('proveedorProducto').value = '';
         document.getElementById('tipoEmpaque').value = 'Unidad';
         document.getElementById('unidadesPorCaja').value = '';
         document.getElementById('costoProducto').value = '';
         document.getElementById('ventaProducto').value = '';
-        document.getElementByI
-d('cantidadProducto').value = '';
+        document.getElementById('cantidadProducto').value = 
+'';
         document.getElementById('vencimientoProducto').value = '';
         toggleUnidadesPorCaja();
     }
@@ -1805,7 +1790,8 @@ d('cantidadProducto').value = '';
         return { texto: "OK", clase: "badge-ok" };
     }
 
-    function actualizarTodoInventario(lista) {
+    function 
+actualizarTodoInventario(lista) {
         renderizarInventario(lista);
         renderizarVentas(lista);
         renderizarAgotados(lista);
@@ -1830,38 +1816,39 @@ d('cantidadProducto').value = '';
             valorTotalVenta += (venta * stock);
         });
 
-        document.getElementById('resumenCantTotal').innerText = cantidadTotalProductos;
+        document.getElementById('
+resumenCantTotal').innerText = cantidadTotalProductos;
         document.getElementById('resumenCostoTotal').innerText = `Q${costoTotalInversion.toFixed(2)}`;
         document.getElementById('resumenVentaTotal').innerText = `Q${valorTotalVenta.toFixed(2)}`;
     }
 
     function renderizarInventario(lista) {
-        const tbody = 
-document.getElementById('listaInventario');
+        const tbody = document.getElementById('listaInventario');
         tbody.innerHTML = '';
-        if (lista.length === 0) {
+        if (lista.length === 0) 
+{
             tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#777;">No hay productos registrados.</td></tr>`;
             return;
         }
         lista.forEach((p) => {
             const estado = calcularEstado(p.vencimiento, p.cantidad);
             const infoEmpaque = p.tipoEmpaque === 'Caja' ? `📦 ${p.cantidad} Caja(s) (c/u ${p.unidadesPorCaja} u.)` : `Unid: ${p.cantidad}`;
-            const provTexto = 
-p.proveedor ? ` | 🏢 ${p.proveedor}` : '';
-            const unidCaja = p.unidadesPorCaja !== undefined ? p.unidadesPorCaja : 1;
+            const provTexto = p.proveedor ? ` | 🏢 ${p.proveedor}` : '';
+            const unidCaja = 
+p.unidadesPorCaja !== undefined ? p.unidadesPorCaja : 1;
             const provSeguro = p.proveedor ? p.proveedor.replace(/'/g, "\\'") : '';
 
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
-                    <td>${infoEmpaque}<br><small style="color:#0D47A1; font-weight:bold;">📍 
-${p.estante}${provTexto}</small></td>
-                    <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong> <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></td>
+                    <td>${infoEmpaque}<br><small style="color:#0D47A1; font-weight:bold;">📍 ${p.estante}${provTexto}</small></td>
+                    <td>V: <strong>Q${p.precioVenta.toFixed(2)}</strong> 
+<small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></td>
                     <td><span class="${estado.clase}">${estado.texto}</span></td>
                     <td>
-                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${provSeguro}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, 
-'${p.vencimiento}')">Editar</button>
-                        <button class="btn-danger" onclick="eliminarProductoNube('${p.id}')">Eliminar</button>
+                        <button class="btn-edit" onclick="cargarParaEditar('${p.id}', '${p.codigo}', '${p.nombre}', '${p.lote}', '${p.estante}', '${provSeguro}', '${p.tipoEmpaque || 'Unidad'}', ${unidCaja}, ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta}, '${p.vencimiento}')">Editar</button>
+                        <button class="btn-danger" onclick="eliminarProductoNube('$
+{p.id}')">Eliminar</button>
                     </td>
                 </tr>
             `;
@@ -1872,8 +1859,7 @@ ${p.estante}${provTexto}</small></td>
         const tbody = document.getElementById('listaVentas');
         tbody.innerHTML = '';
         if (lista.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="3" 
-style="text-align:center; color:#777;">No hay productos disponibles.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos disponibles.</td></tr>`;
             return;
         }
         lista.forEach((p) => {
@@ -1881,8 +1867,7 @@ style="text-align:center; color:#777;">No hay productos disponibles.</td></tr>`;
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo} | 📍 ${p.estante}</small></td>
-                    <td>Stock: <strong>${stockTexto}</strong><br><strong 
-style="color:var(--success);">Q${p.precioVenta.toFixed(2)} <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></strong></td>
+                    <td>Stock: <strong>${stockTexto}</strong><br><strong style="color:var(--success);">Q${p.precioVenta.toFixed(2)} <small>(${p.tipoEmpaque === 'Caja' ? 'caja' : 'u.'})</small></strong></td>
                     <td>
                         <button class="btn-sell" onclick="agregarAlCarrito('${p.id}')">Agregar</button>
                     </td>
@@ -1892,8 +1877,7 @@ style="color:var(--success);">Q${p.precioVenta.toFixed(2)} <small>(${p.tipoEmpaq
     }
 
     function renderizarGananciaProductos(lista) {
-        const tbody = 
-document.getElementById('listaGananciaProductos');
+        const tbody = document.getElementById('listaGananciaProductos');
         tbody.innerHTML = '';
         if (lista.length === 0) {
             tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay productos registrados.</td></tr>`;
@@ -1904,14 +1888,15 @@ document.getElementById('listaGananciaProductos');
             const venta = p.precioVenta || 0;
             const ganancia = venta - costo;
             const margen = costo > 0 ? ((ganancia / costo) * 100).toFixed(0) : 0;
-            const tipoTexto = p.tipoEmpaque === 'Caja' ? 'caja' : 'u.';
+            const tipoTexto = 
+p.tipoEmpaque === 'Caja' ? 'caja' : 'u.';
 
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
                     <td>C: Q${costo.toFixed(2)} | V: Q${venta.toFixed(2)}</td>
-                    <td><strong style="color:var(--success);">Q${ganancia.toFixed(2)}</strong> <small>(${margen}%)</small><br><small 
-style="color:#666;">por ${tipoTexto}</small></td>
+                    <td><strong style="color:var(--success);">Q${ganancia.toFixed(2)}</strong> <small>(${margen}%)</small><br><small style="color:#666;">por $
+{tipoTexto}</small></td>
                 </tr>
             `;
         });
@@ -1924,7 +1909,8 @@ style="color:#666;">por ${tipoTexto}</small></td>
         
         const proximos = lista.filter(p => {
             const venc = new Date(p.vencimiento + "T00:00:00");
-            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            const dias = Math.ceil((venc - 
+hoy) / (1000 * 60 * 60 * 24));
             return dias >= 0 && dias <= 90;
         });
 
@@ -1935,7 +1921,8 @@ style="color:#666;">por ${tipoTexto}</small></td>
 
         proximos.forEach((p) => {
             const venc = new Date(p.vencimiento + "T00:00:00");
-            const dias = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            const dias = Math.ceil((venc - 
+hoy) / (1000 * 60 * 60 * 24));
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${p.nombre}</strong><br><small style="color:#666;">Cód: ${p.codigo}</small></td>
@@ -1956,7 +1943,8 @@ style="color:#666;">por ${tipoTexto}</small></td>
         historialVentasDia.forEach((v) => {
             tbody.innerHTML += `
                 <tr>
-                    <td><strong>#${v.numero}</strong><br><small style="color:#666;">🕒 ${v.hora}</small></td>
+                    <td><strong>#$
+{v.numero}</strong><br><small style="color:#666;">🕒 ${v.hora}</small></td>
                     <td><small>${v.productos}</small></td>
                     <td>Total: <strong>Q${v.total.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${v.ganancia.toFixed(2)}</strong></td>
                 </tr>
@@ -1964,8 +1952,8 @@ style="color:#666;">por ${tipoTexto}</small></td>
         });
     }
 
-    function renderizarReport
-esDiariosYMensuales(ventas) {
+    function renderizarReportesDiariosYMensuales(ventas) 
+{
         const tbodyDia = document.getElementById('listaVentasPorDia');
         const tbodyMes = document.getElementById('listaVentasPorMes');
         tbodyDia.innerHTML = '';
@@ -1973,8 +1961,8 @@ esDiariosYMensuales(ventas) {
 
         if (!ventas || ventas.length === 0) {
             tbodyDia.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#777;">No hay registros para este período.</td></tr>`;
-            tbodyMes.innerHTML = `<tr><td colspan="3" 
-style="text-align:center; color:#777;">No hay registros para este período.</td></tr>`;
+            tbodyMes.innerHTML = `<tr><td colspan="3" style="text-align:center; 
+color:#777;">No hay registros para este período.</td></tr>`;
             return;
         }
 
@@ -1985,8 +1973,8 @@ style="text-align:center; color:#777;">No hay registros para este período.</td>
                 agrupadoDias[dia] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
             }
             agrupadoDias[dia].totalVenta += v.total;
-            
-agrupadoDias[dia].totalGanancia += v.ganancia;
+            agrupadoDias[dia].totalGanancia += 
+v.ganancia;
 
             if (v.detalleItems && Array.isArray(v.detalleItems)) {
                 v.detalleItems.forEach(item => {
@@ -2008,7 +1996,8 @@ agrupadoDias[dia].totalGanancia += v.ganancia;
 
             tbodyDia.innerHTML += `
                 <tr>
-                    <td><strong>📅 ${dia}</strong></td>
+                    <td><strong>📅 ${dia}</
+strong></td>
                     <td><small>${listaProdTexto.join('<br>')}</small></td>
                     <td>Venta: <strong>Q${data.totalVenta.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q${data.totalGanancia.toFixed(2)}</strong></td>
                 </tr>
@@ -2017,8 +2006,7 @@ agrupadoDias[dia].totalGanancia += v.ganancia;
 
         let agrupadoMeses = {};
         ventas.forEach(v => {
-            const mes = v.mes || 
-'2026-00';
+            const mes = v.mes || '2026-00';
             if (!agrupadoMeses[mes]) {
                 agrupadoMeses[mes] = { totalVenta: 0, totalGanancia: 0, productosMap: {} };
             }
@@ -2027,8 +2015,8 @@ agrupadoDias[dia].totalGanancia += v.ganancia;
 
             if (v.detalleItems && Array.isArray(v.detalleItems)) {
                 v.detalleItems.forEach(item => {
-                    if (!agrupadoMeses[me
-s].productosMap[item.nombre]) {
+                    if (!agrupadoMeses[mes].productosMap[item.nombre]) 
+{
                         agrupadoMeses[mes].productosMap[item.nombre] = 0;
                     }
                     agrupadoMeses[mes].productosMap[item.nombre] += item.cantidad;
@@ -2048,8 +2036,8 @@ s].productosMap[item.nombre]) {
                 <tr>
                     <td><strong>📆 ${mes}</strong></td>
                     <td><small>${listaProdTexto.join('<br>')}</small></td>
-                    <td>Venta: <strong>Q${data.totalVenta.toFixed(2)}</strong><br><strong style="colo
-r:var(--success);">Ganancia: Q${data.totalGanancia.toFixed(2)}</strong></td>
+                    <td>Venta: <strong>Q${data.totalVenta.toFixed(2)}</strong><br><strong style="color:var(--success);">Ganancia: Q$
+{data.totalGanancia.toFixed(2)}</strong></td>
                 </tr>
             `;
         });
@@ -2061,8 +2049,8 @@ r:var(--success);">Ganancia: Q${data.totalGanancia.toFixed(2)}</strong></td>
         const agotadosBS = lista.filter(p => p.cantidad <= 2);
 
         if (agotadosBS.length === 0) {
-            tbody.innerHTML = `<tr><td 
-colspan="3" style="text-align:center; color:#777;">Inventario óptimo, sin productos agotados o bajos. 🎉</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; 
+color:#777;">Inventario óptimo, sin productos agotados o bajos. 🎉</td></tr>`;
             return;
         }
 
@@ -2127,7 +2115,8 @@ colspan="3" style="text-align:center; color:#777;">Inventario óptimo, sin produ
         timeoutBusquedaInv = setTimeout(() => {
             const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = inventarioGlobal.filter(p => 
-                p.nombre.toLowerCase().includes(texto) || 
+                p.nombre.toLo
+werCase().includes(texto) || 
                 p.codigo.toLowerCase().includes(texto) || 
                 p.estante.toLowerCase().includes(texto) || 
                 (p.proveedor && p.proveedor.toLowerCase().includes(texto))
@@ -2149,26 +2138,7 @@ p.estante.toLowerCase().includes(texto)
         }, 300);
     }
 
-    window.chequearEnterBuscadorInventario = function(event) {
-        if (event.key === 'Enter') {
-            const input = document.getElementById('buscador');
-            input.value = '';
-            renderizarInventario(inventarioGlobal);
-            
-actualizarResumenInventario(inventarioGlobal);
-        }
-    }
-
-    window.chequearEnterBuscadorVentas = function(event) {
-        if (event.key === 'Enter') {
-            const input = document.getElementById('buscadorVentas');
-            input.value = '';
-            renderizarVentas(inventarioGlobal);
-        }
-    }
-
-    window.iniciarEscanerCamera 
-= function(modo) {
+    window.iniciarEscanerCamera = function(modo) {
         modoEscanerActual = modo;
         const targetId = modo === 'inventario' ? '#interactive' : '#interactiveVentas';
         const viewportId = modo === 'inventario' ? 'interactive' : 'interactiveVentas';
@@ -2177,44 +2147,40 @@ actualizarResumenInventario(inventarioGlobal);
         document.getElementById(viewportId).style.display = 'block';
         document.getElementById(btnDetenerId).style.display = 'block';
 
-        
-Quagga.init({
+        Quagga.init({
             inputStream : {
                 name : "Live",
                 type : "LiveStream",
                 target: document.querySelector(targetId),
                 constraints: { facingMode: "environment" },
             },
-            decoder : { readers : ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"] }
+            decoder : { readers : ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"] 
+}
         }, function(err) {
             if (err) { alert("No se pudo iniciar la cámara."); return; }
             Quagga.start();
         });
 
-        
-Quagga.onDetected(function(result) {
+        Quagga.onDetected(function(result) {
             const codigoLeido = result.codeResult.code;
             if (modoEscanerActual === 'inventario') {
                 document.getElementById('codigoBarras').value = codigoLeido;
-                document.getElementById('buscador').value = '';
-                renderizarInventario(inventarioGlobal);
             } else {
-                document.getElementById('buscadorVentas').value = '';
-                const encontrado = 
-inventarioGlobal.find(p => p.codigo === codigoLeido);
+                
+document.getElementById('buscadorVentas').value = codigoLeido;
+                filtrarProductosVentasConDebounce();
+                const encontrado = inventarioGlobal.find(p => p.codigo === codigoLeido);
                 if (encontrado) {
                     agregarAlCarrito(encontrado.id);
                 } else {
                     alert("Código escaneado (" + codigoLeido + ") no encontrado en el inventario.");
                 }
-                renderizarVentas(inventarioGlobal);
             }
             detenerEscaneo();
         });
     }
 
-    window.detenerEscaneo = function() 
-{
+    window.detenerEscaneo = function() {
         try { Quagga.stop(); } catch(e) {}
         document.getElementById('interactive').style.display = 'none';
         document.getElementById('btnDetener').style.display = 'none';
@@ -2224,4 +2190,4 @@ inventarioGlobal.find(p => p.codigo === codigoLeido);
 </script>
 
 </body>
-                        </html>
+    </html>
